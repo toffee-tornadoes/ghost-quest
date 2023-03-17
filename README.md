@@ -35,7 +35,7 @@
 
 ##### MIT License
 
-##### Copyright (c) 2023 John Kristofer Madrid
+##### Copyright (c) 2023 [Contributors]
 
 ##### Permission is hereby granted, free of charge, to any person obtaining a copy
 
