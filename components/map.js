@@ -19,7 +19,7 @@ const Map = ({ locations }) => {
     () => ({
       disableDefaultUI: true,
       clickableIcons: false,
-      mapId: "8b0f260157caa759",
+      mapId: "44716b655554d0c5",
     }),
     []
   );

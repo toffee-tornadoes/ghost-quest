@@ -8,8 +8,8 @@ import AllLocationHeader from "@/components/locations/locations-header";
 const Locations = () => {
   return (
     <div>
-      <AllLocationHeader/>
-      <LocationListingCard/> 
+      <AllLocationHeader />
+      <LocationListingCard />
     </div>
   )
 }

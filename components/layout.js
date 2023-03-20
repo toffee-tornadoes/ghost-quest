@@ -20,7 +20,7 @@ export const getServerSideProps = async () => {
 };
 
 const Layout = ({ children, locations }) => {
-  console.log(locations);
+  // console.log(locations);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
   });
