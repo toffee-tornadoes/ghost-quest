@@ -2,10 +2,14 @@
 // each location is listing component
 // each listing links to single location page/component
 
+import LocationListingCard from "@/components/locations/loc-listing-card";
+import AllLocationHeader from "@/components/locations/locations-header";
+
 const Locations = () => {
   return (
     <div>
-      Here are your Haunted locations
+      <AllLocationHeader/>
+      <LocationListingCard/> 
     </div>
   )
 }
