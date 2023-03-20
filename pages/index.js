@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
 // Main Nav component - include this in Layout component
 // User Icon Component - link to user-profile page
@@ -17,6 +18,7 @@ export default function Home() {
       </Head>
       <div className="bg-black text-white">
         Welcome to Ghost Quest!
+        <Link href={'/locations'}>Click Here</Link>
       </div>
     </div>
   )
