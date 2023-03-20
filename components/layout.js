@@ -19,7 +19,7 @@ export const getServerSideProps = async () => {
   };
 };
 
-const Layout = ({ locations }) => {
+const Layout = ({ children, locations }) => {
   console.log(locations);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
@@ -29,6 +29,7 @@ const Layout = ({ locations }) => {
   return (
     <>
       <Nav />
+      {children}
       <Map locations={locations} />
       <NavButton />
     </>
