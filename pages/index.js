@@ -1,11 +1,14 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
-// Main Nav component - include this in Layout component
-// User Icon Component - link to user-profile page
-// Search Icon component - filter component
-// Favorites Icon component - link to favorites page
-// Button component
+// HOME VIEW/ROOT
+
+  // Main Nav component - include this in Layout component
+  // User Icon Component - link to user-profile page
+  // Search Icon component - filter component
+  // Favorites Icon component - link to favorites page
+
+// Displays pins of nearby locations (if there are any)
 
 export default function Home() {
   return (
