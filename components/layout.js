@@ -5,24 +5,20 @@
 
 import { supabase } from "@/lib/supabaseClient";
 import { useLoadScript } from "@react-google-maps/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Map from "./map";
 import Nav from "./nav";
 import NavButton from "./nav-button";
 
-// fetch haunted house locations from supabase
-export const getServerSideProps = async () => {
+const fetchData = async () => {
   const { data } = await supabase.from("locations").select();
-  return {
-    props: {
-      locations: data,
-    },
-  };
+  return data;
 };
 
-const Layout = ({ children, locations }) => {
+const Layout = ({ children }) => {
   const [navUp, setNavUp] = useState(false);
   const [display, setDisplay] = useState(false);
+  const [locations, setLocations] = useState([]);
 
   let height = "h-36";
   let hidden = "hidden";
@@ -40,6 +36,12 @@ const Layout = ({ children, locations }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
   });
+
+  useEffect(() => {
+    fetchData().then((result) => {
+      setLocations(result);
+    });
+  }, []);
 
   if (!isLoaded) return <div>Loading...</div>;
   return (

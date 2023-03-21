@@ -1,19 +1,9 @@
 import "@/styles/globals.css";
 import Layout from "@/components/layout";
+import { supabase } from "@/lib/supabaseClient";
 
-// fetch haunted house locations from supabase
-export const getServerSideProps = async () => {
-  const { data } = await supabase.from("locations").select();
-  return {
-    props: {
-      locations: data,
-    },
-  };
-};
-
-export default function App({ Component, pageProps, locations }) {
+export default function App({ Component, pageProps }) {
   // Add a Layout component here
-  // console.log(locations);
   return (
     <Layout>
       <Component {...pageProps} />
