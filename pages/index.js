@@ -20,10 +20,10 @@ export default function Home({ locations }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <div className="bg-black text-white">
+      <div className="bg-black text-white">
         Welcome to Ghost Quest!
         <Link href={"/locations"}>Click Here</Link>
       </div>
-    </div>
+    </>
   );
 }

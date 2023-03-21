@@ -27,34 +27,32 @@ const Map = ({ locations }) => {
   );
 
   return (
-    <div>
-      <div className="map">
-        <GoogleMap
-          zoom={10}
-          center={center}
-          mapContainerClassName="map-container"
-          options={options}
-          onLoad={onLoad}
-          mapContainerStyle={{
-            height: "100vh",
-            width: "100vw",
-            // opacity: .5,
-          }}
-        >
-          {locations.slice(0, 50).map((location) => {
-            return (
-              <MarkerF
-                key={location.id}
-                position={{
-                  lat: location.city_latitude,
-                  lng: location.city_longitude,
-                }}
-              ></MarkerF>
-            );
-          })}
-        </GoogleMap>
-      </div>
-
+    <div className="map">
+      <GoogleMap
+        zoom={10}
+        center={center}
+        mapContainerClassName="map-container"
+        options={options}
+        onLoad={onLoad}
+        mapContainerStyle={{
+          height: "100vh",
+          width: "100vw",
+          // opacity: .5,
+        }}
+      >
+        {locations.slice(0, 50).map((location) => {
+          return (
+            <MarkerF
+              key={location.id}
+              position={{
+                lat: location.city_latitude,
+                lng: location.city_longitude,
+              }}
+            ></MarkerF>
+          );
+        })}
+      </GoogleMap>
+    </div>
   );
 };
 
