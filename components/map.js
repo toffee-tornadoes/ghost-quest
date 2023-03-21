@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 
 //display multiple markers by using forEach method or mapping through the array
@@ -6,15 +6,17 @@ import { GoogleMap, MarkerF } from "@react-google-maps/api";
 
 const Map = ({ locations }) => {
   const mapRef = useRef();
-  //set center to user's current location (based on geocoordinates)
-  const center = useMemo(
-    () => ({
-      lat: locations[0].city_latitude,
-      lng: locations[0].city_longitude,
-    }),
-    []
-  );
-  // const center = useMemo(() => ({ lat: 40, lng: -80 }));
+  const onLoad = useCallback((map) => (mapRef.current = map), []);
+
+  //geolocation
+  if ("geolocation" in navigator) {
+    console.log("geolocation available!");
+  } else {
+    console.log("geolocation is NOT available");
+  }
+
+  //map parameters
+  const center = useMemo(() => ({ lat: 40, lng: -80 }));
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -24,15 +26,8 @@ const Map = ({ locations }) => {
     []
   );
 
-  const onLoad = useCallback((map) => (mapRef.current = map), []);
-
   return (
     <div>
-      {/* <div className="ui">
-        <h1 className="ui-header" style={{ textAlign: "center" }}>
-          Directions
-        </h1>
-      </div> */}
       <div className="map">
         <GoogleMap
           zoom={10}
@@ -41,9 +36,10 @@ const Map = ({ locations }) => {
           options={options}
           onLoad={onLoad}
         >
-          {locations.slice(0, 10).map((location) => {
+          {locations.slice(0, 50).map((location) => {
             return (
               <MarkerF
+                key={location.id}
                 position={{
                   lat: location.city_latitude,
                   lng: location.city_longitude,
