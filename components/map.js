@@ -27,12 +27,7 @@ const Map = ({ locations }) => {
   const onLoad = useCallback((map) => (mapRef.current = map), []);
 
   return (
-    <div>
-      {/* <div className="ui">
-        <h1 className="ui-header" style={{ textAlign: "center" }}>
-          Directions
-        </h1>
-      </div> */}
+
       <div className="map">
         <GoogleMap
           zoom={10}
@@ -40,6 +35,11 @@ const Map = ({ locations }) => {
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
+          mapContainerStyle={{
+            height: "100vh",
+            width: "100vw",
+            // opacity: .5,
+          }}
         >
           {/* {locations.slice(0, 10).map((location) => {
             return (
@@ -53,7 +53,7 @@ const Map = ({ locations }) => {
           })} */}
         </GoogleMap>
       </div>
-    </div>
+
   );
 };
 

@@ -13,7 +13,7 @@ export const getServerSideProps = async () => {
 
 export default function App({ Component, pageProps, locations }) {
   // Add a Layout component here
-  console.log(locations);
+  // console.log(locations);
   return (
     <Layout>
       <Component {...pageProps} />

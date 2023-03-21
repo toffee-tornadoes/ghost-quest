@@ -5,6 +5,7 @@
 
 import { supabase } from "@/lib/supabaseClient";
 import { useLoadScript } from "@react-google-maps/api";
+import { useState } from "react";
 import Map from "./map";
 import Nav from "./nav";
 import NavButton from "./nav-button";
@@ -20,7 +21,22 @@ export const getServerSideProps = async () => {
 };
 
 const Layout = ({ children, locations }) => {
-  // console.log(locations);
+  const [navUp, setNavUp] = useState(false);
+  const [display, setDisplay] = useState(false);
+
+  let height = "h-36";
+  let hidden = "hidden";
+
+  const clickHandler = () => {
+    setNavUp(!navUp);
+    setDisplay(!display);
+  };
+
+  if (navUp && display) {
+    height = "h-1/2 max-h-full";
+    hidden = "";
+  }
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
   });
@@ -28,10 +44,19 @@ const Layout = ({ children, locations }) => {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
-      <Nav />
-      {children}
       <Map locations={locations} />
-      <NavButton />
+      <div
+        id="layoutDiv"
+        className={`flex-col z-1 transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex absolute bg-black bottom-0`}
+      >
+        <button onClick={clickHandler} className="hover:text-slate-300">
+          Swipe Up
+        </button>
+        <div className={`${hidden}`} id="pageContainer">
+          {children}
+        </div>
+        <NavButton />
+      </div>
     </>
   );
 };
