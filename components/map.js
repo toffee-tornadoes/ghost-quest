@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useRef } from "react";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, Circle } from "@react-google-maps/api";
 
 //display multiple markers by using forEach method or mapping through the array
 // coords.forEach((cord) => console.log(Object.values(cord)[0]));
@@ -16,7 +16,8 @@ const Map = ({ locations }) => {
   }
 
   //map parameters
-  const center = useMemo(() => ({ lat: 40, lng: -80 }));
+  const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
+  const myLocation = center;
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -25,6 +26,24 @@ const Map = ({ locations }) => {
     }),
     []
   );
+
+  //circle parameters
+  const defaultOptions = {
+    strokeOpactiy: 0.5,
+    strokeWeight: 2,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+  };
+
+  const closeOptions = {
+    ...defaultOptions,
+    zIndex: 3,
+    strokeColor: "red",
+    fillColor: "red",
+    fillOpacity: 0.05,
+  };
 
   return (
     <div className="map">
@@ -40,6 +59,12 @@ const Map = ({ locations }) => {
           // opacity: .5,
         }}
       >
+        <MarkerF position={myLocation} icon={"/phantom.png"}></MarkerF>
+        <Circle
+          center={myLocation}
+          radius={15000}
+          options={closeOptions}
+        ></Circle>
         {locations.slice(0, 20).map((location) => {
           return (
             <MarkerF
