@@ -1,9 +1,10 @@
-import LoginForm from "@/components/auth/login-form";
+import SearchBar from "@/components/search-bar";
+
 
 const SearchPage = () => {
   return (
     <div>
-      <LoginForm />
+      <SearchBar />
     </div>
   );
 };
