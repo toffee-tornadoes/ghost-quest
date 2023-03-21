@@ -114,7 +114,7 @@ const Map = ({ locations }) => {
             lat: location.city_latitude,
             lng: location.city_longitude,
           };
-          const inBounds = checkDistance(position, myLocation, 15000);
+          const inBounds = checkDistance(position, myLocation, 45000);
           if (inBounds) {
             return (
               <MarkerF
