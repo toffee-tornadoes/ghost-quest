@@ -94,7 +94,7 @@ const Map = ({ locations }) => {
           icon={"/you-are-here-2.png"}
           animation={2}
         ></MarkerF>
-        <Circle
+        {/* <Circle
           center={myLocation}
           radius={15000}
           options={closeOptions}
@@ -108,7 +108,7 @@ const Map = ({ locations }) => {
           center={myLocation}
           radius={45000}
           options={farOptions}
-        ></Circle>
+        ></Circle> */}
         {locations.map((location) => {
           const position = {
             lat: location.city_latitude,
