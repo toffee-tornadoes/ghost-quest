@@ -1,5 +1,10 @@
 import { useState, useCallback, useMemo, useRef } from "react";
-import { GoogleMap, MarkerF, Circle } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  MarkerF,
+  Circle,
+  MarkerClustererF,
+} from "@react-google-maps/api";
 
 //display multiple markers by using forEach method or mapping through the array
 // coords.forEach((cord) => console.log(Object.values(cord)[0]));
@@ -45,6 +50,24 @@ const Map = ({ locations }) => {
     fillOpacity: 0.05,
   };
 
+  const middleOptions = {
+    ...defaultOptions,
+    zIndex: 3,
+    strokeColor: "maroon",
+    fillColor: "maroon",
+    fillOpacity: 0.05,
+  };
+
+  const farOptions = {
+    ...defaultOptions,
+    zIndex: 3,
+    strokeColor: "grey",
+    fillColor: "grey",
+    fillOpacity: 0.05,
+  };
+
+  // const findNearbyLocations = ()
+
   return (
     <div className="map">
       <GoogleMap
@@ -59,11 +82,25 @@ const Map = ({ locations }) => {
           // opacity: .5,
         }}
       >
-        <MarkerF position={myLocation} icon={"/phantom.png"}></MarkerF>
+        <MarkerF
+          position={myLocation}
+          icon={"/home1.png"}
+          animation={2}
+        ></MarkerF>
         <Circle
           center={myLocation}
           radius={15000}
           options={closeOptions}
+        ></Circle>
+        <Circle
+          center={myLocation}
+          radius={30000}
+          options={middleOptions}
+        ></Circle>
+        <Circle
+          center={myLocation}
+          radius={45000}
+          options={farOptions}
         ></Circle>
         {locations.slice(0, 20).map((location) => {
           return (
@@ -73,6 +110,7 @@ const Map = ({ locations }) => {
                 lat: location.city_latitude,
                 lng: location.city_longitude,
               }}
+              icon={"/phantom.png"}
             ></MarkerF>
           );
         })}
