@@ -15,7 +15,7 @@ const fetchData = async () => {
   return data;
 };
 
-const Layout = ({ children }) => {
+const Layout = ({ children, locations }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
   });
@@ -30,10 +30,19 @@ const Layout = ({ children }) => {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
-      <Nav />
-      {children}
       <Map locations={locations} />
-      <NavButton />
+      <div
+        id="layoutDiv"
+        className={`flex-col z-1 transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex absolute bg-black bottom-0`}
+      >
+        <button onClick={clickHandler} className="hover:text-slate-300">
+          Swipe Up
+        </button>
+        <div className={`${hidden}`} id="pageContainer">
+          {children}
+        </div>
+        <NavButton />
+      </div>
     </>
   );
 };
