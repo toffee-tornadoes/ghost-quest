@@ -67,6 +67,15 @@ const Map = ({ locations }) => {
   };
 
   // const findNearbyLocations = ()
+  // const testMarker = {{lat: -40, lng: -80.1234}}
+
+  // function check(marker, circle, radius) {
+  //   var km = radius / 1000;
+  //   var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
+  //   var dx = Math.abs(circle.lng - marker.lng) * kx;
+  //   var dy = Math.abs(circle.lat - marker.lat) * 111;
+  //   return Math.sqrt(dx * dx + dy * dy) <= km;
+  // }
 
   return (
     <div className="map">
@@ -84,7 +93,7 @@ const Map = ({ locations }) => {
       >
         <MarkerF
           position={myLocation}
-          icon={"/home1.png"}
+          icon={"/you-are-here-2.png"}
           animation={2}
         ></MarkerF>
         <Circle
