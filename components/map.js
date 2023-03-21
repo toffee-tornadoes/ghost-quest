@@ -22,7 +22,6 @@ const Map = ({ locations }) => {
 
   //map parameters
   const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
-  const myLocation = center;
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -31,6 +30,9 @@ const Map = ({ locations }) => {
     }),
     []
   );
+
+  //default location should be used if user opts out of location services
+  const defaultLocation = { lat: 40.6928195, lng: -73.98218279999999 };
 
   //circle parameters
   const defaultOptions = {
@@ -79,7 +81,7 @@ const Map = ({ locations }) => {
     <div className="map">
       <GoogleMap
         zoom={10}
-        center={center}
+        center={defaultLocation}
         mapContainerClassName="map-container"
         options={options}
         onLoad={onLoad}
@@ -90,11 +92,11 @@ const Map = ({ locations }) => {
         }}
       >
         <MarkerF
-          position={myLocation}
+          position={defaultLocation}
           icon={"/you-are-here-2.png"}
           animation={2}
         ></MarkerF>
-        <Circle
+        {/* <Circle
           center={myLocation}
           radius={15000}
           options={closeOptions}
@@ -108,13 +110,15 @@ const Map = ({ locations }) => {
           center={myLocation}
           radius={45000}
           options={farOptions}
-        ></Circle>
+        ></Circle> */}
+        {/* We should import the location card component and pass in props */}
         {locations.map((location) => {
           const position = {
             lat: location.city_latitude,
             lng: location.city_longitude,
           };
-          const inBounds = checkDistance(position, myLocation, 45000);
+          //default to defaultLocation if user opts out
+          const inBounds = checkDistance(position, defaultLocation, 45000);
           if (inBounds) {
             return (
               <MarkerF
