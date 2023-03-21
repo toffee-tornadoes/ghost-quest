@@ -31,9 +31,6 @@ const Map = ({ locations }) => {
     []
   );
 
-  //default location should be used if user opts out of location services
-  const defaultLocation = { lat: 40.6928195, lng: -73.98218279999999 };
-
   //circle parameters
   const defaultOptions = {
     strokeOpactiy: 0.5,
@@ -111,7 +108,6 @@ const Map = ({ locations }) => {
           radius={45000}
           options={farOptions}
         ></Circle> */}
-        {/* We should import the location card component and pass in props */}
         {locations.map((location) => {
           const position = {
             lat: location.city_latitude,

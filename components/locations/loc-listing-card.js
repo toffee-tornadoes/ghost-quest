@@ -1,11 +1,14 @@
 // Simple component that displays location name, distance, icon/image, etc.
+import Link from "next/link";
+
 const LocationListingCard = ({ locations }) => {
   return (
     <div>
       <div className="text-lg">
+        <h1>Nearby Haunts</h1>
         {locations.map((location) => {
           return (
-            <div key={location.id} className="flex flex-row justify-between">
+            <Link key={location.id} href={`/locations/${location.id}`} className="flex flex-row justify-between">
               <h1 className="flex justify-between ">
                 {location.location}
                 {"      "}
@@ -14,7 +17,7 @@ const LocationListingCard = ({ locations }) => {
                 {location.state}
               </h1>
               <button>Favorite</button>
-            </div>
+            </Link>
           );
         })}
       </div>
