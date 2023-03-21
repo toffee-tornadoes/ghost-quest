@@ -6,6 +6,7 @@
 import { supabase } from "@/lib/supabaseClient";
 import { useLoadScript } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
+import Header from "./header";
 import Map from "./map";
 import Nav from "./nav";
 import NavButton from "./nav-button";
@@ -29,7 +30,7 @@ const Layout = ({ children }) => {
   };
 
   if (navUp && display) {
-    height = "h-1/2 max-h-full";
+    height = "h-4/5";
     hidden = "";
   }
 
@@ -46,10 +47,11 @@ const Layout = ({ children }) => {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
+      <Header />
       <Map locations={locations} />
       <div
         id="layoutDiv"
-        className={`flex-col z-1 transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex absolute bg-black bottom-0`}
+        className={`flex-col z-1 overflow-auto transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex absolute bg-black bottom-0`}
       >
         <button onClick={clickHandler} className="hover:text-slate-300">
           Swipe Up
