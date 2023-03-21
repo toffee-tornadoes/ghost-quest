@@ -40,7 +40,7 @@ const Map = ({ locations }) => {
           // opacity: .5,
         }}
       >
-        {locations.slice(0, 50).map((location) => {
+        {locations.slice(0, 20).map((location) => {
           return (
             <MarkerF
               key={location.id}

@@ -15,11 +15,27 @@ const fetchData = async () => {
   return data;
 };
 
-const Layout = ({ children, locations }) => {
+const Layout = ({ children }) => {
+  const [navUp, setNavUp] = useState(false);
+  const [display, setDisplay] = useState(false);
+  const [locations, setLocations] = useState([]);
+
+  let height = "h-36";
+  let hidden = "hidden";
+
+  const clickHandler = () => {
+    setNavUp(!navUp);
+    setDisplay(!display);
+  };
+
+  if (navUp && display) {
+    height = "h-1/2 max-h-full";
+    hidden = "";
+  }
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
   });
-  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     fetchData().then((result) => {
