@@ -66,16 +66,14 @@ const Map = ({ locations }) => {
     fillOpacity: 0.05,
   };
 
-  // const findNearbyLocations = ()
-  // const testMarker = {{lat: -40, lng: -80.1234}}
-
-  // function check(marker, circle, radius) {
-  //   var km = radius / 1000;
-  //   var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
-  //   var dx = Math.abs(circle.lng - marker.lng) * kx;
-  //   var dy = Math.abs(circle.lat - marker.lat) * 111;
-  //   return Math.sqrt(dx * dx + dy * dy) <= km;
-  // }
+  //check to see if a given marker is within the bounds of given circle's radius
+  const checkDistance = (marker, circle, radius) => {
+    var km = radius / 1000;
+    var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
+    var dx = Math.abs(circle.lng - marker.lng) * kx;
+    var dy = Math.abs(circle.lat - marker.lat) * 111;
+    return Math.sqrt(dx * dx + dy * dy) <= km;
+  };
 
   return (
     <div className="map">
@@ -111,17 +109,24 @@ const Map = ({ locations }) => {
           radius={45000}
           options={farOptions}
         ></Circle>
-        {locations.slice(0, 20).map((location) => {
-          return (
-            <MarkerF
-              key={location.id}
-              position={{
-                lat: location.city_latitude,
-                lng: location.city_longitude,
-              }}
-              icon={"/phantom.png"}
-            ></MarkerF>
-          );
+        {locations.map((location) => {
+          const position = {
+            lat: location.city_latitude,
+            lng: location.city_longitude,
+          };
+          const inBounds = checkDistance(position, myLocation, 15000);
+          if (inBounds) {
+            return (
+              <MarkerF
+                key={location.id}
+                position={{
+                  lat: location.city_latitude,
+                  lng: location.city_longitude,
+                }}
+                icon={"/phantom.png"}
+              ></MarkerF>
+            );
+          }
         })}
       </GoogleMap>
     </div>
