@@ -7,14 +7,14 @@ import { GoogleMap, MarkerF } from "@react-google-maps/api";
 const Map = ({ locations }) => {
   const mapRef = useRef();
   //set center to user's current location (based on geocoordinates)
-  //   const center = useMemo(
-  //     () => ({
-  //       lat: locations[0].city_latitude,
-  //       lng: locations[0].city_longitude,
-  //     }),
-  //     []
-  //   );
-  const center = useMemo(() => ({ lat: 40, lng: -80 }));
+  const center = useMemo(
+    () => ({
+      lat: locations[0].city_latitude,
+      lng: locations[0].city_longitude,
+    }),
+    []
+  );
+  // const center = useMemo(() => ({ lat: 40, lng: -80 }));
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -41,7 +41,7 @@ const Map = ({ locations }) => {
           options={options}
           onLoad={onLoad}
         >
-          {/* {locations.slice(0, 10).map((location) => {
+          {locations.slice(0, 10).map((location) => {
             return (
               <MarkerF
                 position={{
@@ -50,7 +50,7 @@ const Map = ({ locations }) => {
                 }}
               ></MarkerF>
             );
-          })} */}
+          })}
         </GoogleMap>
       </div>
     </div>
