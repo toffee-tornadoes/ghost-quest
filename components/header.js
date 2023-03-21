@@ -4,12 +4,12 @@ import UserIcon from "./icons/user-icon";
 
 const Header = () => {
   return (
-    <div className="flex justify-center">
+    <div>
       <div
         id={"headerContainer"}
-        className="space-x-96 pt-4 flex z-10 absolute top-0 "
+        className="p-5 w-full flex justify-between z-10 absolute top-0 "
       >
-        <Link href="user/1">
+        <Link href="/user/1">
           <UserIcon />
         </Link>
         <Link href="/search">
