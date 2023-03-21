@@ -1,3 +1,7 @@
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { supabase } from '@/lib/supabaseClient';
+
 const LoginForm = () => {
   return (
     // if no account
@@ -13,10 +17,9 @@ const LoginForm = () => {
     // </form>
 
     // else sign in
-    <form action="">
-      <input type="text" placeholder="Username" />
-      <input type="text" placeholder="Password" />
-    </form>
+    <>
+      <Auth supabaseClient={supabase} />
+    </>
   );
 };
 
