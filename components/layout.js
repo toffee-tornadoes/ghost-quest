@@ -18,21 +18,21 @@ const fetchData = async () => {
 
 const Layout = ({ children }) => {
   const [navUp, setNavUp] = useState(false);
-  const [display, setDisplay] = useState(false);
+  const [height, setHeight] = useState('h-36')
+  const [hidden, setHidden] = useState('hidden')
   const [locations, setLocations] = useState([]);
 
-  let height = "h-36";
-  let hidden = "hidden";
-
   const clickHandler = () => {
-    setNavUp(!navUp);
-    setDisplay(!display);
+    if (!navUp) {
+      setNavUp(!navUp);
+      setHeight("h-4/5");
+      setHidden('')
+    } else {
+      setNavUp(!navUp);
+      setHeight('h-36');
+      setHidden('hidden')
+    }
   };
-
-  if (navUp && display) {
-    height = "h-4/5";
-    hidden = "";
-  }
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
-      <Header />
+      <Header navUp={navUp} clickHandler={clickHandler} />
       <Map locations={locations} />
       <div
         id="layoutDiv"
