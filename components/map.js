@@ -1,5 +1,10 @@
 import { useState, useCallback, useMemo, useRef } from "react";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  MarkerF,
+  Circle,
+  MarkerClustererF,
+} from "@react-google-maps/api";
 
 //display multiple markers by using forEach method or mapping through the array
 // coords.forEach((cord) => console.log(Object.values(cord)[0]));
@@ -16,7 +21,8 @@ const Map = ({ locations }) => {
   }
 
   //map parameters
-  const center = useMemo(() => ({ lat: 40, lng: -80 }));
+  const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
+  const myLocation = center;
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -25,6 +31,51 @@ const Map = ({ locations }) => {
     }),
     []
   );
+
+  //circle parameters
+  const defaultOptions = {
+    strokeOpactiy: 0.5,
+    strokeWeight: 2,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+  };
+
+  const closeOptions = {
+    ...defaultOptions,
+    zIndex: 3,
+    strokeColor: "red",
+    fillColor: "red",
+    fillOpacity: 0.05,
+  };
+
+  const middleOptions = {
+    ...defaultOptions,
+    zIndex: 3,
+    strokeColor: "maroon",
+    fillColor: "maroon",
+    fillOpacity: 0.05,
+  };
+
+  const farOptions = {
+    ...defaultOptions,
+    zIndex: 3,
+    strokeColor: "grey",
+    fillColor: "grey",
+    fillOpacity: 0.05,
+  };
+
+  // const findNearbyLocations = ()
+  // const testMarker = {{lat: -40, lng: -80.1234}}
+
+  // function check(marker, circle, radius) {
+  //   var km = radius / 1000;
+  //   var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
+  //   var dx = Math.abs(circle.lng - marker.lng) * kx;
+  //   var dy = Math.abs(circle.lat - marker.lat) * 111;
+  //   return Math.sqrt(dx * dx + dy * dy) <= km;
+  // }
 
   return (
     <div className="map">
@@ -40,6 +91,26 @@ const Map = ({ locations }) => {
           // opacity: .5,
         }}
       >
+        <MarkerF
+          position={myLocation}
+          icon={"/you-are-here-2.png"}
+          animation={2}
+        ></MarkerF>
+        <Circle
+          center={myLocation}
+          radius={15000}
+          options={closeOptions}
+        ></Circle>
+        <Circle
+          center={myLocation}
+          radius={30000}
+          options={middleOptions}
+        ></Circle>
+        <Circle
+          center={myLocation}
+          radius={45000}
+          options={farOptions}
+        ></Circle>
         {locations.slice(0, 20).map((location) => {
           return (
             <MarkerF
@@ -48,6 +119,7 @@ const Map = ({ locations }) => {
                 lat: location.city_latitude,
                 lng: location.city_longitude,
               }}
+              icon={"/phantom.png"}
             ></MarkerF>
           );
         })}
