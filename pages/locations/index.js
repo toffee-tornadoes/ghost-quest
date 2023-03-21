@@ -7,7 +7,7 @@ import AllLocationHeader from "@/components/locations/locations-header";
 import { supabase } from "@/lib/supabaseClient";
 import { useState, useEffect } from "react";
 
-const fetchData = async () => {
+const fetchLocations = async () => {
   const { data } = await supabase.from("locations").select();
   return data;
 }
@@ -16,7 +16,7 @@ const Locations = () => {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
-    fetchData().then((result) => {
+    fetchLocations().then((result) => {
       setLocations(result);
     })
   }, []);
