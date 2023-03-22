@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   GoogleMap,
   MarkerF,
@@ -12,17 +12,16 @@ import {
 const Map = ({ locations }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
+  const [userLocation, setUserLocation] = useState({});
 
-  //geolocation
-  if ("geolocation" in navigator) {
-    console.log("geolocation available!");
-  } else {
-    console.log("geolocation is NOT available");
-  }
+  useEffect(() => {
+    getLocation().then((result) => setUserLocation(result));
+  }, []);
 
   //map parameters
-  const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
-  const myLocation = center;
+  // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
+  //default to default location if user opts out of location services
+  const defaultLocation = { lat: 40.6928195, lng: -73.98218279999999 };
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -31,6 +30,38 @@ const Map = ({ locations }) => {
     }),
     []
   );
+
+  //geolocation
+  //check to see if user has allowed location services
+  //if user has blocked location services, map should default to center location
+  const getGeodata = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((position) =>
+        resolve(position, (error) => reject(error))
+      );
+    });
+  };
+
+  const getLocation = async () => {
+    let geolocationStatus = await navigator.permissions.query({
+      name: "geolocation",
+    });
+    if ("geolocation" in navigator) {
+      if (geolocationStatus.state === "granted") {
+        console.log("geolocation available and location services allowed!");
+        const position = await getGeodata();
+        const userLocation = {
+          lat: Number(position.coords.latitude),
+          lng: Number(position.coords.longitude),
+        };
+        return userLocation;
+      } else {
+        console.log("location services blocked");
+      }
+    } else {
+      console.log("geolocation is not available");
+    }
+  };
 
   //circle parameters
   const defaultOptions = {
@@ -79,7 +110,7 @@ const Map = ({ locations }) => {
     <div className="map">
       <GoogleMap
         zoom={10}
-        center={center}
+        center={userLocation}
         mapContainerClassName="map-container"
         options={options}
         onLoad={onLoad}
@@ -89,8 +120,9 @@ const Map = ({ locations }) => {
           // opacity: .5,
         }}
       >
+        {/* set user's starting location (either the default or based on geodata) */}
         <MarkerF
-          position={myLocation}
+          position={userLocation}
           icon={"/you-are-here-2.png"}
           animation={2}
         ></MarkerF>
@@ -114,7 +146,8 @@ const Map = ({ locations }) => {
             lat: location.city_latitude,
             lng: location.city_longitude,
           };
-          const inBounds = checkDistance(position, myLocation, 45000);
+          //default to defaultLocation if user opts out
+          const inBounds = checkDistance(position, userLocation, 45000);
           if (inBounds) {
             return (
               <MarkerF
@@ -124,6 +157,7 @@ const Map = ({ locations }) => {
                   lng: location.city_longitude,
                 }}
                 icon={"/phantom.png"}
+                animation={2}
               ></MarkerF>
             );
           }
