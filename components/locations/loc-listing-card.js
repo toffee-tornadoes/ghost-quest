@@ -16,7 +16,7 @@ const LocationListingCard = ({ locations }) => {
                   <h2 className="flex">
                     {`"${location.location}"\u00A0`}
                     {" "}
-                    <div id="cityState" className="italic text-slate-400">
+                    <div id="cityState" className="italic text-slate-400 text-right pr-2">
                     {location.city}
                     {", "}
                     {location.state}
