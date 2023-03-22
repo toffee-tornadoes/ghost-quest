@@ -6,15 +6,21 @@ import {
   MarkerClustererF,
   MarkerClusterer,
 } from "@react-google-maps/api";
+import Locations from "@/pages/locations";
 
 const Map = ({ locations }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [userLocation, setUserLocation] = useState({});
+  const [nearbyLocations, setNearbyLocations] = useState([]);
 
   useEffect(() => {
     getLocation().then((result) => setUserLocation(result));
   }, []);
+
+  useEffect(() => {
+    getNearbyLocations().then((result) => setNearbyLocations(result));
+  }, [nearbyLocations]);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
@@ -62,6 +68,32 @@ const Map = ({ locations }) => {
     }
   };
 
+  //check to see if a given marker is within the bounds of given circle's radius
+  const checkDistance = (marker, circle, radius) => {
+    var km = radius / 1000;
+    var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
+    var dx = Math.abs(circle.lng - marker.lng) * kx;
+    var dy = Math.abs(circle.lat - marker.lat) * 111;
+    return Math.sqrt(dx * dx + dy * dy) <= km;
+  };
+
+  //create functions for limited amount of markers here and save returned array to local state that can be passed as a prop to other parts of the app
+  //getNearbyLocations function that then sets local state
+  const getNearbyLocations = async () => {
+    const nearby = [];
+    locations.map((location) => {
+      const position = {
+        lat: location.city_latitude,
+        lng: location.city_longitude,
+      };
+      const inBounds = checkDistance(position, userLocation, 45000);
+      if (inBounds) {
+        nearby.push(location);
+      }
+    });
+    return nearby;
+  };
+
   //circle parameters
   const defaultOptions = {
     strokeOpactiy: 0.5,
@@ -94,15 +126,6 @@ const Map = ({ locations }) => {
     strokeColor: "grey",
     fillColor: "grey",
     fillOpacity: 0.05,
-  };
-
-  //check to see if a given marker is within the bounds of given circle's radius
-  const checkDistance = (marker, circle, radius) => {
-    var km = radius / 1000;
-    var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
-    var dx = Math.abs(circle.lng - marker.lng) * kx;
-    var dy = Math.abs(circle.lat - marker.lat) * 111;
-    return Math.sqrt(dx * dx + dy * dy) <= km;
   };
 
   return (
@@ -142,7 +165,7 @@ const Map = ({ locations }) => {
         ></Circle> */}
         {/* display multiple markers by using forEach method or mapping through
         the array */}
-        {locations.map((location) => {
+        {/* {locations.map((location) => {
           const position = {
             lat: location.city_latitude,
             lng: location.city_longitude,
@@ -162,8 +185,21 @@ const Map = ({ locations }) => {
               ></MarkerF>
             );
           }
+        })} */}
+        {nearbyLocations.map((location) => {
+          return (
+            <MarkerF
+              key={location.id}
+              position={{
+                lat: location.city_latitude,
+                lng: location.city_longitude,
+              }}
+              icon={"/phantom.png"}
+              animation={2}
+              // clusterer={clusterer}
+            ></MarkerF>
+          );
         })}
-        ;
       </GoogleMap>
     </div>
   );
