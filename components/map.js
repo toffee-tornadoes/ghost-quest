@@ -6,6 +6,7 @@ import {
   Circle,
   MarkerClustererF,
   MarkerClusterer,
+  InfoWindowF
 } from "@react-google-maps/api";
 // import Locations from "@/pages/locations";
 
@@ -14,6 +15,7 @@ const Map = ({ locations }) => {
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [userLocation, setUserLocation] = useState({});
   const [nearbyLocations, setNearbyLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     getLocation().then((result) => setUserLocation(result));
@@ -200,9 +202,29 @@ const Map = ({ locations }) => {
                 icon={"/phantom.png"}
                 animation={2}
                 // clusterer={clusterer}
+                onClick={() => {
+                  setSelectedLocation(location)
+                }}
               ></MarkerF>
             );
           })}
+          {selectedLocation && (
+            <InfoWindowF
+            position={{
+              lat: selectedLocation.city_latitude,
+              lng: selectedLocation.city_longitude,
+            }}
+            onCloseClick={() => {
+              setSelectedLocation(null)
+            }}
+            >
+              <div>
+                <img src="haunted.png" alt="Location picture" />
+                <h2 className="text-4xl">{selectedLocation.location}</h2>
+                <Link className="text-2xl" href={`/locations/${selectedLocation.id}`}>See More Info</Link>
+              </div>
+            </InfoWindowF>
+          )}
         </GoogleMap>
       </div>
     </>
