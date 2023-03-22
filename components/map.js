@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import Link from "next/link";
 import {
   GoogleMap,
   MarkerF,
@@ -6,7 +7,7 @@ import {
   MarkerClustererF,
   MarkerClusterer,
 } from "@react-google-maps/api";
-import Locations from "@/pages/locations";
+// import Locations from "@/pages/locations";
 
 const Map = ({ locations }) => {
   const mapRef = useRef();
@@ -86,7 +87,7 @@ const Map = ({ locations }) => {
         lat: location.city_latitude,
         lng: location.city_longitude,
       };
-      const inBounds = checkDistance(position, userLocation, 45000);
+      const inBounds = checkDistance(position, userLocation, 15000);
       if (inBounds) {
         nearby.push(location);
       }
@@ -129,26 +130,28 @@ const Map = ({ locations }) => {
   };
 
   return (
-    <div className="map">
-      <GoogleMap
-        zoom={10}
-        center={userLocation}
-        mapContainerClassName="map-container"
-        options={options}
-        onLoad={onLoad}
-        mapContainerStyle={{
-          height: "100vh",
-          width: "100vw",
-          // opacity: .5,
-        }}
-      >
-        {/* set user's starting location (either the default or based on geodata) */}
-        <MarkerF
-          position={userLocation}
-          icon={"/you-are-here-2.png"}
-          animation={2}
-        ></MarkerF>
-        {/* <Circle
+    <>
+      <div className="map">
+        {/* <Locations nearbyLocations={nearbyLocations} /> */}
+        <GoogleMap
+          zoom={10}
+          center={userLocation}
+          mapContainerClassName="map-container"
+          options={options}
+          onLoad={onLoad}
+          mapContainerStyle={{
+            height: "100vh",
+            width: "100vw",
+            // opacity: .5,
+          }}
+        >
+          {/* set user's starting location (either the default or based on geodata) */}
+          <MarkerF
+            position={userLocation}
+            icon={"/you-are-here-2.png"}
+            animation={2}
+          ></MarkerF>
+          {/* <Circle
           center={myLocation}
           radius={15000}
           options={closeOptions}
@@ -163,9 +166,9 @@ const Map = ({ locations }) => {
           radius={45000}
           options={farOptions}
         ></Circle> */}
-        {/* display multiple markers by using forEach method or mapping through
+          {/* display multiple markers by using forEach method or mapping through
         the array */}
-        {/* {locations.map((location) => {
+          {/* {locations.map((location) => {
           const position = {
             lat: location.city_latitude,
             lng: location.city_longitude,
@@ -186,22 +189,23 @@ const Map = ({ locations }) => {
             );
           }
         })} */}
-        {nearbyLocations.map((location) => {
-          return (
-            <MarkerF
-              key={location.id}
-              position={{
-                lat: location.city_latitude,
-                lng: location.city_longitude,
-              }}
-              icon={"/phantom.png"}
-              animation={2}
-              // clusterer={clusterer}
-            ></MarkerF>
-          );
-        })}
-      </GoogleMap>
-    </div>
+          {nearbyLocations.map((location) => {
+            return (
+              <MarkerF
+                key={location.id}
+                position={{
+                  lat: location.city_latitude,
+                  lng: location.city_longitude,
+                }}
+                icon={"/phantom.png"}
+                animation={2}
+                // clusterer={clusterer}
+              ></MarkerF>
+            );
+          })}
+        </GoogleMap>
+      </div>
+    </>
   );
 };
 
