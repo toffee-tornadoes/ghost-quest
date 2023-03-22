@@ -4,10 +4,8 @@ import {
   MarkerF,
   Circle,
   MarkerClustererF,
+  MarkerClusterer,
 } from "@react-google-maps/api";
-
-//display multiple markers by using forEach method or mapping through the array
-// coords.forEach((cord) => console.log(Object.values(cord)[0]));
 
 const Map = ({ locations }) => {
   const mapRef = useRef();
@@ -57,6 +55,7 @@ const Map = ({ locations }) => {
         return userLocation;
       } else {
         console.log("location services blocked");
+        return defaultLocation;
       }
     } else {
       console.log("geolocation is not available");
@@ -141,12 +140,13 @@ const Map = ({ locations }) => {
           radius={45000}
           options={farOptions}
         ></Circle> */}
+        {/* display multiple markers by using forEach method or mapping through
+        the array */}
         {locations.map((location) => {
           const position = {
             lat: location.city_latitude,
             lng: location.city_longitude,
           };
-          //default to defaultLocation if user opts out
           const inBounds = checkDistance(position, userLocation, 45000);
           if (inBounds) {
             return (
@@ -158,10 +158,12 @@ const Map = ({ locations }) => {
                 }}
                 icon={"/phantom.png"}
                 animation={2}
+                // clusterer={clusterer}
               ></MarkerF>
             );
           }
         })}
+        ;
       </GoogleMap>
     </div>
   );
