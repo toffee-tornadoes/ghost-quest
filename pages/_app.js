@@ -1,23 +1,24 @@
 import "@/styles/globals.css";
 import Layout from "@/components/layout";
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { SessionContextProvider } from '@supabase/auth-helpers-react'
-import { useState } from 'react'
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useState } from "react";
+import { store } from "@/store";
+import { Provider } from "react-redux";
 
 export default function App({ Component, pageProps }) {
   // Add a Layout component here
-   const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
   return (
-    <Layout>
-      <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      <Component {...pageProps} />
-
-    </SessionContextProvider>
-    </Layout>
-
+    <Provider store={store}>
+      <Layout>
+        <SessionContextProvider
+          supabaseClient={supabaseClient}
+          initialSession={pageProps.initialSession}
+        >
+          <Component {...pageProps} />
+        </SessionContextProvider>
+      </Layout>
+    </Provider>
   );
 }
-
