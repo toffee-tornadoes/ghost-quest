@@ -57,6 +57,7 @@ const Map = ({ locations }) => {
         return userLocation;
       } else {
         console.log("location services blocked");
+        return defaultLocation;
       }
     } else {
       console.log("geolocation is not available");
