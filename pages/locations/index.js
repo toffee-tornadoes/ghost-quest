@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 const fetchLocations = async () => {
   const { data } = await supabase.from("locations").select();
   return data;
-}
+};
 
 const Locations = () => {
   const [locations, setLocations] = useState([]);
@@ -18,15 +18,15 @@ const Locations = () => {
   useEffect(() => {
     fetchLocations().then((result) => {
       setLocations(result);
-    })
+    });
   }, []);
 
   return (
     <div>
       <AllLocationHeader />
-      <LocationListingCard locations={locations}/>
+      <LocationListingCard locations={locations} />
     </div>
-  )
-}
+  );
+};
 
 export default Locations;
