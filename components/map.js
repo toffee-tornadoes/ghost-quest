@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   GoogleMap,
   MarkerF,
@@ -12,16 +12,18 @@ import {
 const Map = ({ locations }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
+  const [userGeodata, setUserGeodata] = useState({});
 
-  //geolocation
-  if ("geolocation" in navigator) {
-    console.log("geolocation available!");
-  } else {
-    console.log("geolocation is NOT available");
-  }
+  // useEffect(() => {
+  //   getLocation().then((result) => {
+  //     setUserGeodata(result);
+  //   });
+  // }, []);
 
   //map parameters
-  const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
+  // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
+  //default to default location if user opts out of location services
+  const defaultLocation = { lat: 40.6928195, lng: -73.98218279999999 };
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -30,6 +32,31 @@ const Map = ({ locations }) => {
     }),
     []
   );
+
+  //geolocation
+  //check to see if user has allowed location services
+  //if user has blocked location services, map should default to center location
+  const getLocation = async () => {
+    let geolocationStatus = await navigator.permissions.query({
+      name: "geolocation",
+    });
+    if ("geolocation" in navigator) {
+      if (geolocationStatus.state === "granted") {
+        console.log("geolocation available and location services allowed!");
+        const geodata = new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition((resolve, reject));
+        });
+      } else {
+        console.log("location services blocked");
+      }
+    } else {
+      console.log("geolocation is not available");
+    }
+  };
+
+  //set user location
+  getLocation();
+  console.log(userGeodata);
 
   //circle parameters
   const defaultOptions = {
@@ -88,6 +115,7 @@ const Map = ({ locations }) => {
           // opacity: .5,
         }}
       >
+        {/* set user's starting location (either the default or based on geodata) */}
         <MarkerF
           position={defaultLocation}
           icon={"/you-are-here-2.png"}
@@ -124,6 +152,7 @@ const Map = ({ locations }) => {
                   lng: location.city_longitude,
                 }}
                 icon={"/phantom.png"}
+                animation={2}
               ></MarkerF>
             );
           }
