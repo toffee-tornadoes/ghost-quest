@@ -5,16 +5,18 @@ import {
   // Import predefined theme
   ThemeSupa,
 } from '@supabase/auth-ui-shared'
-  import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+  import { useUser, useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
 
 const LoginForm = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
   const router= useRouter()
+  const user = useUser()
 
  const handleSignOut =()=>{
-  supabase.auth.signOut
+  supabase.auth.signOut()
+  console.log('signed out')
   router.push('/')
  }
 
@@ -31,19 +33,26 @@ const LoginForm = () => {
     // </form>
 
     // else sign in
-
+    if(user){
+      console.log(user)
+    }
+  if(!user){
     return(
       <>
       <button onClick={handleSignOut}>signOut</button>
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-
         <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
 
 
     </div>
 
       </>
-  );
+  );}
+  else{
+    return(
+      <button onClick={handleSignOut}>signOut</button>
+    )
+  }
 };
 
 export default LoginForm;
