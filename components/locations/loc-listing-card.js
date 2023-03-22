@@ -1,5 +1,6 @@
 // Simple component that displays location name, distance, icon/image, etc.
 import Link from "next/link";
+import { Fragment } from "react";
 import FavoriteIcon from "../icons/favorite-icon";
 
 const LocationListingCard = ({ locations }) => {
@@ -10,9 +11,9 @@ const LocationListingCard = ({ locations }) => {
         <h1 className="ml-2 mr-2 mb-4 text-lg text-orange-700 sticky text-left border-orange-700 border-b">Haunts within 20 miles:</h1>
         {locations.map((location) => {
           return (
-            <>
+            <Fragment key={location.id}>
               <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
-                <Link className="w-full text-base text-left text-slate-500 hover:text-purple-400" key={location.id} href={`/locations/${location.id}`}>
+                <Link className="w-full text-base text-left text-slate-500 hover:text-purple-400" href={`/locations/${location.id}`}>
                   <h2 className="flex">
                     {`"${location.location}"\u00A0`}
                     {" "}
@@ -27,7 +28,7 @@ const LocationListingCard = ({ locations }) => {
                   <FavoriteIcon />
                 </button>
               </div>
-            </>
+            </ Fragment>
           );
         })}
       </div>

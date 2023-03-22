@@ -6,7 +6,6 @@ import {
   ThemeSupa,
 } from '@supabase/auth-ui-shared'
   import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import Router from 'router';
 import { useRouter } from 'next/router';
 
 const LoginForm = () => {
