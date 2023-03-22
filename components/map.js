@@ -12,13 +12,11 @@ import {
 const Map = ({ locations }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
-  const [userGeodata, setUserGeodata] = useState({});
+  const [userLocation, setUserLocation] = useState({});
 
-  // useEffect(() => {
-  //   getLocation().then((result) => {
-  //     setUserGeodata(result);
-  //   });
-  // }, []);
+  useEffect(() => {
+    getLocation().then((result) => setUserLocation(result));
+  }, []);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
@@ -36,6 +34,14 @@ const Map = ({ locations }) => {
   //geolocation
   //check to see if user has allowed location services
   //if user has blocked location services, map should default to center location
+  const getGeodata = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((position) =>
+        resolve(position, (error) => reject(error))
+      );
+    });
+  };
+
   const getLocation = async () => {
     let geolocationStatus = await navigator.permissions.query({
       name: "geolocation",
@@ -43,9 +49,12 @@ const Map = ({ locations }) => {
     if ("geolocation" in navigator) {
       if (geolocationStatus.state === "granted") {
         console.log("geolocation available and location services allowed!");
-        const geodata = new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition((resolve, reject));
-        });
+        const position = await getGeodata();
+        const userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        return userLocation;
       } else {
         console.log("location services blocked");
       }
@@ -55,8 +64,7 @@ const Map = ({ locations }) => {
   };
 
   //set user location
-  getLocation();
-  console.log(userGeodata);
+  console.log(userLocation);
 
   //circle parameters
   const defaultOptions = {
@@ -105,7 +113,7 @@ const Map = ({ locations }) => {
     <div className="map">
       <GoogleMap
         zoom={10}
-        center={defaultLocation}
+        center={userLocation}
         mapContainerClassName="map-container"
         options={options}
         onLoad={onLoad}
@@ -117,7 +125,7 @@ const Map = ({ locations }) => {
       >
         {/* set user's starting location (either the default or based on geodata) */}
         <MarkerF
-          position={defaultLocation}
+          position={userLocation}
           icon={"/you-are-here-2.png"}
           animation={2}
         ></MarkerF>
@@ -142,7 +150,7 @@ const Map = ({ locations }) => {
             lng: location.city_longitude,
           };
           //default to defaultLocation if user opts out
-          const inBounds = checkDistance(position, defaultLocation, 45000);
+          const inBounds = checkDistance(position, userLocation, 45000);
           if (inBounds) {
             return (
               <MarkerF
