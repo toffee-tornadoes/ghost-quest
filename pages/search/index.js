@@ -8,7 +8,7 @@ import { use, useEffect, useState } from "react";
 
 const SearchPage = () => {
   const [results, setResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('')
+  // const [searchQuery, setSearchQuery] = useState('')
 
   const fetchResults = async (searchQuery) => {
     const { data } = await supabase.from('locations').select().textSearch('description', `${searchQuery}`)
@@ -21,13 +21,9 @@ const SearchPage = () => {
   return (
     <div>
       <SearchHeader />
-      <SearchBar fetchResults={fetchResults} setSearchQuery={setSearchQuery} searchQuery={searchQuery} results={results} />
+      <SearchBar fetchResults={fetchResults} results={results} />
       <div id="resultsContainer">
-        {!results || results === null ? "" : results.map((location)=>{
-          return (
             <LocationListingCard key={location.id} locations={results} />
-          )
-        })}
       </div>
     </div>
   );

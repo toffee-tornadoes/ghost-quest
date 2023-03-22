@@ -7,6 +7,7 @@ const SearchBar = ({ fetchResults }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchResults(input);
+    setInput("")
   };
 
   return (
