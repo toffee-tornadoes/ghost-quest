@@ -7,7 +7,7 @@ const Header = ({ clickHandler, navUp }) => {
     <div>
       <div
         id={"headerContainer"}
-        className="p-5 w-full flex justify-between z-10 absolute top-0 fixed"
+        className="p-5 w-full flex justify-between z-10 top-0 fixed"
       >
         <Link onClick={!navUp && clickHandler} href="/user/[id]">
           <UserIcon />
