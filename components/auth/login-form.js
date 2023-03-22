@@ -6,28 +6,18 @@ import {
   ThemeSupa,
 } from '@supabase/auth-ui-shared'
   import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import Router from 'router';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
   const session = useSession()
   const supabase = useSupabaseClient()
+  const router= useRouter()
 
-  async function signInWithEmail() {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: 'example@email.com',
-    password: 'example-password',
-  })
-  }
-
-
-    async function signUp(){
-    const { data, error } = await supabase.auth.signUp(
-      {
-        email: 'example@email.com',
-        password: 'example-password',
-
-      }
-    )
-    }
+ const handleSignOut =()=>{
+  supabase.auth.signOut
+  router.push('/')
+ }
 
     // if no account
 
@@ -44,13 +34,16 @@ const LoginForm = () => {
     // else sign in
 
     return(
+      <>
+      <button onClick={handleSignOut}>signOut</button>
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      {!session ? (
+
         <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
-      ) : (
-        <p>Account page will go here.</p>
-      )}
+
+
     </div>
+
+      </>
   );
 };
 

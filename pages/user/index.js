@@ -21,13 +21,7 @@ const UserLoginPage = () => {
   return (
     <Fragment>
       <LoginHeader />
-          <div className="container" >
-
-        <Auth supabaseClient={supabase } appearance={{ theme: ThemeSupa }} theme="dark" />
-
-        <p>Account page will go here.</p>
-
-    </div>
+      <LoginForm/>
     </Fragment>
   );
 };

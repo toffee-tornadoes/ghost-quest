@@ -6,11 +6,11 @@ import { useState } from 'react'
 
 export default function App({ Component, pageProps }) {
   // Add a Layout component here
-   const [supabase] = useState(() => createBrowserSupabaseClient())
+   const [supabaseClient] = useState(() => createBrowserSupabaseClient())
   return (
     <Layout>
       <SessionContextProvider
-      supabaseClient={supabase}
+      supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
       <Component {...pageProps} />
