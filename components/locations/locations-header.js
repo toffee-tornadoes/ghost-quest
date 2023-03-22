@@ -1,16 +1,13 @@
 const AllLocationHeader = () => {
   return (
     <div>
-      <div>
-      <h1 className="text-4xl">Haunts Near You</h1>
+      <div className="m-2 text-left text-3xl">
+        <h1 >Haunts Near You</h1>
+        <p className="text-slate-500 italic text-base">Your Location</p>
       </div>
-      <hr />
-      <div>
-      <p className="text-2xl">Your Location</p>
-      </div>
-      <hr />
+      <div></div>
     </div>
-  )
-}
+  );
+};
 
 export default AllLocationHeader;
