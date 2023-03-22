@@ -8,7 +8,6 @@ const LocationListingCard = ({ locations }) => {
   return (
     <div>
       <div className="text-lg">
-        <h1 className="ml-2 mr-2 mb-4 text-lg text-orange-700 sticky text-left border-orange-700 border-b">Haunts within 20 miles:</h1>
         {locations.map((location) => {
           return (
             <Fragment key={location.id}>
