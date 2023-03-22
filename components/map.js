@@ -51,8 +51,8 @@ const Map = ({ locations }) => {
         console.log("geolocation available and location services allowed!");
         const position = await getGeodata();
         const userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
+          lat: Number(position.coords.latitude),
+          lng: Number(position.coords.longitude),
         };
         return userLocation;
       } else {
@@ -62,9 +62,6 @@ const Map = ({ locations }) => {
       console.log("geolocation is not available");
     }
   };
-
-  //set user location
-  console.log(userLocation);
 
   //circle parameters
   const defaultOptions = {
