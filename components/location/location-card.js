@@ -1,6 +1,11 @@
+import BackIcon from "../icons/back-icon";
+
 const LocationCard = ({ location }) => {
   return (
-    <div className="flex flex-col m-5 ">
+    <div className="flex top-0 flex-col m-5 ">
+      <div className="">
+        <img className="mr-4 border border-slate-700 p-2 float-left w-36 h-36" src="/haunted.png" alt="" />
+        <p className="text-left">{location.description}</p></div>
       <div className="bg-slate-800 m-5">
         <h1>Distance</h1>
         <p>Some miles idk</p>
@@ -22,7 +27,7 @@ const LocationCard = ({ location }) => {
         <p># People</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default LocationCard;
