@@ -1,5 +1,24 @@
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { supabase } from '@/lib/supabaseClient';
+import {
+  // Import predefined theme
+  ThemeSupa,
+} from '@supabase/auth-ui-shared'
+  import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import Router from 'router';
+import { useRouter } from 'next/router';
+
 const LoginForm = () => {
-  return (
+  const session = useSession()
+  const supabase = useSupabaseClient()
+  const router= useRouter()
+
+ const handleSignOut =()=>{
+  supabase.auth.signOut
+  router.push('/')
+ }
+
     // if no account
 
     // <form action="">
@@ -13,10 +32,18 @@ const LoginForm = () => {
     // </form>
 
     // else sign in
-    <form action="">
-      <input type="text" placeholder="Username" />
-      <input type="text" placeholder="Password" />
-    </form>
+
+    return(
+      <>
+      <button onClick={handleSignOut}>signOut</button>
+    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
+
+
+    </div>
+
+      </>
   );
 };
 
