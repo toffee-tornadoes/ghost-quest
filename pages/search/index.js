@@ -5,25 +5,41 @@ import { supabase } from "@/lib/supabaseClient";
 import { data } from "autoprefixer";
 import { use, useEffect, useState } from "react";
 
-
 const SearchPage = () => {
   const [results, setResults] = useState([]);
-  // const [searchQuery, setSearchQuery] = useState('')
+  const [currSearch, setCurrSearch] = useState(null);
 
   const fetchResults = async (searchQuery) => {
-    const { data } = await supabase.from('locations').select().textSearch('description', `${searchQuery}`)
-    setResults(data)
+    const { data, error } = await supabase
+      .from("locations")
+      .select()
+      .textSearch("description", `${searchQuery.split(" ").join(" & ")}`);
+    setResults(data);
+    setCurrSearch(searchQuery);
     return data;
-  }
-
-  console.log(results)
+  };
 
   return (
     <div>
       <SearchHeader />
+      <hr />
       <SearchBar fetchResults={fetchResults} results={results} />
+      {currSearch !== null && (
+        <>
+          <p className="text-orange-600 border-orange-600 border-b-2 m-2">
+            {`Showing results for '${currSearch}'`}
+          </p>
+        </>
+      )}
+      {/* {results.length === 0 && (
+        <>
+          <p className="text-orange-600 border-orange-600 border-b-2 m-2">
+            {`No results for '${currSearch}'`}
+          </p>
+        </>
+      )} */}
       <div id="resultsContainer">
-            <LocationListingCard key={location.id} locations={results} />
+        <LocationListingCard key={location.id} locations={results} />
       </div>
     </div>
   );
