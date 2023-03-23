@@ -6,11 +6,19 @@ import {
   Circle,
   MarkerClustererF,
   MarkerClusterer,
-  InfoWindowF
+  InfoWindowF,
 } from "@react-google-maps/api";
-// import Locations from "@/pages/locations";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectNearbyLocations,
+  getLocations,
+} from "@/slices/nearbyLocationsReducer";
 
 const Map = ({ locations, clickHandler, navUp }) => {
+  //Testing redux
+  const testing = useSelector(selectNearbyLocations);
+  const dispatch = useDispatch();
+
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [userLocation, setUserLocation] = useState({});
@@ -24,6 +32,10 @@ const Map = ({ locations, clickHandler, navUp }) => {
   useEffect(() => {
     getNearbyLocations().then((result) => setNearbyLocations(result));
   }, [nearbyLocations]);
+
+  useEffect(() => {
+    dispatch(getLocations(nearbyLocations));
+  }, [userLocation]);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
@@ -203,25 +215,27 @@ const Map = ({ locations, clickHandler, navUp }) => {
                 animation={2}
                 // clusterer={clusterer}
                 onClick={() => {
-                  setSelectedLocation(location)
+                  setSelectedLocation(location);
                 }}
               ></MarkerF>
             );
           })}
           {selectedLocation && (
             <InfoWindowF
-            position={{
-              lat: selectedLocation.city_latitude,
-              lng: selectedLocation.city_longitude,
-            }}
-            onCloseClick={() => {
-              setSelectedLocation(null)
-            }}
+              position={{
+                lat: selectedLocation.city_latitude,
+                lng: selectedLocation.city_longitude,
+              }}
+              onCloseClick={() => {
+                setSelectedLocation(null);
+              }}
             >
               <div>
                 <img className="border-black border border-solid h-36 w-36" src="/haunted.png" alt="Location picture" />
                 <h2 className="text-2xl">{selectedLocation.location}</h2>
                 <Link onClick={!navUp && clickHandler} className="text-lg hover:text-purple-600 text-slate-600 italic" href={`/locations/${selectedLocation.id}`}>See More Info</Link>
+                  See More Info
+                </Link>
               </div>
             </InfoWindowF>
           )}
