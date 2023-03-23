@@ -50,7 +50,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header navUp={navUp} clickHandler={clickHandler} />
-      <Map locations={locations} />
+      <Map navUp={navUp} clickHandler={clickHandler} locations={locations} />
       <div
         id="layoutDiv"
         className={`flex-col z-1 items-center overflow-auto transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex fixed bg-black bottom-0`}
