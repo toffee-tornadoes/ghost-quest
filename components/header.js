@@ -1,8 +1,11 @@
+import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import SearchIcon from "./icons/search-icon";
 import UserIcon from "./icons/user-icon";
 
 const Header = ({ clickHandler, navUp }) => {
+  const user = useUser();
+
   return (
     <div id="headerDiv" className="flex-row w-full">
       <div
@@ -10,7 +13,7 @@ const Header = ({ clickHandler, navUp }) => {
         className="p-5 w-full flex justify-between z-10 top-0 fixed"
       >
         <div className="overflow-hidden">
-        <Link onClick={!navUp && clickHandler} href="/user/[id]">
+        <Link onClick={!navUp && clickHandler} href={`/user/${user && user.id}`}>
           <UserIcon />
         </Link>
         <Link onClick={!navUp && clickHandler} href="/search">
