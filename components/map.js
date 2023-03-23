@@ -1,21 +1,42 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import Link from "next/link";
 import {
   GoogleMap,
   MarkerF,
   Circle,
   MarkerClustererF,
+  MarkerClusterer,
+  InfoWindowF,
 } from "@react-google-maps/api";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectNearbyLocations,
+  findNearby,
+} from "@/slices/nearbyLocationsReducer";
 
-//display multiple markers by using forEach method or mapping through the array
-// coords.forEach((cord) => console.log(Object.values(cord)[0]));
+const Map = ({ locations, clickHandler, navUp }) => {
+  //Testing redux
+  const nearbyLocationState = useSelector(selectNearbyLocations);
+  const dispatch = useDispatch();
 
-const Map = ({ locations }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [userLocation, setUserLocation] = useState({});
+  const [nearbyLocations, setNearbyLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     getLocation().then((result) => setUserLocation(result));
+  }, []);
+
+  useEffect(() => {
+    getNearbyLocations().then((result) => {
+      setNearbyLocations(result);
+    });
+  }, [nearbyLocations]);
+
+  useEffect(() => {
+    dispatch(findNearby(nearbyLocations));
   }, []);
 
   //map parameters
@@ -64,6 +85,32 @@ const Map = ({ locations }) => {
     }
   };
 
+  //check to see if a given marker is within the bounds of given circle's radius
+  const checkDistance = (marker, circle, radius) => {
+    var km = radius / 1000;
+    var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
+    var dx = Math.abs(circle.lng - marker.lng) * kx;
+    var dy = Math.abs(circle.lat - marker.lat) * 111;
+    return Math.sqrt(dx * dx + dy * dy) <= km;
+  };
+
+  //create functions for limited amount of markers here and save returned array to local state that can be passed as a prop to other parts of the app
+  //getNearbyLocations function that then sets local state
+  const getNearbyLocations = async () => {
+    const nearby = [];
+    locations.map((location) => {
+      const position = {
+        lat: location.city_latitude,
+        lng: location.city_longitude,
+      };
+      const inBounds = checkDistance(position, userLocation, 15000);
+      if (inBounds) {
+        nearby.push(location);
+      }
+    });
+    return nearby;
+  };
+
   //circle parameters
   const defaultOptions = {
     strokeOpactiy: 0.5,
@@ -98,36 +145,29 @@ const Map = ({ locations }) => {
     fillOpacity: 0.05,
   };
 
-  //check to see if a given marker is within the bounds of given circle's radius
-  const checkDistance = (marker, circle, radius) => {
-    var km = radius / 1000;
-    var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
-    var dx = Math.abs(circle.lng - marker.lng) * kx;
-    var dy = Math.abs(circle.lat - marker.lat) * 111;
-    return Math.sqrt(dx * dx + dy * dy) <= km;
-  };
-
   return (
-    <div className="map">
-      <GoogleMap
-        zoom={10}
-        center={userLocation}
-        mapContainerClassName="map-container"
-        options={options}
-        onLoad={onLoad}
-        mapContainerStyle={{
-          height: "100vh",
-          width: "100vw",
-          // opacity: .5,
-        }}
-      >
-        {/* set user's starting location (either the default or based on geodata) */}
-        <MarkerF
-          position={userLocation}
-          icon={"/you-are-here-2.png"}
-          animation={2}
-        ></MarkerF>
-        {/* <Circle
+    <>
+      <div className="map">
+        {/* <Locations nearbyLocations={nearbyLocations} /> */}
+        <GoogleMap
+          zoom={10}
+          center={userLocation}
+          mapContainerClassName="map-container"
+          options={options}
+          onLoad={onLoad}
+          mapContainerStyle={{
+            height: "100vh",
+            width: "100vw",
+            // opacity: .5,
+          }}
+        >
+          {/* set user's starting location (either the default or based on geodata) */}
+          <MarkerF
+            position={userLocation}
+            icon={"/you-are-here-2.png"}
+            animation={2}
+          ></MarkerF>
+          {/* <Circle
           center={myLocation}
           radius={15000}
           options={closeOptions}
@@ -142,12 +182,13 @@ const Map = ({ locations }) => {
           radius={45000}
           options={farOptions}
         ></Circle> */}
-        {locations.map((location) => {
+          {/* display multiple markers by using forEach method or mapping through
+        the array */}
+          {/* {locations.map((location) => {
           const position = {
             lat: location.city_latitude,
             lng: location.city_longitude,
           };
-          //default to defaultLocation if user opts out
           const inBounds = checkDistance(position, userLocation, 45000);
           if (inBounds) {
             return (
@@ -159,12 +200,58 @@ const Map = ({ locations }) => {
                 }}
                 icon={"/phantom.png"}
                 animation={2}
+                // clusterer={clusterer}
               ></MarkerF>
             );
           }
-        })}
-      </GoogleMap>
-    </div>
+        })} */}
+          {nearbyLocations.map((location) => {
+            return (
+              <MarkerF
+                key={location.id}
+                position={{
+                  lat: location.city_latitude,
+                  lng: location.city_longitude,
+                }}
+                icon={"/phantom.png"}
+                animation={2}
+                // clusterer={clusterer}
+                onClick={() => {
+                  setSelectedLocation(location);
+                }}
+              ></MarkerF>
+            );
+          })}
+          {selectedLocation && (
+            <InfoWindowF
+              position={{
+                lat: selectedLocation.city_latitude,
+                lng: selectedLocation.city_longitude,
+              }}
+              onCloseClick={() => {
+                setSelectedLocation(null);
+              }}
+            >
+              <div>
+                <img
+                  className="border-black border border-solid h-36 w-36"
+                  src="/haunted.png"
+                  alt="Location picture"
+                />
+                <h2 className="text-2xl">{selectedLocation.location}</h2>
+                <Link
+                  onClick={!navUp && clickHandler}
+                  className="text-lg hover:text-purple-600 text-slate-600 italic"
+                  href={`/locations/${selectedLocation.id}`}
+                >
+                  See More Info
+                </Link>
+              </div>
+            </InfoWindowF>
+          )}
+        </GoogleMap>
+      </div>
+    </>
   );
 };
 
