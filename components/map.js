@@ -13,10 +13,11 @@ import {
   selectNearbyLocations,
   findNearby,
 } from "@/slices/nearbyLocationsReducer";
+import Locations from "@/pages/locations";
 
 const Map = ({ locations, clickHandler, navUp }) => {
   //Testing redux
-  const nearbyLocationState = useSelector(selectNearbyLocations);
+  // const nearbyLocationState = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
 
   const mapRef = useRef();
@@ -35,9 +36,9 @@ const Map = ({ locations, clickHandler, navUp }) => {
     });
   }, [nearbyLocations]);
 
-  useEffect(() => {
-    dispatch(findNearby(nearbyLocations));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(findNearby(nearbyLocations));
+  // }, [dispatch]);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
