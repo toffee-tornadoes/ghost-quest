@@ -231,9 +231,17 @@ const Map = ({ locations, clickHandler, navUp }) => {
               }}
             >
               <div>
-                <img className="border-black border border-solid h-36 w-36" src="/haunted.png" alt="Location picture" />
+                <img
+                  className="border-black border border-solid h-36 w-36"
+                  src="/haunted.png"
+                  alt="Location picture"
+                />
                 <h2 className="text-2xl">{selectedLocation.location}</h2>
-                <Link onClick={!navUp && clickHandler} className="text-lg hover:text-purple-600 text-slate-600 italic" href={`/locations/${selectedLocation.id}`}>See More Info</Link>
+                <Link
+                  onClick={!navUp && clickHandler}
+                  className="text-lg hover:text-purple-600 text-slate-600 italic"
+                  href={`/locations/${selectedLocation.id}`}
+                >
                   See More Info
                 </Link>
               </div>
