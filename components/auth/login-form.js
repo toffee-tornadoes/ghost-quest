@@ -49,7 +49,6 @@ const LoginForm = () => {
             supabaseClient={supabase}
             appearance={{ theme: ThemeSupa }}
             theme="dark"
-            providers={"github"}
           />
         </div>
       </>
