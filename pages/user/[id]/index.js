@@ -26,10 +26,12 @@ const { default: UserHeader } = require("@/components/user/user-header");
 //   };
 // };
 
- export const getServerSideProps = async () => {
+ export const getServerSideProps = async (context) => {
+  const {id}= context.params
   const { data} = await supabase
     .from("user_locations")
-    .select()
+    .select('* ,profiles(*)')
+    .eq('profile_id', id )
   return {
     props: {
       data
@@ -39,9 +41,9 @@ const { default: UserHeader } = require("@/components/user/user-header");
 
 // User Page View
 const UserPage = ({data}) => {
-     console.log(data)
+    // console.log(data)
     const user = useUser()
-    // if(user){console.log(user.id)}
+    if(user){console.log(user.id)}
   // Username, profile pic?, hometown
   // Places Visited component - link to visited page
   // Tagged users component - ?
