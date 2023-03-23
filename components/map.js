@@ -7,6 +7,7 @@ import {
   MarkerClustererF,
   MarkerClusterer,
   InfoWindowF,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -25,6 +26,7 @@ const Map = ({ locations, clickHandler, navUp }) => {
   const [userLocation, setUserLocation] = useState({});
   const [nearbyLocations, setNearbyLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [directions, setDirections] = useState(google.maps.DirectionsResult);
 
   useEffect(() => {
     getLocation().then((result) => setUserLocation(result));
@@ -112,6 +114,40 @@ const Map = ({ locations, clickHandler, navUp }) => {
     return nearby;
   };
 
+  const fetchDirections = async (selectedLocation) => {
+    if (!selectedLocation) return;
+  
+    const service = new google.maps.DirectionsService();
+  
+    const origin = await getLocation();
+  
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode(
+      {
+        address: `${selectedLocation.latitude}, ${selectedLocation.longitude}`,
+      },
+      (results, status) => {
+        if (status === "OK") {
+          const destination = results[0].geometry.location;
+          service.route(
+            {
+              origin: origin,
+              destination: destination,
+              travelMode: google.maps.TravelMode.BICYCLING,
+            },
+            (result, status) => {
+              if (status === "OK" && result) {
+                setDirections(result);
+              }
+            }
+          );
+        } else {
+          console.log("Geocode was not successful for the following reason: " + status);
+        }
+      }
+    );
+  }
+
   //circle parameters
   const defaultOptions = {
     strokeOpactiy: 0.5,
@@ -162,6 +198,7 @@ const Map = ({ locations, clickHandler, navUp }) => {
             // opacity: .5,
           }}
         >
+          {directions && <DirectionsRenderer directions={directions} />}
           {/* set user's starting location (either the default or based on geodata) */}
           <MarkerF
             position={userLocation}
@@ -247,6 +284,9 @@ const Map = ({ locations, clickHandler, navUp }) => {
                 >
                   See More Info
                 </Link>
+                <button onClick={() => {
+                  fetchDirections(selectedLocation)
+                }}>Let's Hunt</button>
               </div>
             </InfoWindowF>
           )}
