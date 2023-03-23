@@ -11,40 +11,37 @@ import { supabase } from "@/lib/supabaseClient";
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
 
-const getStaticPaths = async () => {
-  const { data: user_locations } = await supabase.from("user_locations").select("location_id");
+// export const getStaticPaths = async () => {
+//   const { data: user_locations } = await supabase.from("user_locations").select("location_id");
 
-  const paths = user_locations.map(({ location_id }) => ({
-    params: {
-      location_id: location_id.toString(),
-    },
-  }));
+//   const paths = user_locations.map(({ location_id }) => ({
+//     params: {
+//       location_id: location_id.toString(),
+//     },
+//   }));
+//   console.log(user_locations)
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
 
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
- const getStaticProps = async ({ params: { location_id } }) => {
-  const { data: user_locations } = await supabase
+ export const getServerSideProps = async () => {
+  const { data} = await supabase
     .from("user_locations")
-    .select("*")
-    .eq("location_id", location_id)
-
-
+    .select()
   return {
     props: {
-      user_locations,
+      data
     },
   };
 };
 
 // User Page View
-const UserPage = ({user_locations}) => {
-     console.log(user_locations)
+const UserPage = ({data}) => {
+     console.log(data)
     const user = useUser()
-    if(user){console.log(user.id)}
+    // if(user){console.log(user.id)}
   // Username, profile pic?, hometown
   // Places Visited component - link to visited page
   // Tagged users component - ?

@@ -14,9 +14,9 @@ import { useEffect } from 'react'
 
 
 // ghostquest.com/user/[id]/favorites
-const UserFavoritesPage = ({user_locations}) => {
+const UserFavoritesPage = ({data}) => {
     const user =useUser()
-  console.log(user_locations)
+  console.log(data)
 
 
   //     useEffect(() => {

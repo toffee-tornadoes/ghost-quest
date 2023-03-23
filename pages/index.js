@@ -1,6 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import { Fragment } from "react";
+import Header from "@/components/header";
+import HomeHeader from "@/components/home/home-header";
+import HomeButton from "@/components/ui/home-button";
+import HomeButtonGr from "@/components/ui/home-button-gr";
 
 // HOME VIEW/ROOT
 
@@ -12,19 +17,45 @@ import { supabase } from "@/lib/supabaseClient";
 // Displays pins of nearby locations (if there are any)
 
 export default function Home({ locations }) {
+  const clickText = "Click To See Nearby Locations";
+  const favesText = "Click To See Your Favorites";
+  const loginText = "Login or Create an Account";
+  const randomText = "Take me to random Location";
+
+  const locURL = "locations";
+  const favURL = `user/[id]/favorites`;
+  const loginURL = `user`;
+  const randomURL = `location/[id]`;
+
   return (
-    <>
+    <Fragment>
       <Head>
         <title>GHOST QUEST</title>
-        <meta name="description" content="Embark on a journey to hunt for ghosts across the country." />
+        <meta
+          name="description"
+          content="Embark on a journey to hunt for ghosts across the country."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" type="image/svg+xml" href="ghost-quest-high-resolution-color-logo.png" />
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href="ghost-quest-high-resolution-color-logo.png"
+        />
       </Head>
-      <div className="bg-black text-white flex flex-col">
-        Welcome to Ghost Quest!
-        <img src="ghost-quest-high-resolution-color-logo.png" alt="ghost quest logo" />
-        <Link href={"/locations"}>Click Here</Link>
+      <div className="items-center text-white flex flex-col gap">
+        <HomeHeader />
+        <img
+          className="flex w-24 h-24"
+          src="ghost-quest-website-favicon-color.png"
+          alt="ghost quest logo"
+        />
+        <HomeButton link={locURL} text={clickText} />
+        <HomeButton link={favURL} text={favesText} />
+        <HomeButton link={randomURL} text={randomText} />
       </div>
-    </>
+      <div className="flex justify-center mb-8">
+        <HomeButtonGr link={loginURL} text={loginText} />
+      </div>
+    </Fragment>
   );
 }

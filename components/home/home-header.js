@@ -1,21 +1,21 @@
-import BackIcon from "../icons/back-icon";
+// import BackIcon from "../icons/back-icon";
 
-const SearchHeader = () => {
+const HomeHeader = () => {
   return (
     <div className="flex justify-between" id="locListingHeader">
       <div className="m-2 text-left text-3xl">
-        <h1>Search</h1>
+        <h1>WELCOME TO GHOST QUEST</h1>
         <div className="text-slate-500 italic text-base">
           <h1>
-            Enter you creapy queries below...
+            Your adventure starts here...
           </h1>
         </div>
       </div>
-      <div className="p-2">
+      {/* <div className="p-2">
         <BackIcon />
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export default SearchHeader;
+export default HomeHeader;
