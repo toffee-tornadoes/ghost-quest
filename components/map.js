@@ -6,11 +6,19 @@ import {
   Circle,
   MarkerClustererF,
   MarkerClusterer,
-  InfoWindowF
+  InfoWindowF,
 } from "@react-google-maps/api";
-// import Locations from "@/pages/locations";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectNearbyLocations,
+  getLocations,
+} from "@/slices/nearbyLocationsReducer";
 
 const Map = ({ locations }) => {
+  //Testing redux
+  const testing = useSelector(selectNearbyLocations);
+  const dispatch = useDispatch();
+
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [userLocation, setUserLocation] = useState({});
@@ -24,6 +32,10 @@ const Map = ({ locations }) => {
   useEffect(() => {
     getNearbyLocations().then((result) => setNearbyLocations(result));
   }, [nearbyLocations]);
+
+  useEffect(() => {
+    dispatch(getLocations(nearbyLocations));
+  }, [userLocation]);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
@@ -203,25 +215,30 @@ const Map = ({ locations }) => {
                 animation={2}
                 // clusterer={clusterer}
                 onClick={() => {
-                  setSelectedLocation(location)
+                  setSelectedLocation(location);
                 }}
               ></MarkerF>
             );
           })}
           {selectedLocation && (
             <InfoWindowF
-            position={{
-              lat: selectedLocation.city_latitude,
-              lng: selectedLocation.city_longitude,
-            }}
-            onCloseClick={() => {
-              setSelectedLocation(null)
-            }}
+              position={{
+                lat: selectedLocation.city_latitude,
+                lng: selectedLocation.city_longitude,
+              }}
+              onCloseClick={() => {
+                setSelectedLocation(null);
+              }}
             >
               <div>
                 <img src="haunted.png" alt="Location picture" />
                 <h2 className="text-4xl">{selectedLocation.location}</h2>
-                <Link className="text-2xl" href={`/locations/${selectedLocation.id}`}>See More Info</Link>
+                <Link
+                  className="text-2xl"
+                  href={`/locations/${selectedLocation.id}`}
+                >
+                  See More Info
+                </Link>
               </div>
             </InfoWindowF>
           )}
