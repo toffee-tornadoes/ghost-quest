@@ -4,14 +4,45 @@ import UserPlacesVisitedPage from "./visited";
 import Link from "next/link";
 import UserCommentsPage from "./comments";
 import UserFavoritesPage from "./favorites";
+import { supabase } from "@/lib/supabaseClient";
 
   import {useUser} from '@supabase/auth-helpers-react'
 
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
 
+const getStaticPaths = async () => {
+  const { data: user_locations } = await supabase.from("user_locations").select("location_id");
+
+  const paths = user_locations.map(({ location_id }) => ({
+    params: {
+      location_id: location_id.toString(),
+    },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+ const getStaticProps = async ({ params: { location_id } }) => {
+  const { data: user_locations } = await supabase
+    .from("user_locations")
+    .select("*")
+    .eq("location_id", location_id)
+
+
+  return {
+    props: {
+      user_locations,
+    },
+  };
+};
+
 // User Page View
-const UserPage = () => {
+const UserPage = ({user_locations}) => {
+     console.log(user_locations)
     const user = useUser()
     if(user){console.log(user.id)}
   // Username, profile pic?, hometown
