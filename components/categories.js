@@ -1,6 +1,6 @@
 const Categories = () => {
   return (
-    <div id="categories" className="justify-center mt-4 w-1/2 grid">
+    <div id="categories" className="justify-center ml-3 mt-4 w-1/2 grid">
       <div className="flex justify-around">
         <button className="bg-yellow-400 w-32 m-1 p-1 pl-4 pr-4 text-gray-700 hover:text-white rounded-md text-center
         ">Favorites</button>
