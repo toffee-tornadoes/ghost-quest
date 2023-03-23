@@ -16,7 +16,7 @@ import {
 
 const Map = ({ locations, clickHandler, navUp }) => {
   //Testing redux
-  const testing = useSelector(selectNearbyLocations);
+  const nearbyLocationState = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
 
   const mapRef = useRef();
@@ -30,9 +30,14 @@ const Map = ({ locations, clickHandler, navUp }) => {
   }, []);
 
   useEffect(() => {
-    getNearbyLocations().then((result) => setNearbyLocations(result));
-    dispatch(findNearby(nearbyLocations));
+    getNearbyLocations().then((result) => {
+      setNearbyLocations(result);
+    });
   }, [nearbyLocations]);
+
+  useEffect(() => {
+    dispatch(findNearby(nearbyLocations));
+  }, []);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);

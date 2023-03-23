@@ -6,20 +6,31 @@ import LocationListingCard from "@/components/locations/loc-listing-card";
 import AllLocationHeader from "@/components/locations/locations-header";
 import { supabase } from "@/lib/supabaseClient";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  findNearby,
+  selectNearbyLocations,
+} from "@/slices/nearbyLocationsReducer";
 
-const fetchLocations = async () => {
-  const { data } = await supabase.from("locations").select();
-  return data;
-};
+// const fetchLocations = async () => {
+//   const { data } = await supabase.from("locations").select();
+//   return data;
+// };
 
 const Locations = () => {
-  const [locations, setLocations] = useState([]);
+  const dispatch = useDispatch();
+  const locations = useSelector(selectNearbyLocations);
 
-  useEffect(() => {
-    fetchLocations().then((result) => {
-      setLocations(result);
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch(findNearby());
+  // }, []);
+  // const [locations, setLocations] = useState([]);
+
+  // useEffect(() => {
+  //   fetchLocations().then((result) => {
+  //     setLocations(result);
+  //   });
+  // }, []);
 
   return (
     <div>

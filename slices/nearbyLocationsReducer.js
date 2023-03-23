@@ -14,6 +14,7 @@ const nearbyLocationsSlice = createSlice({
   initialState,
   reducers: {
     findNearby: (state, action) => {
+      console.log(action);
       state = action.payload;
       return state;
     },
