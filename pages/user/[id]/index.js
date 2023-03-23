@@ -53,9 +53,9 @@ const UserPage = ({data}) => {
   return (
     <div>
       <UserHeader />
-      {<p>{user&&user.id}</p>}
-
-      <UserCard data={data}/>
+      {/* {<p>{user&&user.id}</p>} */}
+      <hr />
+      <UserCard />
     </div>
   );
 };
