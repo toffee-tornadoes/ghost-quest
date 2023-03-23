@@ -11,12 +11,12 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectNearbyLocations,
-  getLocations,
+  findNearby,
 } from "@/slices/nearbyLocationsReducer";
 
 const Map = ({ locations, clickHandler, navUp }) => {
   //Testing redux
-  const testing = useSelector(selectNearbyLocations);
+  const nearbyLocationState = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
 
   const mapRef = useRef();
@@ -30,12 +30,14 @@ const Map = ({ locations, clickHandler, navUp }) => {
   }, []);
 
   useEffect(() => {
-    getNearbyLocations().then((result) => setNearbyLocations(result));
+    getNearbyLocations().then((result) => {
+      setNearbyLocations(result);
+    });
   }, [nearbyLocations]);
 
   useEffect(() => {
-    dispatch(getLocations(nearbyLocations));
-  }, [userLocation]);
+    dispatch(findNearby(nearbyLocations));
+  }, []);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
