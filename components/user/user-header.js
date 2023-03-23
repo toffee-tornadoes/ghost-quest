@@ -1,8 +1,10 @@
+import {useUser} from '@supabase/auth-helpers-react'
 const UserHeader = () => {
+    const user =useUser()
     return (
-        <div>This is the header for the user.</div>
+        <div>{<p>{user&&user.email}</p>}</div>
     )
-    
+
 }
 
 export default UserHeader;

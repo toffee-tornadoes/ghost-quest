@@ -6,6 +6,7 @@ import UserCommentsPage from "./comments";
 import UserFavoritesPage from "./favorites";
 
   import {useUser} from '@supabase/auth-helpers-react'
+import UserEdit from "@/components/user/user-edit";
 
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
@@ -13,7 +14,7 @@ const { default: UserHeader } = require("@/components/user/user-header");
 // User Page View
 const UserPage = () => {
     const user = useUser()
-    if(user){console.log(user.id)}
+    // if(user){console.log(user.id)}
   // Username, profile pic?, hometown
   // Places Visited component - link to visited page
   // Tagged users component - ?
@@ -26,6 +27,7 @@ const UserPage = () => {
       {<p>{user&&user.id}</p>}
 
       <UserCard />
+      <UserEdit/>
     </div>
   );
 };
