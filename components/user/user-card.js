@@ -7,9 +7,9 @@ const UserCard = ({data}) => {
   return (
     <div>
       <div>This is some text for the user card.</div>
-      <Link href={`/user/${user.id}/visited`} data={data}>Places Visited:</Link>
-      <Link href={`/user/${user.id}/favorites`}>Favorited Places:</Link>
-      <Link href={`/user/${user.id}/comments`}>Comments:</Link>
+      <Link href={`/user/[id]/visited`} data={data}>Places Visited:</Link>
+      <Link href={`/user/[id]/favorites`}>Favorited Places:</Link>
+      <Link href={`/user/[id]]/comments`}>Comments:</Link>
     </div>
   );
 };
