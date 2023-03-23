@@ -17,10 +17,10 @@ import HomeButtonGr from "@/components/ui/home-button-gr";
 // Displays pins of nearby locations (if there are any)
 
 export default function Home({ locations }) {
-  const clickText = "Click To See Nearby Locations";
-  const favesText = "Click To See Your Favorites";
+  const clickText = "Nearby Locations";
+  const favesText = "Favorites";
   const loginText = "Login or Create an Account";
-  const randomText = "Take me to random Location";
+  const randomText = "Random Location";
 
   const locURL = "locations";
   const favURL = `user/[id]/favorites`;
@@ -42,11 +42,11 @@ export default function Home({ locations }) {
           href="ghost-quest-high-resolution-color-logo.png"
         />
       </Head>
-      <div className="items-center text-white flex flex-col gap">
+      <div className="items-center text-white flex flex-col">
         <HomeHeader />
         <img
-          className="flex w-24 h-24"
-          src="ghost-quest-website-favicon-color.png"
+          className="flex w-1/3"
+          src="ghost-quest-high-resolution-logo-color-on-transparent-background (1).png"
           alt="ghost quest logo"
         />
         <HomeButton link={locURL} text={clickText} />
