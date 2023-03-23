@@ -9,8 +9,8 @@ const CommentFooter = ({ location }) => {
     setComment(input)
     setInput('')
   }
-  // console.log(input)
-  // console.log(comment)
+  console.log(input)
+  console.log(comment)
 
   return (
     <div>

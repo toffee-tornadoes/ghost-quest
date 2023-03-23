@@ -27,7 +27,7 @@ const SearchPage = () => {
       {currSearch !== null && (
         <>
           <p className="text-orange-600 border-orange-600 border-b-2 m-2">
-            {`Showing results for '${currSearch}'`}
+            {`Showing ${results.length} results for '${currSearch}'`}
           </p>
         </>
       )}
