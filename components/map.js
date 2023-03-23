@@ -14,7 +14,7 @@ import {
   getLocations,
 } from "@/slices/nearbyLocationsReducer";
 
-const Map = ({ locations }) => {
+const Map = ({ locations, clickHandler, navUp }) => {
   //Testing redux
   const testing = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
@@ -231,12 +231,9 @@ const Map = ({ locations }) => {
               }}
             >
               <div>
-                <img src="haunted.png" alt="Location picture" />
-                <h2 className="text-4xl">{selectedLocation.location}</h2>
-                <Link
-                  className="text-2xl"
-                  href={`/locations/${selectedLocation.id}`}
-                >
+                <img className="border-black border border-solid h-36 w-36" src="/haunted.png" alt="Location picture" />
+                <h2 className="text-2xl">{selectedLocation.location}</h2>
+                <Link onClick={!navUp && clickHandler} className="text-lg hover:text-purple-600 text-slate-600 italic" href={`/locations/${selectedLocation.id}`}>See More Info</Link>
                   See More Info
                 </Link>
               </div>
