@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectNearbyLocations,
-  getLocations,
+  findNearby,
 } from "@/slices/nearbyLocationsReducer";
 
 const Map = ({ locations, clickHandler, navUp }) => {
@@ -31,11 +31,8 @@ const Map = ({ locations, clickHandler, navUp }) => {
 
   useEffect(() => {
     getNearbyLocations().then((result) => setNearbyLocations(result));
+    dispatch(findNearby(nearbyLocations));
   }, [nearbyLocations]);
-
-  useEffect(() => {
-    dispatch(getLocations(nearbyLocations));
-  }, [userLocation]);
 
   //map parameters
   // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
