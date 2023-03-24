@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import HomeHeader from "@/components/home/home-header";
 import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
+import FaveButton from "@/components/ui/fave-button";
 
 // HOME VIEW/ROOT
 
@@ -44,13 +45,14 @@ export default function Home({ locations }) {
       </Head>
       <div className="items-center text-white flex flex-col">
         <HomeHeader />
+        <hr />
         <img
           className="flex w-1/3"
           src="ghost-quest-high-resolution-logo-color-on-transparent-background (1).png"
           alt="ghost quest logo"
         />
         <HomeButton link={locURL} text={clickText} />
-        <HomeButton link={favURL} text={favesText} />
+        <FaveButton link={favURL} text={favesText} />
         <HomeButton link={randomURL} text={randomText} />
       </div>
       <div className="flex justify-center mb-8">

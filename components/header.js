@@ -1,10 +1,20 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
+import { useState } from "react";
 import SearchIcon from "./icons/search-icon";
 import UserIcon from "./icons/user-icon";
 
 const Header = ({ clickHandler, navUp }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const user = useUser();
+
+  user && setIsLoggedIn(true);
+  console.log(isLoggedIn)
+  console.log(user)
+
+  if (user) {
+    console.log(user);
+  }
 
   return (
     <div id="headerDiv" className="flex-row w-full">
