@@ -1,13 +1,30 @@
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
-const FavoriteIcon = () => {
-  const [fave, setFave] = useState(false)
-  const [fill, setFill] = useState('none')
+const FavoriteIcon = ({ locationId, userId }) => {
+  const [fave, setFave] = useState(false);
+  const [fill, setFill] = useState("none");
 
-  const faveHandle = () => {
-    !fave ? setFill('purple') : setFill('none');
-    setFave(!fave)
-  }
+  const faveHandle = async () => {
+    if (!fave) {
+      console.log("add favorite");
+      setFill("purple");
+      const { data, error } = await supabase
+        .from("user_locations")
+        .upsert([{ location_id: locationId, profile_id: userId }]);
+      setFave(!fave);
+      return data;
+    } else {
+      console.log("delete favorite");
+      setFill("none");
+      const { data } = await supabase
+        .from("user_locations")
+        .delete()
+        .match({ location_id: locationId, profile_id: userId });
+      setFave(!fave);
+      return data;
+    }
+  };
 
   return (
     <svg
