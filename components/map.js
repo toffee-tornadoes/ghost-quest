@@ -27,6 +27,7 @@ const Map = ({ locations, clickHandler, navUp }) => {
   const [nearbyLocations, setNearbyLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [directions, setDirections] = useState(google.maps.DirectionsResult);
+  const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
 
   useEffect(() => {
     getLocation().then((result) => setUserLocation(result));
@@ -116,11 +117,11 @@ const Map = ({ locations, clickHandler, navUp }) => {
 
   const fetchDirections = async (selectedLocation) => {
     if (!selectedLocation) return;
-  
+
     const service = new google.maps.DirectionsService();
-  
+
     const origin = await getLocation();
-  
+
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode(
       {
@@ -133,20 +134,23 @@ const Map = ({ locations, clickHandler, navUp }) => {
             {
               origin: origin,
               destination: destination,
-              travelMode: google.maps.TravelMode.BICYCLING,
+              travelMode: travelMode,
             },
             (result, status) => {
               if (status === "OK" && result) {
+                setDirections(null);
                 setDirections(result);
               }
             }
           );
         } else {
-          console.log("Geocode was not successful for the following reason: " + status);
+          console.log(
+            "Geocode was not successful for the following reason: " + status
+          );
         }
       }
     );
-  }
+  };
 
   //circle parameters
   const defaultOptions = {
@@ -198,7 +202,16 @@ const Map = ({ locations, clickHandler, navUp }) => {
             // opacity: .5,
           }}
         >
-          {directions && <DirectionsRenderer directions={directions} />}
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              suppressMarkers: true,
+              polylineOptions: {
+                strokeColor: "purple"
+              },
+            }}
+          />
+
           {/* set user's starting location (either the default or based on geodata) */}
           <MarkerF
             position={userLocation}
@@ -284,9 +297,38 @@ const Map = ({ locations, clickHandler, navUp }) => {
                 >
                   See More Info
                 </Link>
-                <button onClick={() => {
-                  fetchDirections(selectedLocation)
-                }}>Let's Hunt</button>
+                <div>
+                  <button
+                    onClick={() =>
+                      setTravelMode(google.maps.TravelMode.DRIVING)
+                    }
+                  >
+                    Driving
+                  </button>
+                  <button
+                    onClick={() =>
+                      setTravelMode(google.maps.TravelMode.WALKING)
+                    }
+                  >
+                    Walking
+                  </button>
+                  <button
+                    onClick={() =>
+                      setTravelMode(google.maps.TravelMode.BICYCLING)
+                    }
+                  >
+                    Bicycling
+                  </button>
+                </div>
+                <div>
+                  <button
+                    onClick={() => {
+                      fetchDirections(selectedLocation);
+                    }}
+                  >
+                    Let's Hunt
+                  </button>
+                </div>
               </div>
             </InfoWindowF>
           )}
