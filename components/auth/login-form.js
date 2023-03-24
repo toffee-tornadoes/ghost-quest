@@ -11,50 +11,42 @@ import {
   useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import { Fragment } from "react";
+import HomeButton from "../ui/home-button";
 
 const LoginForm = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
   const user = useUser();
+  // console.log(session.access_token)
 
   const handleSignOut = () => {
     supabase.auth.signOut();
     console.log("signed out");
-    router.push("/");
+    // router.push("/");
   };
 
-  // if no account
-
-  // <form action="">
-  //   <input type="text" placeholder="Username" />
-  //   <input type="text" placeholder="Email" />
-  //   <section>
-  //     <input type="text" placeholder="City" />
-  //     <input type="text" placeholder="State" />
-  //   </section>
-  //   <input type="text" placeholder="Password" />
-  // </form>
-
-  // else sign in
-  if (user) {
-    console.log(user);
-  }
+  // if (user) {
+  //   console.log(user);
+  // }
   if (!user) {
     return (
-      <>
-        <button onClick={handleSignOut}>signOut</button>
-        <div className="container" style={{ padding: "50px 0 100px 0" }}>
+      <div className="w-full pl-14 pr-14" >
+        {/* <button onClick={handleSignOut}>Sign Out</button> */}
           <Auth
             supabaseClient={supabase}
             appearance={{ theme: ThemeSupa }}
             theme="dark"
           />
-        </div>
-      </>
+      </ div>
     );
   } else {
-    return <button onClick={handleSignOut}>signOut</button>;
+    return (
+      <button onClick={handleSignOut} className="top-0 flex">
+        <HomeButton link="/" text="Sign Out" />
+      </button>
+    )
   }
 };
 

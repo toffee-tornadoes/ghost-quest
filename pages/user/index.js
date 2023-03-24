@@ -16,11 +16,10 @@ const { Fragment } = require("react");
 
 const UserLoginPage = () => {
 
-
-
   return (
     <Fragment>
       <LoginHeader />
+      <hr />
       <LoginForm/>
     </Fragment>
   );

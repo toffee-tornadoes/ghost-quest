@@ -11,13 +11,13 @@ const UserCard = ({ data }) => {
     <div className="m-4 flex flex-col" data={data}>
       <div className="w-full flex flex-col items-center">
         <Link className="w-full flex justify-center" href={`/user/${user.id}/visited`}>
-          <HomeButton text={"Visited Locations"} />
+          <HomeButton link={`/user/${user.id}/visited`} text={"Visited Locations"} />
         </Link>
         <Link className="w-full flex justify-center" href={`/user/${user.id}/favorites`}>
-          <HomeButton text={"Favorited Places"} />
+          <HomeButton link={`/user/${user.id}/favorites`} text={"Favorited Places"} />
         </Link>
         <Link className="w-full flex justify-center" href={`/user/${user.id}]/comments`}>
-          <HomeButton text="Comments" />
+          <HomeButton link={`/user/${user.id}/comments`} text="Comments" />
         </Link>
       </div>
       <div>
