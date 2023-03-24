@@ -7,6 +7,7 @@ import HomeHeader from "@/components/home/home-header";
 import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
 import FaveButton from "@/components/ui/fave-button";
+import { useUser } from "@supabase/auth-helpers-react";
 
 // HOME VIEW/ROOT
 
@@ -18,6 +19,8 @@ import FaveButton from "@/components/ui/fave-button";
 // Displays pins of nearby locations (if there are any)
 
 export default function Home({ locations }) {
+  const user = useUser();
+
   const clickText = "Nearby Locations";
   const favesText = "Favorites";
   const loginText = "Login or Create an Account";
@@ -55,9 +58,11 @@ export default function Home({ locations }) {
         <FaveButton link={favURL} text={favesText} />
         <HomeButton link={randomURL} text={randomText} />
       </div>
-      <div className="flex justify-center mb-8">
-        <HomeButtonGr link={loginURL} text={loginText} />
-      </div>
+      {!user &&
+        <div className="flex justify-center mb-8">
+          <HomeButtonGr link={loginURL} text={loginText} />
+        </div>
+      }
     </Fragment>
   );
 }
