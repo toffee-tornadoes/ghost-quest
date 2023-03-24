@@ -44,7 +44,7 @@
 
 ### Special Shoutout to our Team's Mentor: 
 
-##### - Austin Gautney https://github.com/Splix1
+#### - Austin Gautney https://github.com/Splix1
 
 ### License:
 
