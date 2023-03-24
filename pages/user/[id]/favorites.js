@@ -1,6 +1,7 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import { supabase } from "@/lib/supabaseClient";
 import LocationListingCard from "@/components/locations/loc-listing-card";
+import BackIcon from "@/components/icons/back-icon";
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
