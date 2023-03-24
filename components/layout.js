@@ -14,7 +14,10 @@ import {
   selectUserLocation,
   fetchUserLocation,
 } from "@/slices/userLocationSlice";
-import { fetchNearbyLocations } from "@/slices/nearbyLocationsSlice";
+import {
+  fetchNearbyLocations,
+  selectNearbyLocations,
+} from "@/slices/nearbyLocationsSlice";
 
 const Layout = ({ children }) => {
   const [navUp, setNavUp] = useState(false);
@@ -22,6 +25,7 @@ const Layout = ({ children }) => {
   const [hidden, setHidden] = useState("hidden");
   const locations = useSelector(selectLocations);
   const userLocation = useSelector(selectUserLocation);
+  const nearbyLocations = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
 
   const clickHandler = () => {
@@ -57,7 +61,13 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header navUp={navUp} clickHandler={clickHandler} />
-      <Map navUp={navUp} clickHandler={clickHandler} />
+      <Map
+        navUp={navUp}
+        clickHandler={clickHandler}
+        locations={locations}
+        userLocation={userLocation}
+        nearbyLocations={nearbyLocations}
+      />
       <div
         id="layoutDiv"
         className={`flex-col z-1 items-center overflow-auto transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex fixed bg-black bg-opacity-60 backdrop-blur-lg bottom-0`}

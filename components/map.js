@@ -18,32 +18,24 @@ import {
 } from "@/slices/locationsSlice";
 import Locations from "@/pages/locations";
 
-const Map = ({ clickHandler, navUp }) => {
-  //Testing redux
-  const locs = useSelector(selectLocations);
-  const dispatch = useDispatch();
+const Map = ({
+  locations,
+  userLocation,
+  nearbyLocations,
+  clickHandler,
+  navUp,
+}) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
-  const [userLocation, setUserLocation] = useState({});
-  const [nearbyLocations, setNearbyLocations] = useState([]);
-  const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [directions, setDirections] = useState(google.maps.DirectionsResult);
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
 
-  // useEffect(() => {
-  //   dispatch(fetchLocations()).then((result) => setLocations(result.payload));
-  // }, []);
-
-  // useEffect(() => {
-  //   getNearbyLocations().then((result) => {
-  //     setNearbyLocations(result);
-  //   });
-  // }, []);
+  console.log("locations: ", locations);
+  console.log("user location: ", userLocation);
+  console.log("nearby locations: ", nearbyLocations);
 
   //map parameters
-  // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
-  //default to default location if user opts out of location services
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -62,7 +54,7 @@ const Map = ({ clickHandler, navUp }) => {
 
     const service = new google.maps.DirectionsService();
 
-    const origin = await getLocation();
+    const origin = userLocation;
 
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode(
