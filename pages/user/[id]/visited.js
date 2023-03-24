@@ -20,10 +20,12 @@ export const getServerSideProps = async (context) => {
 };
 
 const UserPlacesVisitedPage = ({ data }) => {
+    let visitedLocations = [];
   if (data.length > 0) {
+    data.map((location) => visitedLocations.push(location.locations));
     return (
       <div>
-        <LocationListingCard locations={[data[0].locations]} />
+        <LocationListingCard locations={visitedLocations} />
       </div>
     );
   } else {
