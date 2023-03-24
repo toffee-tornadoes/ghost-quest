@@ -46,7 +46,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(fetchNearbyLocations({ locations, userLocation }));
-  }, [userLocation]);
+  }, [locations]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,

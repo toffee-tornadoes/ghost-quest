@@ -14,9 +14,8 @@ const checkDistance = (marker, circle, radius) => {
   return Math.sqrt(dx * dx + dy * dy) <= km;
 };
 
+//THE ISSUE IS PROBABLY HERE SOMEWHERE!!!
 const getNearbyLocations = async (locations, userLocation) => {
-  //   console.log("locations: ", locations);
-  //   console.log("userLocation: ", userLocation);
   const nearby = [];
   locations.map((location) => {
     const position = {
@@ -36,7 +35,6 @@ export const fetchNearbyLocations = createAsyncThunk(
   "fetchNearbyLocations",
   async ({ locations, userLocation }) => {
     const nearbyLocations = await getNearbyLocations(locations, userLocation);
-    console.log(nearbyLocations);
     return nearbyLocations;
   }
 );
