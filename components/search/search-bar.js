@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Categories from "../categories";
 
-const SearchBar = ({ fetchResults }) => {
+const SearchBar = ({ fetchResults, setLoading }) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     fetchResults(input);
     setInput("");
   };
@@ -30,9 +31,9 @@ const SearchBar = ({ fetchResults }) => {
           <button onClick={()=>{fetchResults('')}} className="flex flex-row justify-between pl-2 pr-2 border-solid border-2 hover:bg-slate-900 rounded-md border-slate-600 text-slate-600 hover:cursor-pointer hover:border-red-600 hover:text-red-600" type="submit">Clear</button>
         </form>
       </div>
-      <div>
+      {/* <div>
         <Categories />
-      </div>
+      </div> */}
     </>
   );
 };
