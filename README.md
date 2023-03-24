@@ -42,6 +42,10 @@
 #### - John Madrid https://github.com/jkomad
 #### - Roch Bodnar https://github.com/rochbman
 
+### Special Shoutout to our Team's Mentor: 
+
+##### - Austin Gautney https://github.com/Splix1
+
 ### License:
 
 ##### MIT License
