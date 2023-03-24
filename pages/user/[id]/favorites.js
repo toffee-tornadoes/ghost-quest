@@ -21,18 +21,40 @@ export const getServerSideProps = async (context) => {
 const UserFavoritesPage = ({ data }) => {
   const user = useUser();
   console.log(data);
-  let favLocations=[];
-
+  let favLocations = [];
 
   if (data.length > 0) {
-    data.map((location)=>favLocations.push(location.locations))
+    data.map((location) => favLocations.push(location.locations));
     return (
       <div>
+        <div className="p-2">
+          <BackIcon />
+        </div>
         <LocationListingCard locations={favLocations} />
       </div>
     );
   } else {
-    return <p>No Favorited Locations</p>;
+    return (
+      <>
+        <div
+          className="border-b-white border-b flex justify-between"
+          id="favorites-header"
+        >
+          <div className="m-2 text-left text-3xl">
+            <h1 className="w-full">Favorited Locations</h1>
+            <div className="text-slate-500 italic text-base">
+              <h1></h1>
+            </div>
+          </div>
+          <div className="p-2">
+            <BackIcon />
+          </div>
+        </div>
+        <div>
+          <p className="justify-">No Favorited Locations</p>
+        </div>
+      </>
+    );
   }
 };
 
