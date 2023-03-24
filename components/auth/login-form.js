@@ -29,14 +29,14 @@ const LoginForm = () => {
 
   if (!user) {
     return (
-      <div className="w-full pl-14 pr-14" >
+      <div className="w-full pl-14 pr-14">
         {/* <button onClick={handleSignOut}>Sign Out</button> */}
-          <Auth
-            supabaseClient={supabase}
-            appearance={{ theme: ThemeSupa }}
-            theme="dark"
-          />
-      </ div>
+        <Auth
+          supabaseClient={supabase}
+          appearance={{ theme: ThemeSupa }}
+          theme="dark"
+        />
+      </div>
     );
   } else {
     router.push(`/user/${user.id}`)

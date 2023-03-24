@@ -1,16 +1,6 @@
 import { useUser } from "@supabase/auth-helpers-react";
-import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { useEffect } from "react";
 import LocationListingCard from "@/components/locations/loc-listing-card";
-
-//     const fetchLocationIds = async () => {
-//   // console.log(id)
-//     let { data}  = await supabase.from('user_locations').select('location_id')
-//       .eq('profile_id', `a2b03fab-3a8a-41fa-bf72-dd43f999d015`);
-
-//   return data;
-// }
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
@@ -31,21 +21,40 @@ export const getServerSideProps = async (context) => {
 const UserFavoritesPage = ({ data }) => {
   const user = useUser();
   console.log(data);
-
-  //     useEffect(() => {
-  //   fetchLocationIds().then((result) => {
-  //     console.log(result);
-  //   })
-  // }, []);
+  let favLocations = [];
 
   if (data.length > 0) {
+    data.map((location) => favLocations.push(location.locations));
     return (
       <div>
-        <LocationListingCard locations={[data[0].locations]} />
+        <div className="p-2">
+          <BackIcon />
+        </div>
+        <LocationListingCard locations={favLocations} />
       </div>
     );
   } else {
-    return <p>No Favorited Locations</p>;
+    return (
+      <>
+        <div
+          className="border-b-white border-b flex justify-between"
+          id="favorites-header"
+        >
+          <div className="m-2 text-left text-3xl">
+            <h1 className="w-full">Favorited Locations</h1>
+            <div className="text-slate-500 italic text-base">
+              <h1></h1>
+            </div>
+          </div>
+          <div className="p-2">
+            <BackIcon />
+          </div>
+        </div>
+        <div>
+          <p className="justify-">No Favorited Locations</p>
+        </div>
+      </>
+    );
   }
 };
 
