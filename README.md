@@ -25,9 +25,9 @@
 
 #### https://ghostquest.netlify.app/
 
-![Alt text](/ghost_quest_screenshot.png)
+![Alt text](/ghost_quest_screenshot(1).png)
 
-![Alt text](/ghost_quest_screenshot2.png)
+![Alt text](/ghost_quest_screenshot(2).png)
 
 ### Usage:
 
