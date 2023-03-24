@@ -43,7 +43,7 @@ const { default: UserHeader } = require("@/components/user/user-header");
 const UserPage = ({data}) => {
     // console.log(data)
     const user = useUser()
-    if(user){console.log(user.id)}
+    if(user){console.log(user)}
   // Username, profile pic?, hometown
   // Places Visited component - link to visited page
   // Tagged users component - ?
