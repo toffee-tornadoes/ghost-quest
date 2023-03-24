@@ -1,17 +1,6 @@
 import { useUser } from "@supabase/auth-helpers-react";
-import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { useEffect } from "react";
 import LocationListingCard from "@/components/locations/loc-listing-card";
-import BackIcon from "@/components/icons/back-icon";
-
-//     const fetchLocationIds = async () => {
-//   // console.log(id)
-//     let { data}  = await supabase.from('user_locations').select('location_id')
-//       .eq('profile_id', `a2b03fab-3a8a-41fa-bf72-dd43f999d015`);
-
-//   return data;
-// }
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
@@ -32,20 +21,16 @@ export const getServerSideProps = async (context) => {
 const UserFavoritesPage = ({ data }) => {
   const user = useUser();
   console.log(data);
-
-  //     useEffect(() => {
-  //   fetchLocationIds().then((result) => {
-  //     console.log(result);
-  //   })
-  // }, []);
+  let favLocations = [];
 
   if (data.length > 0) {
+    data.map((location) => favLocations.push(location.locations));
     return (
       <div>
         <div className="p-2">
           <BackIcon />
         </div>
-        <LocationListingCard locations={[data[0].locations]} />
+        <LocationListingCard locations={favLocations} />
       </div>
     );
   } else {
