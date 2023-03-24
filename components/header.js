@@ -9,12 +9,12 @@ const Header = ({ clickHandler, navUp }) => {
   const user = useUser();
 
   user && setIsLoggedIn(true);
-  console.log(isLoggedIn)
-  console.log(user)
+  // console.log(isLoggedIn)
+  // console.log(user)
 
-  if (user) {
-    console.log(user);
-  }
+  // if (user) {
+  //   console.log(user);
+  // }
 
   return (
     <div id="headerDiv" className="flex-row w-full">
