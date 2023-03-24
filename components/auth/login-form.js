@@ -21,15 +21,12 @@ const LoginForm = () => {
   const user = useUser();
   // console.log(session.access_token)
 
-  const handleSignOut = () => {
-    supabase.auth.signOut();
-    console.log("signed out");
-    router.push(`/user/${user.id}`);
-  };
+  // const handleSignOut = () => {
+  //   supabase.auth.signOut();
+  //   console.log("signed out");
+  //   router.push(`/`);
+  // };
 
-  if (user) {
-    console.log(user);
-  }
   if (!user) {
     return (
       <div className="w-full pl-14 pr-14">
@@ -42,12 +39,15 @@ const LoginForm = () => {
       </div>
     );
   } else {
-    return (
-      <button onClick={handleSignOut} className="flex justify-center top-0">
-        <HomeButton link="/" text="Sign Out" />
-      </button>
-    );
+    router.push(`/user/${user.id}`)
   }
+
+
+    // return (
+    //   <button onClick={handleSignOut} className="flex justify-center top-0">
+    //     <HomeButton link="/" text="Sign Out" />
+    //   </button>
+    // )
 };
 
 export default LoginForm;
