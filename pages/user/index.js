@@ -19,7 +19,6 @@ const UserLoginPage = () => {
   return (
     <Fragment>
       <LoginHeader />
-      <hr />
       <LoginForm/>
     </Fragment>
   );

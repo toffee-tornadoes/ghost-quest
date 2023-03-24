@@ -24,12 +24,12 @@ const LoginForm = () => {
   const handleSignOut = () => {
     supabase.auth.signOut();
     console.log("signed out");
-    // router.push("/");
+    router.push(`/user/${user.id}`);
   };
 
-  // if (user) {
-  //   console.log(user);
-  // }
+  if (user) {
+    console.log(user);
+  }
   if (!user) {
     return (
       <div className="w-full pl-14 pr-14" >
@@ -43,7 +43,7 @@ const LoginForm = () => {
     );
   } else {
     return (
-      <button onClick={handleSignOut} className="top-0 flex">
+      <button onClick={handleSignOut} className="flex justify-center top-0">
         <HomeButton link="/" text="Sign Out" />
       </button>
     )
