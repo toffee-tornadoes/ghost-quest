@@ -3,6 +3,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { useEffect } from "react";
 import LocationListingCard from "@/components/locations/loc-listing-card";
+import BackIcon from "@/components/icons/back-icon";
 
 //     const fetchLocationIds = async () => {
 //   // console.log(id)
@@ -41,11 +42,34 @@ const UserFavoritesPage = ({ data }) => {
   if (data.length > 0) {
     return (
       <div>
+        <div className="p-2">
+          <BackIcon />
+        </div>
         <LocationListingCard locations={[data[0].locations]} />
       </div>
     );
   } else {
-    return <p>No Favorited Locations</p>;
+    return (
+      <>
+        <div
+          className="border-b-white border-b flex justify-between"
+          id="favorites-header"
+        >
+          <div className="m-2 text-left text-3xl">
+            <h1 className="w-full">Favorited Locations</h1>
+            <div className="text-slate-500 italic text-base">
+              <h1></h1>
+            </div>
+          </div>
+          <div className="p-2">
+            <BackIcon />
+          </div>
+        </div>
+        <div>
+          <p className="justify-">No Favorited Locations</p>
+        </div>
+      </>
+    );
   }
 };
 
