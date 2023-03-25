@@ -7,10 +7,7 @@ import AllLocationHeader from "@/components/locations/locations-header";
 import { supabase } from "@/lib/supabaseClient";
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  findNearby,
-  selectNearbyLocations,
-} from "@/slices/nearbyLocationsReducer";
+import { findNearby, selectNearbyLocations } from "@/slices/locationsSlice";
 
 const fetchLocations = async () => {
   const { data } = await supabase.from("locations").select();
