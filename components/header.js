@@ -7,21 +7,26 @@ const Header = ({ clickHandler, navUp }) => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   return (
-    <div id="headerDiv" className="flex-row w-full">
+    <div id="headerDiv" className="flex-row">
       <div
         id={"headerContainer"}
-        className="p-5 w-full flex justify-between z-10 top-0 fixed"
+        className="pl-3 pt-3 flex justify-between z-10 top-0 fixed"
       >
-        <div className="overflow-hidden">
-        <Link onClick={!navUp && clickHandler} href={`/user/`}>
-          <UserIcon />
-        </Link>
-        <Link onClick={!navUp && clickHandler} href="/search">
-          <SearchIcon />
-        </Link>
+        <div>
+          <Link onClick={!navUp && clickHandler} href={`/user/`}>
+            <UserIcon />
+          </Link>
+          <Link onClick={!navUp && clickHandler} href="/search">
+            <SearchIcon  />
+          </Link>
         </div>
+      </div>
+      <div className="flex pr-3 pt-3 z-10 fixed justify-end top-0 right-0">
         <Link onClick={!navUp && clickHandler} href="/">
-          <img className="top-0 right-0" src="/ghost-quest-website-favicon-color.png" />
+          <img
+            className="hover:scale-110 top-0 right-0"
+            src="/ghost-quest-website-favicon-color.png"
+          />
         </Link>
       </div>
     </div>
