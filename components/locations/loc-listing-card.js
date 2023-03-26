@@ -30,9 +30,11 @@ const LocationListingCard = ({ locations }) => {
                     </div>
                   </h2>
                 </Link>
-                <button>
-                  <FavoriteIcon locationId={location.id} userId={user.id} />
-                </button>
+                {user ? (
+                  <button>
+                    <FavoriteIcon locationId={location.id} userId={user.id} />
+                  </button>
+                ) : null}
               </div>
             </Fragment>
           );

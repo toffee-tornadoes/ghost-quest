@@ -1,14 +1,8 @@
-// Google Maps component lives here
-// Basic Nav modal
-// User Profile Icon - link to profile page
-// Search Icon - link to search page
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useLoadScript } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 import Header from "./header";
-import NavIcon from "./icons/nav-icon";
 import Map from "./map";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLocations, fetchLocations } from "@/slices/locationsSlice";
@@ -81,7 +75,12 @@ const Layout = ({ children }) => {
           onClick={clickHandler}
           className="flex cursor-pointer hover:scale-110 justify-center fixed"
         >
-          <FontAwesomeIcon className="text-4xl" icon={arrow} fade style={{color: "#968d8d",}}/>
+          <FontAwesomeIcon
+            className="text-4xl"
+            icon={arrow}
+            fade
+            style={{ color: "#968d8d" }}
+          />
           {/* <NavIcon /> */}
         </div>
         <div
