@@ -6,7 +6,7 @@ const SearchIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="white"
-      className="w-12 h12 hover:fill-purple-800"
+      className="w-12 h12 hover:scale-110 hover:fill-purple-800"
     >
       <path
         strokeLinecap="round"

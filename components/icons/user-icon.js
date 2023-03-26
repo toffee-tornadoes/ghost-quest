@@ -6,7 +6,7 @@ const UserIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="white"
-      className="w-12 h-12 hover:fill-red-700"
+      className="w-12 h-12 hover:fill-red-700 hover:scale-110"
     >
       <path
         strokeLinecap="round"
