@@ -4,6 +4,8 @@
 // Search Icon - link to search page
 
 import { supabase } from "@/lib/supabaseClient";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useLoadScript } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 import Header from "./header";
@@ -19,18 +21,21 @@ const fetchData = async () => {
 
 const Layout = ({ children }) => {
   const [navUp, setNavUp] = useState(false);
-  const [height, setHeight] = useState("h-36");
+  const [height, setHeight] = useState("h-24");
   const [hidden, setHidden] = useState("hidden");
   const [locations, setLocations] = useState([]);
+  const [arrow, setArrow] = useState(faChevronUp);
 
   const clickHandler = () => {
     if (!navUp) {
       setNavUp(!navUp);
+      setArrow(faChevronDown);
       setHeight("h-4/5");
       setHidden("");
     } else {
       setNavUp(!navUp);
-      setHeight("h-36");
+      setArrow(faChevronUp);
+      setHeight("h-24");
       setHidden("hidden");
     }
   };
@@ -59,7 +64,8 @@ const Layout = ({ children }) => {
           onClick={clickHandler}
           className="flex cursor-pointer hover:scale-110 justify-center fixed"
         >
-          <NavIcon />
+          <FontAwesomeIcon className="text-4xl" icon={arrow} fade style={{color: "#968d8d",}}/>
+          {/* <NavIcon /> */}
         </div>
         <div
           className={`${hidden} pt-10 h-full justify-between w-full p-3 flex flex-col`}
