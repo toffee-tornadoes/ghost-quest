@@ -13,40 +13,29 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectNearbyLocations,
   findNearby,
-} from "@/slices/nearbyLocationsReducer";
+  selectLocations,
+  fetchLocations,
+} from "@/slices/locationsSlice";
 import Locations from "@/pages/locations";
 
-const Map = ({ locations, clickHandler, navUp }) => {
-  //Testing redux
-  // const nearbyLocationState = useSelector(selectNearbyLocations);
-  const dispatch = useDispatch();
-
+const Map = ({
+  locations,
+  userLocation,
+  nearbyLocations,
+  clickHandler,
+  navUp,
+}) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
-  const [userLocation, setUserLocation] = useState({});
-  const [nearbyLocations, setNearbyLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [directions, setDirections] = useState(google.maps.DirectionsResult);
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
 
-  useEffect(() => {
-    getLocation().then((result) => setUserLocation(result));
-  }, []);
-
-  useEffect(() => {
-    getNearbyLocations().then((result) => {
-      setNearbyLocations(result);
-    });
-  }, [nearbyLocations]);
-
-  // useEffect(() => {
-  //   dispatch(findNearby(nearbyLocations));
-  // }, [dispatch]);
+  console.log("locations: ", locations);
+  console.log("user location: ", userLocation);
+  console.log("nearby locations: ", nearbyLocations);
 
   //map parameters
-  // const center = useMemo(() => ({ lat: 40, lng: -80 }), []);
-  //default to default location if user opts out of location services
-  const defaultLocation = { lat: 40.6928195, lng: -73.98218279999999 };
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -59,68 +48,13 @@ const Map = ({ locations, clickHandler, navUp }) => {
   //geolocation
   //check to see if user has allowed location services
   //if user has blocked location services, map should default to center location
-  const getGeodata = () => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition((position) =>
-        resolve(position, (error) => reject(error))
-      );
-    });
-  };
-
-  const getLocation = async () => {
-    let geolocationStatus = await navigator.permissions.query({
-      name: "geolocation",
-    });
-    if ("geolocation" in navigator) {
-      if (geolocationStatus.state === "granted") {
-        console.log("geolocation available and location services allowed!");
-        const position = await getGeodata();
-        const userLocation = {
-          lat: Number(position.coords.latitude),
-          lng: Number(position.coords.longitude),
-        };
-        return userLocation;
-      } else {
-        console.log("location services blocked");
-        return defaultLocation;
-      }
-    } else {
-      console.log("geolocation is not available");
-    }
-  };
-
-  //check to see if a given marker is within the bounds of given circle's radius
-  const checkDistance = (marker, circle, radius) => {
-    var km = radius / 1000;
-    var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
-    var dx = Math.abs(circle.lng - marker.lng) * kx;
-    var dy = Math.abs(circle.lat - marker.lat) * 111;
-    return Math.sqrt(dx * dx + dy * dy) <= km;
-  };
-
-  //create functions for limited amount of markers here and save returned array to local state that can be passed as a prop to other parts of the app
-  //getNearbyLocations function that then sets local state
-  const getNearbyLocations = async () => {
-    const nearby = [];
-    locations.map((location) => {
-      const position = {
-        lat: location.city_latitude,
-        lng: location.city_longitude,
-      };
-      const inBounds = checkDistance(position, userLocation, 15000);
-      if (inBounds) {
-        nearby.push(location);
-      }
-    });
-    return nearby;
-  };
 
   const fetchDirections = async (selectedLocation) => {
     if (!selectedLocation) return;
 
     const service = new google.maps.DirectionsService();
 
-    const origin = await getLocation();
+    const origin = userLocation;
 
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode(
@@ -207,7 +141,7 @@ const Map = ({ locations, clickHandler, navUp }) => {
             options={{
               suppressMarkers: true,
               polylineOptions: {
-                strokeColor: "purple"
+                strokeColor: "purple",
               },
             }}
           />

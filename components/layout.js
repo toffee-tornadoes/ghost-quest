@@ -3,7 +3,6 @@
 // User Profile Icon - link to profile page
 // Search Icon - link to search page
 
-import { supabase } from "@/lib/supabaseClient";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useLoadScript } from "@react-google-maps/api";
@@ -11,19 +10,25 @@ import { useState, useEffect } from "react";
 import Header from "./header";
 import NavIcon from "./icons/nav-icon";
 import Map from "./map";
-import Nav from "./nav";
-import NavButton from "./nav-button";
-
-const fetchData = async () => {
-  const { data } = await supabase.from("locations").select();
-  return data;
-};
+import { useSelector, useDispatch } from "react-redux";
+import { selectLocations, fetchLocations } from "@/slices/locationsSlice";
+import {
+  selectUserLocation,
+  fetchUserLocation,
+} from "@/slices/userLocationSlice";
+import {
+  fetchNearbyLocations,
+  selectNearbyLocations,
+} from "@/slices/nearbyLocationsSlice";
 
 const Layout = ({ children }) => {
   const [navUp, setNavUp] = useState(false);
   const [height, setHeight] = useState("h-24");
   const [hidden, setHidden] = useState("hidden");
-  const [locations, setLocations] = useState([]);
+  const locations = useSelector(selectLocations);
+  const userLocation = useSelector(selectUserLocation);
+  const nearbyLocations = useSelector(selectNearbyLocations);
+  const dispatch = useDispatch();
   const [arrow, setArrow] = useState(faChevronUp);
 
   const clickHandler = () => {
@@ -40,22 +45,34 @@ const Layout = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchLocations());
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchUserLocation());
+  }, [locations]);
+
+  useEffect(() => {
+    dispatch(fetchNearbyLocations({ locations, userLocation }));
+  }, [locations]);
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
   });
-
-  useEffect(() => {
-    fetchData().then((result) => {
-      setLocations(result);
-    });
-  }, []);
 
   //we should definitely set up a spinner to display instead of this string
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
       <Header navUp={navUp} clickHandler={clickHandler} />
-      <Map navUp={navUp} clickHandler={clickHandler} locations={locations} />
+      <Map
+        navUp={navUp}
+        clickHandler={clickHandler}
+        locations={locations}
+        userLocation={userLocation}
+        nearbyLocations={nearbyLocations}
+      />
       <div
         id="layoutDiv"
         className={`flex-col z-1 items-center overflow-auto transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex fixed bg-black bg-opacity-60 backdrop-blur-lg bottom-0`}
