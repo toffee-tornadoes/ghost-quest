@@ -5,6 +5,10 @@ import CommentFooter from "@/components/location/comment-footer";
 import LocationCard from "@/components/location/location-card";
 import LocationHeader from "@/components/location/location-header";
 import { supabase } from "@/lib/supabaseClient";
+import { getUserSavedLocs, selectUserSavedLocs } from "@/slices/userSavedLocsSlice";
+import { useUser } from "@supabase/auth-helpers-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export const getStaticPaths = async () => {
   const { data: locations } = await supabase.from("locations").select("id");
@@ -35,8 +39,16 @@ export const getStaticProps = async ({ params: { id } }) => {
   };
 };
 
+
 const LocationPage = ({ location }) => {
-  console.log(location)
+  const user = useUser();
+  const dispatch = useDispatch();
+  const savedLocs = useSelector(selectUserSavedLocs)
+
+  useEffect(()=>{
+    dispatch(getUserSavedLocs(user?.id))
+  }, [])
+
   // the props being passed to LocationCard and CommentFooter may change
   return (
     <div>
