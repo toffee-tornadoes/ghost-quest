@@ -9,14 +9,6 @@ import {
   InfoWindowF,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectNearbyLocations,
-  findNearby,
-  selectLocations,
-  fetchLocations,
-} from "@/slices/locationsSlice";
-import Locations from "@/pages/locations";
 
 const Map = ({
   locations,
@@ -28,7 +20,7 @@ const Map = ({
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [directions, setDirections] = useState(google.maps.DirectionsResult);
+  const [directions, setDirections] = useState(null);
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
 
   console.log("locations: ", locations);
@@ -231,7 +223,7 @@ const Map = ({
                 >
                   See More Info
                 </Link>
-                <div>
+                <div className="flex justify-between my-2">
                   <button
                     onClick={() =>
                       setTravelMode(google.maps.TravelMode.DRIVING)
@@ -241,20 +233,20 @@ const Map = ({
                   </button>
                   <button
                     onClick={() =>
-                      setTravelMode(google.maps.TravelMode.WALKING)
-                    }
-                  >
-                    Walking
-                  </button>
-                  <button
-                    onClick={() =>
                       setTravelMode(google.maps.TravelMode.BICYCLING)
                     }
                   >
                     Bicycling
                   </button>
+                  <button
+                    onClick={() =>
+                      setTravelMode(google.maps.TravelMode.WALKING)
+                    }
+                  >
+                    Walking
+                  </button>
                 </div>
-                <div>
+                <div className="text-center my-2">
                   <button
                     onClick={() => {
                       fetchDirections(selectedLocation);
