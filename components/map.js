@@ -5,9 +5,9 @@ import {
   MarkerF,
   Circle,
   MarkerClustererF,
-  MarkerClusterer,
   InfoWindowF,
   DirectionsRenderer,
+  DistanceMatrixService,
 } from "@react-google-maps/api";
 
 const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
@@ -16,6 +16,8 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [directions, setDirections] = useState(google.maps.DirectionsResult);
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
+  const [distance, setDistance] = useState(null);
+  const [duration, setDuration] = useState(null);
 
   //map parameters
   //default to default location if user opts out of location services
@@ -28,12 +30,32 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
     []
   );
 
-  const fetchDirections = async (selectedLocation) => {
+  const calculateDistanceAndTime = (origin, destination, travelMode) => {
+    const service = new google.maps.DistanceMatrixService();
+
+    service.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: travelMode,
+        unitSystem: google.maps.UnitSystem.IMPERIAL,
+      },
+      (response, status) => {
+        if (status === "OK") {
+          const element = response.rows[0].elements[0];
+          setDistance(element.distance.text);
+          setDuration(element.duration.text);
+        } else {
+          console.log("Error: ", status);
+        }
+      }
+    );
+  };
+
+  const fetchDirections = async (selectedLocation, travelMode) => {
     if (!selectedLocation) return;
 
-    const service = new google.maps.DirectionsService();
-
-    const origin = await getLocation();
+    const origin = userLocation;
 
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode(
@@ -43,19 +65,28 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
       (results, status) => {
         if (status === "OK") {
           const destination = results[0].geometry.location;
-          service.route(
-            {
-              origin: origin,
-              destination: destination,
-              travelMode: travelMode,
-            },
-            (result, status) => {
-              if (status === "OK" && result) {
-                setDirections(null);
-                setDirections(result);
+          setDistance(null);
+          setDuration(null);
+          calculateDistanceAndTime(origin, destination, travelMode);
+          if (
+            typeof google !== "undefined" &&
+            typeof google.maps.DirectionsService === "function"
+          ) {
+            const service = new google.maps.DirectionsService();
+            service.route(
+              {
+                origin: origin,
+                destination: destination,
+                travelMode: travelMode,
+              },
+              (result, status) => {
+                if (status === "OK" && result) {
+                  setDirections(null);
+                  setDirections(result);
+                }
               }
-            }
-          );
+            );
+          }
         } else {
           console.log(
             "Geocode was not successful for the following reason: " + status
@@ -63,6 +94,11 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
         }
       }
     );
+  };
+
+  const handleTravelModeChange = (mode) => {
+    setTravelMode(mode);
+    fetchDirections(selectedLocation, mode);
   };
 
   //circle parameters
@@ -147,28 +183,34 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
           radius={45000}
           options={farOptions}
         ></Circle> */}
-          {nearbyLocations.map((location) => {
-            return (
-              <MarkerF
-                key={location.id}
-                position={{
-                  lat: location.city_latitude,
-                  lng: location.city_longitude,
-                }}
-                icon={"/phantom.png"}
-                animation={2}
-                // clusterer={clusterer}
-                onClick={() => {
-                  setSelectedLocation(location);
-                }}
-              ></MarkerF>
-            );
-          })}
+          {nearbyLocations?.length > 0 && (
+            <MarkerClustererF>
+              {(clusterer) => {
+                return nearbyLocations?.map((location) => {
+                  return (
+                    <MarkerF
+                      key={location.id}
+                      position={{
+                        lat: Number(location?.latitude),
+                        lng: Number(location?.longitude),
+                      }}
+                      icon={"/phantom.png"}
+                      animation={2}
+                      clusterer={clusterer}
+                      onClick={() => {
+                        setSelectedLocation(location);
+                      }}
+                    ></MarkerF>
+                  );
+                });
+              }}
+            </MarkerClustererF>
+          )}
           {selectedLocation && (
             <InfoWindowF
               position={{
-                lat: selectedLocation.city_latitude,
-                lng: selectedLocation.city_longitude,
+                lat: Number(selectedLocation?.latitude),
+                lng: Number(selectedLocation?.longitude),
               }}
               onCloseClick={() => {
                 setSelectedLocation(null);
@@ -181,6 +223,12 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
                   alt="Location picture"
                 />
                 <h2 className="text-2xl">{selectedLocation.location}</h2>
+                {distance && duration && (
+                  <div>
+                    <p>Distance: {distance}</p>
+                    <p>Time: {duration}</p>
+                  </div>
+                )}
                 <Link
                   onClick={!navUp && clickHandler}
                   className="text-lg hover:text-purple-600 text-slate-600 italic"
@@ -191,33 +239,24 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
                 <div>
                   <button
                     onClick={() =>
-                      setTravelMode(google.maps.TravelMode.DRIVING)
+                      handleTravelModeChange(google.maps.TravelMode.DRIVING)
                     }
                   >
                     Driving
                   </button>
                   <button
                     onClick={() =>
-                      setTravelMode(google.maps.TravelMode.WALKING)
-                    }
-                  >
-                    Walking
-                  </button>
-                  <button
-                    onClick={() =>
-                      setTravelMode(google.maps.TravelMode.BICYCLING)
+                      handleTravelModeChange(google.maps.TravelMode.BICYCLING)
                     }
                   >
                     Bicycling
                   </button>
-                </div>
-                <div>
                   <button
-                    onClick={() => {
-                      fetchDirections(selectedLocation);
-                    }}
+                    onClick={() =>
+                      handleTravelModeChange(google.maps.TravelMode.WALKING)
+                    }
                   >
-                    Let's Hunt
+                    Walking
                   </button>
                 </div>
               </div>
