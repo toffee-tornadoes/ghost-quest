@@ -39,15 +39,14 @@ const LoginForm = () => {
       </div>
     );
   } else {
-    router.push(`/user/${user.id}`)
+    router.push(`/user/${user.id}`);
   }
 
-
-    // return (
-    //   <button onClick={handleSignOut} className="flex justify-center top-0">
-    //     <HomeButton link="/" text="Sign Out" />
-    //   </button>
-    // )
+  // return (
+  //   <button onClick={handleSignOut} className="flex justify-center top-0">
+  //     <HomeButton link="/" text="Sign Out" />
+  //   </button>
+  // )
 };
 
 export default LoginForm;
