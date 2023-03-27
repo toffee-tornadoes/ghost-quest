@@ -10,13 +10,7 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 
-const Map = ({
-  locations,
-  userLocation,
-  nearbyLocations,
-  clickHandler,
-  navUp,
-}) => {
+const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -108,7 +102,6 @@ const Map = ({
   return (
     <>
       <div className="map">
-        {/* <Locations nearbyLocations={nearbyLocations} /> */}
         <GoogleMap
           zoom={10}
           center={userLocation}
@@ -154,29 +147,6 @@ const Map = ({
           radius={45000}
           options={farOptions}
         ></Circle> */}
-          {/* display multiple markers by using forEach method or mapping through
-        the array */}
-          {/* {locations.map((location) => {
-          const position = {
-            lat: location.city_latitude,
-            lng: location.city_longitude,
-          };
-          const inBounds = checkDistance(position, userLocation, 45000);
-          if (inBounds) {
-            return (
-              <MarkerF
-                key={location.id}
-                position={{
-                  lat: location.city_latitude,
-                  lng: location.city_longitude,
-                }}
-                icon={"/phantom.png"}
-                animation={2}
-                // clusterer={clusterer}
-              ></MarkerF>
-            );
-          }
-        })} */}
           {nearbyLocations.map((location) => {
             return (
               <MarkerF

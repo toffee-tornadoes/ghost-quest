@@ -63,7 +63,6 @@ const Layout = ({ children }) => {
       <Map
         navUp={navUp}
         clickHandler={clickHandler}
-        locations={locations}
         userLocation={userLocation}
         nearbyLocations={nearbyLocations}
       />

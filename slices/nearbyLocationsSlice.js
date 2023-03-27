@@ -27,7 +27,6 @@ const getNearbyLocations = async (locations, userLocation) => {
       nearby.push(location);
     }
   });
-  console.log(nearby);
   return nearby;
 };
 
