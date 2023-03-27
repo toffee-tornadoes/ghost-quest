@@ -236,7 +236,7 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
                 >
                   See More Info
                 </Link>
-                <div>
+                <div className="flex justify-between">
                   <button
                     onClick={() =>
                       handleTravelModeChange(google.maps.TravelMode.DRIVING)
