@@ -1,6 +1,7 @@
 import BackIcon from "../icons/back-icon";
 
 const LocationHeader = ({ location }) => {
+  console.log(location);
   return (
     <div className="flex justify-between" id="locListingHeader">
       <div className="m-2 text-left text-3xl">

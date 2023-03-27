@@ -8,8 +8,7 @@ import { useRouter } from "next/router";
 
 const LocationPage = () => {
   const router = useRouter();
-  const location = router.query.data;
-  console.log(location);
+  const location = router.query;
   // the props being passed to LocationCard and CommentFooter may change
   return (
     <div>
