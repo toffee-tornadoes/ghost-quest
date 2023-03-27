@@ -11,12 +11,19 @@ import {
   fetchNearbyLocations,
   selectNearbyLocations,
 } from "@/slices/nearbyLocationsSlice";
+import {
+  getUserSavedLocs,
+  selectUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const Locations = () => {
+  const user = useUser();
   const dispatch = useDispatch();
   const locations = useSelector(selectLocations);
   const userLocation = useSelector(selectUserLocation);
   const nearbyLocations = useSelector(selectNearbyLocations);
+  const userSavedLocs = useSelector(selectUserSavedLocs);
 
   useEffect(() => {
     dispatch(fetchLocations());
@@ -30,10 +37,17 @@ const Locations = () => {
     dispatch(fetchNearbyLocations({ locations, userLocation }));
   }, [locations]);
 
+  useEffect(() => {
+    dispatch(getUserSavedLocs(user?.id));
+  }, [locations]);
+
   return (
     <div>
       <AllLocationHeader />
-      <LocationListingCard locations={nearbyLocations} />
+      <LocationListingCard
+        locations={nearbyLocations}
+        userSavedLocs={userSavedLocs}
+      />
     </div>
   );
 };

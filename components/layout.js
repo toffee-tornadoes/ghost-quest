@@ -14,8 +14,10 @@ import {
   fetchNearbyLocations,
   selectNearbyLocations,
 } from "@/slices/nearbyLocationsSlice";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const Layout = ({ children }) => {
+  const user = useUser();
   const [navUp, setNavUp] = useState(false);
   const [height, setHeight] = useState("h-24");
   const [hidden, setHidden] = useState("hidden");
