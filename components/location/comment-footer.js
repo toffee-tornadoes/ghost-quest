@@ -11,12 +11,18 @@ const CommentFooter = ({ location }) => {
     e.preventDefault();
     setComment(input);
     setInput("");
-    try{
-    const { data, error } = await supabase
-      .from("comments")
-      .upsert([{ content: input, profile_id: `${user.id}`,location_id:`${location.id}` }]);
-    }catch(error){
-      console.log(error)
+    try {
+      const { data, error } = await supabase
+        .from("comments")
+        .upsert([
+          {
+            content: input,
+            profile_id: `${user.id}`,
+            location_id: `${location.id}`,
+          },
+        ]);
+    } catch (error) {
+      console.log(error);
     }
   };
   console.log(input);

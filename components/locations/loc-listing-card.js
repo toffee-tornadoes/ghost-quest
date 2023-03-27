@@ -3,9 +3,25 @@ import Link from "next/link";
 import { Fragment } from "react";
 import FavoriteIcon from "../icons/favorite-icon";
 import { useUser } from "@supabase/auth-helpers-react";
+import { supabase } from "@/lib/supabaseClient";
+import { useEffect } from "react";
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();
+
+  useEffect(() => {
+    getFavorites(user?.id).then((result) => console.log(result));
+  }, [user]);
+
+  const getFavorites = async (userId) => {
+    const { data } = await supabase
+      .from("user_locations")
+      .select()
+      .match({ profile_id: userId, is_favorited: true });
+    return data;
+  };
+
+  //fetch user favorites and check if any nearby locations are there, if they are, their fave icon should be filled
 
   return (
     <div>
@@ -16,7 +32,10 @@ const LocationListingCard = ({ locations }) => {
               <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
                 <Link
                   className="w-full text-base text-left text-slate-500 hover:text-purple-400"
-                  href={`/locations/${location.id}`}
+                  href={{
+                    pathname: `/locations/${location.id}`,
+                    query: location,
+                  }}
                 >
                   <h2 className="flex">
                     {`"${location.location}"\u00A0`}{" "}

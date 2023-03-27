@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouseCircleCheck, faHouse } from "@fortawesome/free-solid-svg-icons";
 
 const LocationHeader = ({ location }) => {
+  console.log(location);
   return (
     <div className="flex justify-between" id="locListingHeader">
       <div className="m-2 text-left text-3xl">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import {
   GoogleMap,
@@ -10,24 +10,15 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 
-const Map = ({
-  locations,
-  userLocation,
-  nearbyLocations,
-  clickHandler,
-  navUp,
-}) => {
+const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [directions, setDirections] = useState(null);
+  const [directions, setDirections] = useState(google.maps.DirectionsResult);
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
 
-  console.log("locations: ", locations);
-  console.log("user location: ", userLocation);
-  console.log("nearby locations: ", nearbyLocations);
-
   //map parameters
+  //default to default location if user opts out of location services
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -37,16 +28,12 @@ const Map = ({
     []
   );
 
-  //geolocation
-  //check to see if user has allowed location services
-  //if user has blocked location services, map should default to center location
-
   const fetchDirections = async (selectedLocation) => {
     if (!selectedLocation) return;
 
     const service = new google.maps.DirectionsService();
 
-    const origin = userLocation;
+    const origin = await getLocation();
 
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode(
@@ -115,7 +102,6 @@ const Map = ({
   return (
     <>
       <div className="map">
-        {/* <Locations nearbyLocations={nearbyLocations} /> */}
         <GoogleMap
           zoom={10}
           center={userLocation}
@@ -127,6 +113,8 @@ const Map = ({
             width: "100vw",
             // opacity: .5,
           }}
+          onDragStart={() => console.log("test")}
+          onDragEnd={() => console.log("stopped")}
         >
           <DirectionsRenderer
             directions={directions}
@@ -159,29 +147,6 @@ const Map = ({
           radius={45000}
           options={farOptions}
         ></Circle> */}
-          {/* display multiple markers by using forEach method or mapping through
-        the array */}
-          {/* {locations.map((location) => {
-          const position = {
-            lat: location.city_latitude,
-            lng: location.city_longitude,
-          };
-          const inBounds = checkDistance(position, userLocation, 45000);
-          if (inBounds) {
-            return (
-              <MarkerF
-                key={location.id}
-                position={{
-                  lat: location.city_latitude,
-                  lng: location.city_longitude,
-                }}
-                icon={"/phantom.png"}
-                animation={2}
-                // clusterer={clusterer}
-              ></MarkerF>
-            );
-          }
-        })} */}
           {nearbyLocations.map((location) => {
             return (
               <MarkerF
@@ -223,7 +188,7 @@ const Map = ({
                 >
                   See More Info
                 </Link>
-                <div className="flex justify-between my-2">
+                <div>
                   <button
                     onClick={() =>
                       setTravelMode(google.maps.TravelMode.DRIVING)
@@ -233,20 +198,20 @@ const Map = ({
                   </button>
                   <button
                     onClick={() =>
-                      setTravelMode(google.maps.TravelMode.BICYCLING)
-                    }
-                  >
-                    Bicycling
-                  </button>
-                  <button
-                    onClick={() =>
                       setTravelMode(google.maps.TravelMode.WALKING)
                     }
                   >
                     Walking
                   </button>
+                  <button
+                    onClick={() =>
+                      setTravelMode(google.maps.TravelMode.BICYCLING)
+                    }
+                  >
+                    Bicycling
+                  </button>
                 </div>
-                <div className="text-center my-2">
+                <div>
                   <button
                     onClick={() => {
                       fetchDirections(selectedLocation);
