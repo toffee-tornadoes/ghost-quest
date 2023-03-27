@@ -11,7 +11,9 @@ const FavoriteIcon = ({ locationId, userId }) => {
       setFill("purple");
       const { data, error } = await supabase
         .from("user_locations")
-        .upsert([{ location_id: locationId, profile_id: userId }]);
+        .upsert([
+          { location_id: locationId, profile_id: userId, is_favorited: true },
+        ]);
       setFave(!fave);
       return data;
     } else {
@@ -19,7 +21,7 @@ const FavoriteIcon = ({ locationId, userId }) => {
       setFill("none");
       const { data } = await supabase
         .from("user_locations")
-        .delete()
+        .update([{ is_favorited: false }])
         .match({ location_id: locationId, profile_id: userId });
       setFave(!fave);
       return data;

@@ -3,9 +3,25 @@ import Link from "next/link";
 import { Fragment } from "react";
 import FavoriteIcon from "../icons/favorite-icon";
 import { useUser } from "@supabase/auth-helpers-react";
+import { supabase } from "@/lib/supabaseClient";
+import { useEffect } from "react";
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();
+
+  useEffect(() => {
+    getFavorites(user?.id).then((result) => console.log(result));
+  }, [user]);
+
+  const getFavorites = async (userId) => {
+    const { data } = await supabase
+      .from("user_locations")
+      .select()
+      .match({ profile_id: userId, is_favorited: true });
+    return data;
+  };
+
+  //fetch user favorites and check if any nearby locations are there, if they are, their fave icon should be filled
 
   return (
     <div>
