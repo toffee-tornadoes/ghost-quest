@@ -16,7 +16,10 @@ const LocationListingCard = ({ locations }) => {
               <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
                 <Link
                   className="w-full text-base text-left text-slate-500 hover:text-purple-400"
-                  href={`/locations/${location.id}`}
+                  href={{
+                    pathname: `/locations/${location.id}`,
+                    query: location,
+                  }}
                 >
                   <h2 className="flex">
                     {`"${location.location}"\u00A0`}{" "}
