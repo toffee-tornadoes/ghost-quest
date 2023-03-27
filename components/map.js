@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import {
   GoogleMap,
@@ -10,26 +10,17 @@ import {
   DistanceMatrixService,
 } from "@react-google-maps/api";
 
-const Map = ({
-  locations,
-  userLocation,
-  nearbyLocations,
-  clickHandler,
-  navUp,
-}) => {
+const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [directions, setDirections] = useState(null);
+  const [directions, setDirections] = useState(google.maps.DirectionsResult);
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
 
-  console.log("locations: ", locations);
-  console.log("user location: ", userLocation);
-  console.log("nearby locations: ", nearbyLocations);
-
   //map parameters
+  //default to default location if user opts out of location services
   const options = useMemo(
     () => ({
       disableDefaultUI: true,
@@ -38,10 +29,6 @@ const Map = ({
     }),
     []
   );
-
-  //geolocation
-  //check to see if user has allowed location services
-  //if user has blocked location services, map should default to center location
 
   const calculateDistanceAndTime = (origin, destination, travelMode) => {
     const service = new google.maps.DistanceMatrixService();
@@ -151,7 +138,6 @@ const Map = ({
   return (
     <>
       <div className="map">
-        {/* <Locations nearbyLocations={nearbyLocations} /> */}
         <GoogleMap
           zoom={10}
           center={userLocation}
@@ -163,6 +149,8 @@ const Map = ({
             width: "100vw",
             // opacity: .5,
           }}
+          onDragStart={() => console.log("test")}
+          onDragEnd={() => console.log("stopped")}
         >
           <DirectionsRenderer
             directions={directions}
@@ -195,29 +183,6 @@ const Map = ({
           radius={45000}
           options={farOptions}
         ></Circle> */}
-          {/* display multiple markers by using forEach method or mapping through
-        the array */}
-          {/* {locations.map((location) => {
-          const position = {
-            lat: location.city_latitude,
-            lng: location.city_longitude,
-          };
-          const inBounds = checkDistance(position, userLocation, 45000);
-          if (inBounds) {
-            return (
-              <MarkerF
-                key={location.id}
-                position={{
-                  lat: location.city_latitude,
-                  lng: location.city_longitude,
-                }}
-                icon={"/phantom.png"}
-                animation={2}
-                // clusterer={clusterer}
-              ></MarkerF>
-            );
-          }
-        })} */}
           {nearbyLocations?.length > 0 && (
             <MarkerClustererF>
               {(clusterer) => {
@@ -271,7 +236,7 @@ const Map = ({
                 >
                   See More Info
                 </Link>
-                <div className="flex justify-between my-2">
+                <div>
                   <button
                     onClick={() =>
                       handleTravelModeChange(google.maps.TravelMode.DRIVING)
