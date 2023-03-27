@@ -15,8 +15,7 @@ const UserEdit = () => {
       console.log(thisusername)
       const { data, error } = await supabase
         .from("profiles")
-        .update({ username: `${thisusername}` })
-        .eq("id", `${user.id}`);
+        .insert([{ username: `${thisusername}` }]).eq('id', `${user.id}`);
       console.log(user);
       if (error) throw error;
       alert("Profile updated!");
@@ -60,5 +59,3 @@ const UserEdit = () => {
 };
 
 export default UserEdit;
-
-// a2b03fab-3a8a-41fa-bf72-dd43f999d015
