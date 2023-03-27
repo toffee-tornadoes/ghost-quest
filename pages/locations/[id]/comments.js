@@ -23,7 +23,6 @@ export const getServerSideProps = async (context) => {
 };
 
 const CommentsPage = ({data}) => {
-  const [reload, setReload] = useState(false);
    const user = useUser();
   if(data){
     console.log(reload)
@@ -49,7 +48,7 @@ const CommentsPage = ({data}) => {
           </Fragment>
         );
       })}
-      <CommentFooter location={data[0]} r onChange={()=>setReload(!reload)}/>
+      <CommentFooter location={data[0]} />
       take me there button
     </div>
   );}
