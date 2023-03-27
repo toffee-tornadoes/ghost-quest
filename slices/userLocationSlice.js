@@ -43,7 +43,12 @@ export const fetchUserLocation = createAsyncThunk(
 const userLocationSlice = createSlice({
   name: "userLocation",
   initialState,
-  reducers: {},
+  reducers: {
+    updateUserLocation: (state, action) => {
+      state = action.payload;
+      return state
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserLocation.fulfilled, (state, action) => {
       return action.payload;
@@ -52,4 +57,5 @@ const userLocationSlice = createSlice({
 });
 
 export const selectUserLocation = (state) => state.userLocation;
+export const {updateUserLocation} = userLocationSlice.actions
 export default userLocationSlice.reducer;
