@@ -7,6 +7,7 @@ import UserFavoritesPage from "./favorites";
 import { supabase } from "@/lib/supabaseClient";
 
   import {useUser} from '@supabase/auth-helpers-react'
+import UserEdit from "@/components/user/user-edit";
 
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
@@ -55,6 +56,7 @@ const UserPage = ({data}) => {
       <UserHeader />
       {/* {<p>{user&&user.id}</p>} */}
       <hr />
+      <UserEdit user={user}/>
       <UserCard />
     </div>
   );
