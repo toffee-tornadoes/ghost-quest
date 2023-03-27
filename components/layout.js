@@ -15,6 +15,11 @@ import {
   selectNearbyLocations,
 } from "@/slices/nearbyLocationsSlice";
 import { useUser } from "@supabase/auth-helpers-react";
+import {
+  getUserSavedLocs,
+  selectUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
+import { setUser } from "@/slices/userInfoSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -26,6 +31,8 @@ const Layout = ({ children }) => {
   const nearbyLocations = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
   const [arrow, setArrow] = useState(faChevronUp);
+
+  const userSavedLocs = useSelector(selectUserSavedLocs);
 
   const clickHandler = () => {
     if (!navUp) {
@@ -40,6 +47,9 @@ const Layout = ({ children }) => {
       setHidden("hidden");
     }
   };
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, []);
 
   useEffect(() => {
     dispatch(fetchLocations());
@@ -52,6 +62,10 @@ const Layout = ({ children }) => {
   useEffect(() => {
     dispatch(fetchNearbyLocations({ locations, userLocation }));
   }, [locations]);
+
+  // useEffect(() => {
+  //   dispatch(getUserSavedLocs(user?.id));
+  // }, [locations]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,

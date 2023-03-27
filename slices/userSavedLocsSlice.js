@@ -10,6 +10,7 @@ export const getUserSavedLocs = createAsyncThunk(
       .from("user_locations")
       .select("*,locations(*)")
       .eq("profile_id", userId);
+    console.log(data);
     return data;
   }
 );

@@ -13,6 +13,29 @@ import {
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();
+  const dispatch = useDispatch();
+  const userSavedLocs = useSelector(selectUserSavedLocs);
+
+  useEffect(() => {
+    dispatch(getUserSavedLocs(user?.id));
+  }, [locations]);
+
+  const isFav = (locationId, userSavedLocs) => {
+    //return a boolean that confirms whether a given location has been favorited by a user
+    for (let userSavedLoc of userSavedLocs) {
+      if (
+        locationId === userSavedLoc.location_id &&
+        userSavedLoc.is_favorited === true
+      ) {
+        return true;
+      } else if (
+        (location.id === userSavedLoc.location_id &&
+          userSavedLoc.is_favorited === false) ||
+        location.id !== userSavedLoc.location_id
+      )
+        return false;
+    }
+  };
 
   //fetch user favorites and check if any nearby locations are there, if they are, their fave icon should be filled
 
@@ -44,7 +67,13 @@ const LocationListingCard = ({ locations }) => {
                 </Link>
                 {user ? (
                   <button>
-                    <FavoriteIcon locationId={location.id} userId={user.id} />
+                    {console.log(isFav(location.id, userSavedLocs))}
+                    <FavoriteIcon
+                      locationId={location.id}
+                      userId={user.id}
+                      // userSavedLocs={userSavedLocs}
+                      // test="purple"
+                    />
                   </button>
                 ) : null}
               </div>
