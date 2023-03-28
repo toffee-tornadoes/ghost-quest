@@ -55,8 +55,6 @@ const Layout = ({ children }) => {
     console.log(`New latitude: ${lat}, New longitude: ${lng}`);
     dispatch(updateUserLocation({ lat: lat, lng: lng }));
     dispatch(fetchNearbyLocations({ locations, userLocation }));
-    console.log("My location: ", userLocation);
-    console.log("Nearby locations: ", nearbyLocations);
   };
 
   useEffect(() => {

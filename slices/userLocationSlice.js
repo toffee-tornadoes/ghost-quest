@@ -45,8 +45,7 @@ const userLocationSlice = createSlice({
   initialState,
   reducers: {
     updateUserLocation: (state, action) => {
-      state = action.payload;
-      return state
+      return action.payload;
     }
   },
   extraReducers: (builder) => {
