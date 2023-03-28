@@ -4,26 +4,17 @@ import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { Fragment } from "react";
+import { useSelector } from "react-redux";
+import { selectUserComments } from "@/slices/userCommentsSlice";
 
-export const getServerSideProps = async (context) => {
-  const { id } = context.params;
-  const { data } = await supabase
-    .from("comments")
-    .select("*,locations(*),profiles(*)")
-    .eq("profile_id", id);
-  return {
-    props: {
-      data,
-    },
-  };
-};
-const UserCommentsPage = ({ data }) => {
-  const user =useUser()
-    console.log(data);
+
+const UserCommentsPage = () => {
+  const userComments = useSelector(selectUserComments);
+  console.log(userComments);
 
 
   return (<div>
-    {data.map((comment)=>{
+    {userComments?.map((comment)=>{
       return (
         <Fragment key={comment.locations.id}>
           <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
@@ -45,14 +36,14 @@ const UserCommentsPage = ({ data }) => {
             </Link>
           </div>
           <div className="p-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4">
-            {user && (
+            (
               <Link
                 className="p-6 text-lg hover:text-slate-300 "
-                href={`/user/${user.id}`}
+                href={`/user/${comment.profiles.id}`}
               >
-                {user.email}
+                {comment.profiles.username}
               </Link>
-            )}
+            )
             <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
               {comment.content}
             </div>

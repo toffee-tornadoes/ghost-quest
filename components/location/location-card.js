@@ -1,8 +1,12 @@
 import BackIcon from "../icons/back-icon";
 import { Fragment } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { selectUserComments } from "@/slices/userCommentsSlice";
 
-const LocationCard = ({ location, data }) => {
+const LocationCard = ({ location  }) => {
+  const userComments = useSelector(selectUserComments);
+  console.log(userComments);
   return (
     <div className="flex top-0 flex-col m-5 ">
       <div className="">
@@ -35,7 +39,7 @@ const LocationCard = ({ location, data }) => {
       </div>
       <div>
         <div className="overflow-auto content-center max-h-screen ">
-          {data.map((comment) => {
+          {userComments?.map((comment) => {
             return (
               <Fragment key={comment.id}>
                 <div className="p-6 m-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4 shadow-green-400">
