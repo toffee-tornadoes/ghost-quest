@@ -9,6 +9,7 @@ import { selectLocations, fetchLocations } from "@/slices/locationsSlice";
 import {
   selectUserLocation,
   fetchUserLocation,
+  updateUserLocation
 } from "@/slices/userLocationSlice";
 import {
   fetchNearbyLocations,
@@ -39,6 +40,17 @@ const Layout = ({ children }) => {
     }
   };
 
+  const handleUserLocationChange = (event) => {
+    const { latLng } = event;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
+    console.log(`New latitude: ${lat}, New longitude: ${lng}`);
+    dispatch(updateUserLocation({ lat: lat, lng: lng}));
+    dispatch(fetchNearbyLocations({ locations, userLocation }))
+    console.log("My location: ", userLocation)
+    console.log("Nearby locations: ", nearbyLocations)
+  };
+
   useEffect(() => {
     dispatch(fetchLocations());
   }, []);
@@ -49,7 +61,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(fetchNearbyLocations({ locations, userLocation }));
-  }, [locations]);
+  }, [locations, userLocation]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
@@ -65,6 +77,7 @@ const Layout = ({ children }) => {
         clickHandler={clickHandler}
         userLocation={userLocation}
         nearbyLocations={nearbyLocations}
+        handleUserLocationChange={handleUserLocationChange}
       />
       <div
         id="layoutDiv"
