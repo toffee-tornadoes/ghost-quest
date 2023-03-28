@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectUserComments } from "@/slices/userCommentsSlice";
 
 const LocationCard = ({ location  }) => {
+  console.log(location)
   const userComments = useSelector(selectUserComments);
   console.log(userComments);
   return (
@@ -40,6 +41,7 @@ const LocationCard = ({ location  }) => {
       <div>
         <div className="overflow-auto content-center max-h-screen ">
           {userComments?.map((comment) => {
+            if(comment.location_id==location.id){
             return (
               <Fragment key={comment.id}>
                 <div className="p-6 m-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4 shadow-green-400">
@@ -56,7 +58,7 @@ const LocationCard = ({ location  }) => {
                   </div>
                 </div>
               </Fragment>
-            );
+            );}
           })}
         </div>
       </div>
