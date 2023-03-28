@@ -24,8 +24,6 @@ export const getServerSideProps = async (context) => {
 
 const CommentsPage = ({data}) => {
    const user = useUser();
-  if(data){
-    console.log(reload)
   return (
     <div>
       <LocationHeader location={data[0].locations} />
@@ -52,6 +50,6 @@ const CommentsPage = ({data}) => {
       take me there button
     </div>
   );}
-}
+
 
 export default CommentsPage;

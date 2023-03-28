@@ -5,7 +5,6 @@ import BackIcon from "../icons/back-icon";
 
 const UserHeader = ({profile, pic}) => {
   const user = useUser();
-  console.log(pic.publicUrl)
   return (
     <div className="flex justify-between" id="locListingHeader">
       <div className="m-2 text-left text-3xl">

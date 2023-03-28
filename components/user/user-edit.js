@@ -8,24 +8,30 @@ const UserEdit = () => {
   const [full_name, setFullname] = useState("");
 
   async function updateProfile() {
-    try {
-      const avatar_url = `public/avatar${user?.id}.png`;
+
+      // const avatar_url = `public/avatar${user?.id}.png`;
       const updates = {
         id: user.id,
         username,
         full_name,
-        avatar_url,
+        // avatar_url,
         updated_at: new Date(),
       };
-
-      let { error } = await supabase.from("profiles").upsert(updates);
-      if (error) {
-        throw error;
+      if(username.length && full_name.length){
+        try {
+          let { error } = await supabase.from("profiles").upsert(updates);
+          alert('profile updated')
+          if (error) {
+            throw error;
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      }else{
+        alert('please enter a username and your full name the press update')
       }
-    } catch (error) {
-      alert(error.message);
-    }
-    console.log(user);
+
+
   }
 
   // async function storeProfilePic(file) {
