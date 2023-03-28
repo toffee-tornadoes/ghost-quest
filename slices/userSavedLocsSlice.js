@@ -30,7 +30,7 @@ export const setVisitedLocs = createAsyncThunk(
 
 const userSavedLocsSlice = createSlice({
   name: "userSavedLocs",
-  initialState: 
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserSavedLocs.fulfilled, (state, action) => {
