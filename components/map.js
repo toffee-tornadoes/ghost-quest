@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import {
   GoogleMap,
@@ -9,8 +9,10 @@ import {
   DirectionsRenderer,
   DistanceMatrixService,
 } from "@react-google-maps/api";
+import { updateUserLocation } from "@/slices/userLocationSlice";
+import { useDispatch } from "react-redux";
 
-const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
+const Map = ({ handleUserLocationChange, userLocation, nearbyLocations, clickHandler, navUp }) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -18,6 +20,7 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
   const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
+  const dispatch = useDispatch();
 
   //map parameters
   //default to default location if user opts out of location services
@@ -149,8 +152,6 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
             width: "100vw",
             // opacity: .5,
           }}
-          onDragStart={() => console.log("test")}
-          onDragEnd={() => console.log("stopped")}
         >
           <DirectionsRenderer
             directions={directions}
@@ -167,7 +168,9 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
             position={userLocation}
             icon={"/you-are-here-2.png"}
             animation={2}
-          ></MarkerF>
+            draggable={true}
+            onDragEnd={handleUserLocationChange}
+          />
           {/* <Circle
           center={myLocation}
           radius={15000}
@@ -187,12 +190,18 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
             <MarkerClustererF>
               {(clusterer) => {
                 return nearbyLocations?.map((location) => {
+                  const lat = location.latitude
+                    ? Number(location.latitude)
+                    : location.city_latitude;
+                  const lng = location.longitude
+                    ? Number(location.longitude)
+                    : location.city_longitude;
                   return (
                     <MarkerF
                       key={location.id}
                       position={{
-                        lat: Number(location?.latitude),
-                        lng: Number(location?.longitude),
+                        lat: lat,
+                        lng: lng,
                       }}
                       icon={"/phantom.png"}
                       animation={2}
@@ -209,8 +218,12 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
           {selectedLocation && (
             <InfoWindowF
               position={{
-                lat: Number(selectedLocation?.latitude),
-                lng: Number(selectedLocation?.longitude),
+                lat: selectedLocation.latitude
+                  ? Number(selectedLocation?.latitude)
+                  : selectedLocation.city_latitude,
+                lng: selectedLocation.longitude
+                  ? Number(selectedLocation?.longitude)
+                  : selectedLocation.city_longitude,
               }}
               onCloseClick={() => {
                 setSelectedLocation(null);
@@ -236,7 +249,7 @@ const Map = ({ userLocation, nearbyLocations, clickHandler, navUp }) => {
                 >
                   See More Info
                 </Link>
-                <div>
+                <div className="flex justify-between">
                   <button
                     onClick={() =>
                       handleTravelModeChange(google.maps.TravelMode.DRIVING)
