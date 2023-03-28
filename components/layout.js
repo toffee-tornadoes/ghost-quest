@@ -71,9 +71,9 @@ const Layout = ({ children }) => {
     dispatch(fetchNearbyLocations({ locations, userLocation }));
   }, [locations, userLocation]);
 
-  // useEffect(() => {
-  //   dispatch(getUserSavedLocs(user?.id));
-  // }, [locations]);
+  useEffect(() => {
+    dispatch(getUserSavedLocs(user?.id));
+  }, [locations]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
