@@ -20,6 +20,7 @@ import {
   getUserSavedLocs,
   selectUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
+import { fetchUserComments } from "@/slices/userCommentsSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -55,8 +56,6 @@ const Layout = ({ children }) => {
     console.log(`New latitude: ${lat}, New longitude: ${lng}`);
     dispatch(updateUserLocation({ lat: lat, lng: lng }));
     dispatch(fetchNearbyLocations({ locations, userLocation }));
-    console.log("My location: ", userLocation);
-    console.log("Nearby locations: ", nearbyLocations);
   };
 
   useEffect(() => {
@@ -73,6 +72,10 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(getUserSavedLocs(user?.id));
+  }, [locations]);
+
+  useEffect(() => {
+    dispatch(fetchUserComments(user?.id));
   }, [locations]);
 
   const { isLoaded } = useLoadScript({

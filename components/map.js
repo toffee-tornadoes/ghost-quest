@@ -12,7 +12,13 @@ import {
 import { updateUserLocation } from "@/slices/userLocationSlice";
 import { useDispatch } from "react-redux";
 
-const Map = ({ handleUserLocationChange, userLocation, nearbyLocations, clickHandler, navUp }) => {
+const Map = ({
+  handleUserLocationChange,
+  userLocation,
+  nearbyLocations,
+  clickHandler,
+  navUp,
+}) => {
   const mapRef = useRef();
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -102,6 +108,15 @@ const Map = ({ handleUserLocationChange, userLocation, nearbyLocations, clickHan
   const handleTravelModeChange = (mode) => {
     setTravelMode(mode);
     fetchDirections(selectedLocation, mode);
+  };
+
+  const handleSelectLocation = (location) => {
+    if (distance && duration) {
+      setDistance(null);
+      setDuration(null);
+    } else {
+      setSelectedLocation(location);
+    }
   };
 
   //circle parameters
@@ -207,7 +222,7 @@ const Map = ({ handleUserLocationChange, userLocation, nearbyLocations, clickHan
                       animation={2}
                       clusterer={clusterer}
                       onClick={() => {
-                        setSelectedLocation(location);
+                        handleSelectLocation(location);
                       }}
                     ></MarkerF>
                   );
@@ -245,7 +260,10 @@ const Map = ({ handleUserLocationChange, userLocation, nearbyLocations, clickHan
                 <Link
                   onClick={!navUp && clickHandler}
                   className="text-lg hover:text-purple-600 text-slate-600 italic"
-                  href={`/locations/${selectedLocation.id}`}
+                  href={{
+                    pathname: `/locations/${selectedLocation.id}`,
+                    query: selectedLocation,
+                  }}
                 >
                   See More Info
                 </Link>

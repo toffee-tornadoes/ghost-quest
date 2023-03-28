@@ -18,7 +18,7 @@ import { useUser } from "@supabase/auth-helpers-react";
 
 // Displays pins of nearby locations (if there are any)
 
-export default function Home({ locations }) {
+export default function Home() {
   const user = useUser();
 
   const clickText = "Nearby Locations";
@@ -27,7 +27,7 @@ export default function Home({ locations }) {
   const randomText = "Random Location";
 
   const locURL = "locations";
-  const favURL = `user/[id]/favorites`;
+  const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
   const randomURL = `location/[id]`;
 
@@ -58,11 +58,11 @@ export default function Home({ locations }) {
         <FaveButton link={favURL} text={favesText} />
         <HomeButton link={randomURL} text={randomText} />
       </div>
-      {!user &&
+      {!user && (
         <div className="flex justify-center mb-8">
           <HomeButtonGr link={loginURL} text={loginText} />
         </div>
-      }
+      )}
     </Fragment>
   );
 }
