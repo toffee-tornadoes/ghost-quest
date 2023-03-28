@@ -12,8 +12,22 @@ import {
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { supabase } from "@/lib/supabaseClient";
 
-const LocationPage = () => {
+export const getServerSideProps = async (context) => {
+  const { id } = context.params;
+  const { data } = await supabase
+    .from("comments")
+    .select("*,profiles(*),locations(*)")
+    .eq("location_id", id);
+  return {
+    props: {
+      data,
+    },
+  };
+};
+
+const LocationPage = ({data}) => {
   const router = useRouter();
   const location = router.query;
   // the props being passed to LocationCard and CommentFooter may change
@@ -21,7 +35,7 @@ const LocationPage = () => {
     <div>
       <LocationHeader location={location} />
       <hr />
-      <LocationCard location={location} />
+      <LocationCard location={location} data={data}/>
       <hr />
       <CommentFooter location={location} />
       <button className="my-5 bg-cyan-900">Let's Hunt!</button>
