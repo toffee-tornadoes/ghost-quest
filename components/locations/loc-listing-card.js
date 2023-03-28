@@ -41,8 +41,6 @@ const LocationListingCard = ({ locations }) => {
     return "none";
   };
 
-  //fetch user favorites and check if any nearby locations are there, if they are, their fave icon should be filled
-
   return (
     <div>
       <div className="text-lg">

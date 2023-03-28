@@ -26,11 +26,12 @@ import { useState, useEffect } from "react";
 // ghostquest.com/user/[id]/favorites
 const UserFavoritesPage = () => {
   const userSavedLocs = useSelector(selectUserSavedLocs);
-  const [favs, setFavs] = useState([]);
+  // const [favs, setFavs] = useState([]);
 
-  useEffect(() => {
-    setFavs(findFavs());
-  }, [favs]);
+  // useEffect(() => {
+  //   const favLocs = findFavs();
+  //   setFavs(favLocs);
+  // }, [favs]);
 
   const findFavs = () => {
     const favLocs = [];
@@ -41,13 +42,12 @@ const UserFavoritesPage = () => {
     }
     return favLocs;
   };
-  console.log(favs);
 
   if (userSavedLocs.length > 0) {
     return (
       <div>
         <FavoritesHeader />
-        <LocationListingCard locations={favs} />
+        <LocationListingCard locations={findFavs()} />
       </div>
     );
   } else {
