@@ -14,15 +14,15 @@ const LocationHeader = ({ location, savedLocs }) => {
   const dispatch = useDispatch();
   const userLocs = useSelector(selectUserSavedLocs)
 
+  const visitHandler = () => {
+    setToggle(!toggle);
+    dispatch(setVisitedLocs({ userId, toggle, locationId }))
+    dispatch(getUserSavedLocs(userId))
+  };
+
   useEffect(()=>{
     dispatch(getUserSavedLocs(userId))
   }, [dispatch])
-  console.log(userLocs)
-
-  const visitHandler = () => {
-    setToggle(!toggle);
-    dispatch(setVisitedLocs({ userId, toggle, locationId }));
-  };
 
   return (
     <div className="flex justify-between" id="locListingHeader">
