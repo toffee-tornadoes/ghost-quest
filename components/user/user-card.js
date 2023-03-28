@@ -5,13 +5,21 @@ import HomeButtonGr from "../ui/home-button-gr";
 import HomeButton from "../ui/home-button";
 import { supabase } from "@supabase/auth-ui-shared";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { resetUserComments } from "@/slices/userCommentsSlice";
+import { resetUserLocation } from "@/slices/userLocationSlice";
+import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
 
 const UserCard = ({ data }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const supabase = useSupabaseClient();
 
   const handleSignOut = () => {
     supabase.auth.signOut();
+    dispatch(resetUserLocation());
+    dispatch(resetUserComments());
+    dispatch(resetUserSavedLocs());
     console.log("signed out");
     router.push(`/`);
   };
@@ -47,7 +55,10 @@ const UserCard = ({ data }) => {
           </Link>
         </div>
         <div>
-          <button onClick={handleSignOut} className="w-full flex justify-center">
+          <button
+            onClick={handleSignOut}
+            className="w-full flex justify-center"
+          >
             <HomeButtonGr link="" text="Sign Out" />
           </button>
         </div>

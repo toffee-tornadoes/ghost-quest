@@ -31,7 +31,12 @@ export const setVisitedLocs = createAsyncThunk(
 const userSavedLocsSlice = createSlice({
   name: "userSavedLocs",
   initialState,
-  reducers: {},
+  reducers: {
+    resetUserSavedLocs: (state, action) => {
+      state = initialState;
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getUserSavedLocs.fulfilled, (state, action) => {
       state = action.payload;
@@ -40,14 +45,15 @@ const userSavedLocsSlice = createSlice({
     builder.addCase(setVisitedLocs.fulfilled, (state, action) => {
       state.forEach((object) => {
         if (object.location_id === action.payload[0].location_id) {
-          const idx = state.indexOf(object)
-          state.splice(idx, 1)
-          state.push(action.payload[0])
+          const idx = state.indexOf(object);
+          state.splice(idx, 1);
+          state.push(action.payload[0]);
         }
       });
     });
   },
 });
 
+export const { resetUserSavedLocs } = userSavedLocsSlice.actions;
 export const selectUserSavedLocs = (state) => state?.userSavedLocs || "";
 export default userSavedLocsSlice.reducer;
