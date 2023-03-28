@@ -115,7 +115,7 @@ const Map = ({
       setDistance(null);
       setDuration(null);
     } else {
-      setSelectedLocation(location)
+      setSelectedLocation(location);
     }
   };
 
@@ -222,7 +222,7 @@ const Map = ({
                       animation={2}
                       clusterer={clusterer}
                       onClick={() => {
-                        handleSelectLocation(location)
+                        handleSelectLocation(location);
                       }}
                     ></MarkerF>
                   );
@@ -260,7 +260,10 @@ const Map = ({
                 <Link
                   onClick={!navUp && clickHandler}
                   className="text-lg hover:text-purple-600 text-slate-600 italic"
-                  href={`/locations/${selectedLocation.id}`}
+                  href={{
+                    pathname: `/locations/${selectedLocation.id}`,
+                    query: selectedLocation,
+                  }}
                 >
                   See More Info
                 </Link>
