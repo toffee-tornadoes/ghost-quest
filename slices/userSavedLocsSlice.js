@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { supabase } from "@/lib/supabaseClient";
 
-const initialState = [];
-
 export const getUserSavedLocs = createAsyncThunk(
   "getUserSavedLocs",
   async (userId) => {
@@ -10,21 +8,21 @@ export const getUserSavedLocs = createAsyncThunk(
       .from("user_locations")
       .select("*,locations(*)")
       .eq("profile_id", userId);
-    console.log(data);
     return data;
   }
 );
 
 const userSavedLocsSlice = createSlice({
   name: "userSavedLocs",
-  initialState,
+  initialState: [],
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserSavedLocs.fulfilled, (state, action) => {
-      return action.payload;
+      state = action.payload;
+      return state;
     });
   },
 });
 
-export const selectUserSavedLocs = (state) => state.userSavedLocs;
+export const selectUserSavedLocs = (state) => state?.userSavedLocs || "";
 export default userSavedLocsSlice.reducer;

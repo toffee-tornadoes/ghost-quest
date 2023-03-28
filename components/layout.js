@@ -9,7 +9,7 @@ import { selectLocations, fetchLocations } from "@/slices/locationsSlice";
 import {
   selectUserLocation,
   fetchUserLocation,
-  updateUserLocation
+  updateUserLocation,
 } from "@/slices/userLocationSlice";
 import {
   fetchNearbyLocations,
@@ -20,7 +20,6 @@ import {
   getUserSavedLocs,
   selectUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
-import { setUser } from "@/slices/userInfoSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -48,19 +47,16 @@ const Layout = ({ children }) => {
       setHidden("hidden");
     }
   };
-  useEffect(() => {
-    dispatch(setUser(user));
-  }, []);
 
   const handleUserLocationChange = (event) => {
     const { latLng } = event;
     const lat = latLng.lat();
     const lng = latLng.lng();
     console.log(`New latitude: ${lat}, New longitude: ${lng}`);
-    dispatch(updateUserLocation({ lat: lat, lng: lng}));
-    dispatch(fetchNearbyLocations({ locations, userLocation }))
-    console.log("My location: ", userLocation)
-    console.log("Nearby locations: ", nearbyLocations)
+    dispatch(updateUserLocation({ lat: lat, lng: lng }));
+    dispatch(fetchNearbyLocations({ locations, userLocation }));
+    console.log("My location: ", userLocation);
+    console.log("Nearby locations: ", nearbyLocations);
   };
 
   useEffect(() => {
