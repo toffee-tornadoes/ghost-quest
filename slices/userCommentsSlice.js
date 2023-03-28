@@ -17,7 +17,12 @@ export const fetchUserComments = createAsyncThunk(
 const userCommentsSlice = createSlice({
   name: "userComments",
   initialState,
-  reducers: {},
+  reducers: {
+    resetUserComments: (state, action) => {
+      state = initialState;
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserComments.fulfilled, (state, action) => {
       return action.payload;
@@ -25,5 +30,6 @@ const userCommentsSlice = createSlice({
   },
 });
 
+export const { resetUserComments } = userCommentsSlice.actions;
 export const selectUserComments = (state) => state.userComments;
 export default userCommentsSlice.reducer;

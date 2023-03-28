@@ -110,6 +110,15 @@ const Map = ({
     fetchDirections(selectedLocation, mode);
   };
 
+  const handleSelectLocation = (location) => {
+    if (distance && duration) {
+      setDistance(null);
+      setDuration(null);
+    } else {
+      setSelectedLocation(location);
+    }
+  };
+
   //circle parameters
   const defaultOptions = {
     strokeOpactiy: 0.5,
@@ -213,7 +222,7 @@ const Map = ({
                       animation={2}
                       clusterer={clusterer}
                       onClick={() => {
-                        setSelectedLocation(location);
+                        handleSelectLocation(location);
                       }}
                     ></MarkerF>
                   );
