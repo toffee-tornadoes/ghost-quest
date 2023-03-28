@@ -10,11 +10,21 @@ const LocationPage = () => {
   const router = useRouter();
   const location = router.query;
 
+  const user = useUser();
+  const dispatch = useDispatch();
+  const savedLocs = useSelector(selectUserSavedLocs)
+
+  useEffect(()=>{
+    dispatch(getUserSavedLocs(user?.id))
+  }, [])
+
+  // the props being passed to LocationCard and CommentFooter may change
+
   return (
     <div>
-      <LocationHeader location={location} />
+      <LocationHeader savedLocs={savedLocs} location={location} />
       <hr />
-      <LocationCard location={location} />
+      <LocationCard savedLocs={savedLocs} location={location} />
       <hr />
       <CommentFooter location={location} />
       <button className="my-5 bg-cyan-900">Let's Hunt!</button>

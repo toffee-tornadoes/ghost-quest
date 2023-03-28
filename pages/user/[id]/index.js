@@ -27,24 +27,36 @@ const { default: UserHeader } = require("@/components/user/user-header");
 //   };
 // };
 
+
  export const getServerSideProps = async (context) => {
   const {id}= context.params
   const { data} = await supabase
     .from("user_locations")
     .select('* ,profiles(*)')
     .eq('profile_id', id )
-  return {
-    props: {
-      data
-    },
-  };
+      const { data:profile } = await supabase.from("profiles").select().eq("id", id);
+      const { data: pic } = supabase.storage
+        .from("public-bucket")
+        .getPublicUrl(`folder/avatar${id}.png`, {
+          transform: {
+            width: 20,
+            height: 20,
+          },
+        });
+      return {
+        props: {
+          data,
+          profile,
+          pic
+        },
+      };
+
 };
 
 // User Page View
-const UserPage = ({data}) => {
+const UserPage = ({data,profile,pic}) => {
     // console.log(data)
     const user = useUser()
-    if(user){console.log(user)}
   // Username, profile pic?, hometown
   // Places Visited component - link to visited page
   // Tagged users component - ?
@@ -53,11 +65,12 @@ const UserPage = ({data}) => {
 
   return (
     <div>
-      <UserHeader />
+      <UserHeader profile={profile} pic={pic} />
       {/* {<p>{user&&user.id}</p>} */}
       <hr />
-      <UserEdit user={user}/>
+
       <UserCard />
+      <UserEdit user={user} />
     </div>
   );
 };

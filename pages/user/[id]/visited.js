@@ -1,35 +1,47 @@
 // ghostquest.com/user/[id]/visited
 import { useUser } from "@supabase/auth-helpers-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import BackIcon from "@/components/icons/back-icon";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserSavedLocs, selectUserSavedLocs, setVisitedLocs } from "@/slices/userSavedLocsSlice";
 
-export const getServerSideProps = async (context) => {
-  const { id } = context.params;
-  const { data } = await supabase
-    .from("user_locations")
-    .select("*,locations(*)")
-    .eq("profile_id", id)
-    .eq("has_visited", true);
+// export const getServerSideProps = async (context) => {
+//   const { id } = context.params;
+//   const { data } = await supabase
+//     .from("user_locations")
+//     .select("*,locations(*)")
+//     .eq("profile_id", id)
+//     .eq("has_visited", true);
 
-  return {
-    props: {
-      data,
-    },
-  };
-};
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
 
 const UserPlacesVisitedPage = ({ data }) => {
-    let visitedLocations = [];
-  if (data.length > 0) {
-    data.map((location) => visitedLocations.push(location.locations));
-    return (
-      <div>
-        <LocationListingCard locations={visitedLocations} />
-      </div>
-    );
-  } else {
+  const user = useUser();
+  const dispatch = useDispatch();
+  const savedLocs = useSelector(selectUserSavedLocs)
+
+  useEffect(()=>{
+    dispatch(getUserSavedLocs(user?.id))
+  }, [])
+
+  // let visitedLocations = [];
+  // if (savedLocs?.length > 0 && savedLocs !== null) {
+  //   savedLocs?.map((location) => {location.has_visited && visitedLocations.push(location)
+  //     return (
+  //       <div>
+  //         <LocationListingCard locations={visitedLocations} />
+  //       </div>
+  //     );
+  //   });
+
+  // } else {
     return (
       <>
         <div
@@ -52,6 +64,6 @@ const UserPlacesVisitedPage = ({ data }) => {
       </>
     );
   }
-};
+// };
 
 export default UserPlacesVisitedPage;
