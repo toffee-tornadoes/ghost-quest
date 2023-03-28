@@ -5,17 +5,11 @@ import CommentFooter from "@/components/location/comment-footer";
 import LocationCard from "@/components/location/location-card";
 import LocationHeader from "@/components/location/location-header";
 import { useRouter } from "next/router";
-import {
-  getUserSavedLocs,
-  selectUserSavedLocs,
-} from "@/slices/userSavedLocsSlice";
-import { useUser } from "@supabase/auth-helpers-react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const LocationPage = () => {
   const router = useRouter();
   const location = router.query;
+
   const user = useUser();
   const dispatch = useDispatch();
   const savedLocs = useSelector(selectUserSavedLocs)
@@ -25,6 +19,7 @@ const LocationPage = () => {
   }, [])
 
   // the props being passed to LocationCard and CommentFooter may change
+
   return (
     <div>
       <LocationHeader savedLocs={savedLocs} location={location} />

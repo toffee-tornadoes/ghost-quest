@@ -11,8 +11,14 @@ import {
   fetchNearbyLocations,
   selectNearbyLocations,
 } from "@/slices/nearbyLocationsSlice";
+import {
+  getUserSavedLocs,
+  selectUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const Locations = () => {
+  const user = useUser();
   const dispatch = useDispatch();
   const locations = useSelector(selectLocations);
   const userLocation = useSelector(selectUserLocation);

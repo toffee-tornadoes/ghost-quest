@@ -4,21 +4,41 @@ import { Fragment } from "react";
 import FavoriteIcon from "../icons/favorite-icon";
 import { useUser } from "@supabase/auth-helpers-react";
 import { supabase } from "@/lib/supabaseClient";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectUserSavedLocs,
+  getUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();
+  const dispatch = useDispatch();
+  const userSavedLocs = useSelector(selectUserSavedLocs);
+  const [favStatus, setFavStatus] = useState(false);
+  const [color, setColor] = useState(false);
 
-  useEffect(() => {
-    getFavorites(user?.id).then((result) => console.log(result));
-  }, [user]);
+  // useEffect(() => {
+  //   dispatch(getUserSavedLocs(user?.id));
+  //   setColor(false);
+  // }, [locations, favStatus, color]);
 
-  const getFavorites = async (userId) => {
-    const { data } = await supabase
-      .from("user_locations")
-      .select()
-      .match({ profile_id: userId, is_favorited: true });
-    return data;
+  const isFav = (locationId, userSavedLocs) => {
+    //return a boolean that confirms whether a given location has been favorited by a user
+    let i = 0;
+    while (i < userSavedLocs.length) {
+      if (
+        locationId === userSavedLocs[i].location_id &&
+        userSavedLocs[i].is_favorited === true
+      ) {
+        setColor(true);
+        return "purple";
+      } else {
+        i++;
+      }
+    }
+    setColor(true);
+    return "none";
   };
 
   //fetch user favorites and check if any nearby locations are there, if they are, their fave icon should be filled
@@ -51,7 +71,13 @@ const LocationListingCard = ({ locations }) => {
                 </Link>
                 {user ? (
                   <button>
-                    <FavoriteIcon locationId={location.id} userId={user.id} />
+                    <FavoriteIcon
+                      locationId={location.id}
+                      userId={user.id}
+                      color={() => isFav(location.id, userSavedLocs)}
+                      setFavStatus={setFavStatus}
+                      favStatus={favStatus}
+                    />
                   </button>
                 ) : null}
               </div>
