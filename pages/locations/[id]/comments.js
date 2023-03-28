@@ -11,10 +11,10 @@ import Link from "next/link";
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
-    const { data } = await supabase
-      .from("comments")
-      .select("*,profiles(*),locations(*)")
-      .eq("location_id", id);
+  const { data } = await supabase
+    .from("comments")
+    .select("*,profiles(*),locations(*)")
+    .eq("location_id", id);
   return {
     props: {
       data,
@@ -22,6 +22,35 @@ export const getServerSideProps = async (context) => {
   };
 };
 
+<<<<<<< HEAD
+const CommentsPage = ({ data }) => {
+  const user = useUser();
+  return (
+    <div className="max-h-400">
+      <LocationHeader location={data[0].locations} />
+      <div>
+        <div className="overflow-auto content-center max-h-screen overscroll-contain ">
+          {data.map((comment) => {
+            return (
+              <Fragment key={comment.id}>
+                <div className="p-6 m-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4">
+                  {user && (
+                    <Link
+                      className="p-6 text-lg hover:text-slate-300 "
+                      href={`/user/${comment.profiles.id}`}
+                    >
+                      {comment.profiles.username}
+                    </Link>
+                  )}
+                  <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
+                    {comment.content}
+                  </div>
+                </div>
+              </Fragment>
+            );
+          })}
+        </div>
+=======
 const CommentsPage = ({data}) => {
    const user = useUser();
    console.log(data)
@@ -49,11 +78,12 @@ const CommentsPage = ({data}) => {
             </Fragment>
           );
         })}
+>>>>>>> main
       </div>
       <CommentFooter location={data[0]} />
       take me there button
     </div>
-  );}
-
+  );
+};
 
 export default CommentsPage;
