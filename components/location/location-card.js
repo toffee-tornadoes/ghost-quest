@@ -10,9 +10,8 @@ const LocationCard = ({ location }) => {
           alt=""
         />
         <p className="text-left text-slate-300">
-          {location.description.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
-            i.toUpperCase()
-          )}
+          {location?.description
+          }
         </p>
       </div>
       <div className="bg-slate-800 m-5">
