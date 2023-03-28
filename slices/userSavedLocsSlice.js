@@ -37,15 +37,15 @@ const userSavedLocsSlice = createSlice({
       state = action.payload;
       return state;
     });
-    // builder.addCase(setVisitedLocs.fulfilled, (state, action) => {
-    //   // console.log(action.payload[0].location_id)
-    //   state.forEach((object) => {
-    //     // console.log(object.location_id)
-    //     // console.log(action.payload[0].location_id)
-    //     (object.location_id === action.payload[0].location_id) &&
-    //     state.push(action.payload[0])
-    //   });
-    // });
+    builder.addCase(setVisitedLocs.fulfilled, (state, action) => {
+      state.forEach((object) => {
+        if (object.location_id === action.payload[0].location_id) {
+          const idx = state.indexOf(object)
+          state.splice(idx, 1)
+          state.push(action.payload[0])
+        }
+      });
+    });
   },
 });
 
