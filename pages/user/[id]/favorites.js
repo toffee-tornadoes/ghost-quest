@@ -1,33 +1,53 @@
-import { useUser } from "@supabase/auth-helpers-react";
 import { supabase } from "@/lib/supabaseClient";
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import FavoritesHeader from "./favorites-header";
+import {
+  selectUserSavedLocs,
+  getUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
-export const getServerSideProps = async (context) => {
-  const { id } = context.params;
-  const { data } = await supabase
-    .from("user_locations")
-    .select("*,locations(*)")
-    .eq("profile_id", id)
-    .eq("is_favorited", true);
+// export const getServerSideProps = async (context) => {
+//   const { id } = context.params;
+//   const { data } = await supabase
+//     .from("user_locations")
+//     .select("*,locations(*)")
+//     .eq("profile_id", id)
+//     .eq("is_favorited", true);
 
-  return {
-    props: {
-      data,
-    },
-  };
-};
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
 
 // ghostquest.com/user/[id]/favorites
-const UserFavoritesPage = ({ data }) => {
-  let favLocations = [];
+const UserFavoritesPage = () => {
+  const userSavedLocs = useSelector(selectUserSavedLocs);
+  const [favs, setFavs] = useState([]);
 
-  if (data.length > 0) {
-    data.map((location) => favLocations.push(location.locations));
+  useEffect(() => {
+    setFavs(findFavs());
+  }, [favs]);
+
+  const findFavs = () => {
+    const favLocs = [];
+    for (let i = 0; i < userSavedLocs.length; i++) {
+      if (userSavedLocs[i].is_favorited === true) {
+        favLocs.push(userSavedLocs[i].locations);
+      }
+    }
+    return favLocs;
+  };
+  console.log(favs);
+
+  if (userSavedLocs.length > 0) {
     return (
       <div>
         <FavoritesHeader />
-        <LocationListingCard locations={favLocations} />
+        <LocationListingCard locations={favs} />
       </div>
     );
   } else {

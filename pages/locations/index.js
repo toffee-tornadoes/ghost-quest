@@ -24,17 +24,17 @@ const Locations = () => {
   const userLocation = useSelector(selectUserLocation);
   const nearbyLocations = useSelector(selectNearbyLocations);
 
-  useEffect(() => {
-    dispatch(fetchLocations());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchLocations());
+  // }, []);
 
-  useEffect(() => {
-    dispatch(fetchUserLocation());
-  }, [locations]);
+  // useEffect(() => {
+  //   dispatch(fetchUserLocation());
+  // }, [locations]);
 
-  useEffect(() => {
-    dispatch(fetchNearbyLocations({ locations, userLocation }));
-  }, [locations]);
+  // useEffect(() => {
+  //   dispatch(fetchNearbyLocations({ locations, userLocation }));
+  // }, [locations]);
 
   return (
     <div>
