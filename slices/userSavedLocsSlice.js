@@ -28,6 +28,19 @@ export const setVisitedLocs = createAsyncThunk(
   }
 );
 
+export const addVisitedLoc = createAsyncThunk(
+  "addVisitedLoc",
+  async ({ userId, locationId }) => {
+    const { data, error } = await supabase
+      .from("user_locations")
+      .upsert([
+        { location_id: locationId, profile_id: userId, has_visited: true },
+      ])
+
+    return data;
+  }
+);
+
 const userSavedLocsSlice = createSlice({
   name: "userSavedLocs",
   initialState,
@@ -37,9 +50,12 @@ const userSavedLocsSlice = createSlice({
       state = action.payload;
       return state;
     });
+    builder.addCase(addVisitedLoc.fulfilled, (state, action) => {
+      state.push(action.payload)
+    });
     builder.addCase(setVisitedLocs.fulfilled, (state, action) => {
       state.forEach((object) => {
-        if (object.location_id === action.payload[0].location_id) {
+        if (object?.location_id === action.payload[0].location_id) {
           const idx = state.indexOf(object)
           state.splice(idx, 1)
           state.push(action.payload[0])
