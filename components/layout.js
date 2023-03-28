@@ -20,6 +20,7 @@ import {
   getUserSavedLocs,
   selectUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
+import { fetchUserComments } from "@/slices/userCommentsSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -73,6 +74,10 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(getUserSavedLocs(user?.id));
+  }, [locations]);
+
+  useEffect(() => {
+    dispatch(fetchUserComments(user?.id));
   }, [locations]);
 
   const { isLoaded } = useLoadScript({
