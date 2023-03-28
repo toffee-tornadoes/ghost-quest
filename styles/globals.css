@@ -9,7 +9,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-
 a {
   color: inherit;
   text-decoration: none;
@@ -43,6 +42,7 @@ a {
   width: 100%;
   height: 100vh;
 }
+
 
 .anim-body {
   width: 100%;
