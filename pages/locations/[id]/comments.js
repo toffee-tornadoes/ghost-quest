@@ -11,27 +11,28 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectUserComments } from "@/slices/userCommentsSlice";
 
-export const getServerSideProps = async (context) => {
-  const { id } = context.params;
-  const { data } = await supabase
-    .from("comments")
-    .select("*,profiles(*),locations(*)")
-    .eq("location_id", id);
-  return {
-    props: {
-      data,
-    },
-  };
-};
+// export const getServerSideProps = async (context) => {
+//   const { id } = context.params;
+//   const { data } = await supabase
+//     .from("comments")
+//     .select("*,profiles(*),locations(*)")
+//     .eq("location_id", id);
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
 
 const CommentsPage = ({ data }) => {
-  const user = useUser();
+  const userComments = useSelector(selectUserComments);
+  console.log(userComments);
   return (
     <div className="max-h-400">
       <LocationHeader location={data[0].locations} />
       <div>
         <div className="overflow-auto content-center max-h-screen overscroll-contain ">
-          {data.map((comment) => {
+          {userComments.map((comment) => {
             return (
               <Fragment key={comment.id}>
                 <div className="p-6 m-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4">

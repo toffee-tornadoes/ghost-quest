@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Categories from "../categories";
+
 
 const SearchBar = ({ fetchResults, setLoading }) => {
   const [input, setInput] = useState("");
