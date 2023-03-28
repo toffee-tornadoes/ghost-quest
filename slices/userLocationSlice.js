@@ -45,13 +45,12 @@ const userLocationSlice = createSlice({
   initialState,
   reducers: {
     updateUserLocation: (state, action) => {
-      state = action.payload;
-      return state;
+    return action.payload;
     },
     resetUserLocation: (state, action) => {
       state = initialState;
       return state;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserLocation.fulfilled, (state, action) => {
