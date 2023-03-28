@@ -110,6 +110,15 @@ const Map = ({
     fetchDirections(selectedLocation, mode);
   };
 
+  const handleSelectLocation = (location) => {
+    if (distance && duration) {
+      setDistance(null);
+      setDuration(null);
+    } else {
+      setSelectedLocation(location)
+    }
+  };
+
   //circle parameters
   const defaultOptions = {
     strokeOpactiy: 0.5,
@@ -213,7 +222,7 @@ const Map = ({
                       animation={2}
                       clusterer={clusterer}
                       onClick={() => {
-                        setSelectedLocation(location);
+                        handleSelectLocation(location)
                       }}
                     ></MarkerF>
                   );
@@ -251,10 +260,7 @@ const Map = ({
                 <Link
                   onClick={!navUp && clickHandler}
                   className="text-lg hover:text-purple-600 text-slate-600 italic"
-                  href={{
-                    pathname: `/locations/${selectedLocation.id}`,
-                    query: selectedLocation,
-                  }}
+                  href={`/locations/${selectedLocation.id}`}
                 >
                   See More Info
                 </Link>
