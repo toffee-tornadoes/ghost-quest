@@ -10,14 +10,12 @@ const FavoriteIcon = ({
 }) => {
   const [fave, setFave] = useState(false);
   const [fill, setFill] = useState(color);
-  console.log(color);
 
   const faveHandle = async () => {
     const { data } = await supabase
       .from("user_locations")
       .select("id")
       .match({ location_id: locationId, profile_id: userId });
-    console.log(data);
     if (data.length === 0) {
       console.log("add favorite");
       setFill("purple");
