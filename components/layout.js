@@ -9,14 +9,20 @@ import { selectLocations, fetchLocations } from "@/slices/locationsSlice";
 import {
   selectUserLocation,
   fetchUserLocation,
-  updateUserLocation
+  updateUserLocation,
 } from "@/slices/userLocationSlice";
 import {
   fetchNearbyLocations,
   selectNearbyLocations,
 } from "@/slices/nearbyLocationsSlice";
+import { useUser } from "@supabase/auth-helpers-react";
+import {
+  getUserSavedLocs,
+  selectUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
 
 const Layout = ({ children }) => {
+  const user = useUser();
   const [navUp, setNavUp] = useState(false);
   const [height, setHeight] = useState("h-24");
   const [hidden, setHidden] = useState("hidden");
@@ -25,6 +31,8 @@ const Layout = ({ children }) => {
   const nearbyLocations = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
   const [arrow, setArrow] = useState(faChevronUp);
+
+  const userSavedLocs = useSelector(selectUserSavedLocs);
 
   const clickHandler = () => {
     if (!navUp) {
@@ -45,10 +53,10 @@ const Layout = ({ children }) => {
     const lat = latLng.lat();
     const lng = latLng.lng();
     console.log(`New latitude: ${lat}, New longitude: ${lng}`);
-    dispatch(updateUserLocation({ lat: lat, lng: lng}));
-    dispatch(fetchNearbyLocations({ locations, userLocation }))
-    console.log("My location: ", userLocation)
-    console.log("Nearby locations: ", nearbyLocations)
+    dispatch(updateUserLocation({ lat: lat, lng: lng }));
+    dispatch(fetchNearbyLocations({ locations, userLocation }));
+    console.log("My location: ", userLocation);
+    console.log("Nearby locations: ", nearbyLocations);
   };
 
   useEffect(() => {
@@ -62,6 +70,10 @@ const Layout = ({ children }) => {
   useEffect(() => {
     dispatch(fetchNearbyLocations({ locations, userLocation }));
   }, [locations, userLocation]);
+
+  useEffect(() => {
+    dispatch(getUserSavedLocs(user?.id));
+  }, [locations]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,

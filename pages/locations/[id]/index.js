@@ -30,7 +30,9 @@ export const getServerSideProps = async (context) => {
 const LocationPage = ({data}) => {
   const router = useRouter();
   const location = router.query;
+
   // the props being passed to LocationCard and CommentFooter may change
+
   return (
     <div>
       <LocationHeader location={location} />

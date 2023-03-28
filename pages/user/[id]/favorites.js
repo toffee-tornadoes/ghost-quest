@@ -1,33 +1,26 @@
-import { useUser } from "@supabase/auth-helpers-react";
-import { supabase } from "@/lib/supabaseClient";
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import FavoritesHeader from "./favorites-header";
+import { selectUserSavedLocs } from "@/slices/userSavedLocsSlice";
+import { useSelector } from "react-redux";
 
-export const getServerSideProps = async (context) => {
-  const { id } = context.params;
-  const { data } = await supabase
-    .from("user_locations")
-    .select("*,locations(*)")
-    .eq("profile_id", id)
-    .eq("is_favorited", true);
+const UserFavoritesPage = () => {
+  const userSavedLocs = useSelector(selectUserSavedLocs);
 
-  return {
-    props: {
-      data,
-    },
+  const findFavs = () => {
+    const favLocs = [];
+    for (let i = 0; i < userSavedLocs.length; i++) {
+      if (userSavedLocs[i].is_favorited === true) {
+        favLocs.push(userSavedLocs[i].locations);
+      }
+    }
+    return favLocs;
   };
-};
 
-// ghostquest.com/user/[id]/favorites
-const UserFavoritesPage = ({ data }) => {
-  let favLocations = [];
-
-  if (data.length > 0) {
-    data.map((location) => favLocations.push(location.locations));
+  if (userSavedLocs.length > 0) {
     return (
       <div>
         <FavoritesHeader />
-        <LocationListingCard locations={favLocations} />
+        <LocationListingCard locations={findFavs()} />
       </div>
     );
   } else {

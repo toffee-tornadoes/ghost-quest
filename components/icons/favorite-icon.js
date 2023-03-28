@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-const FavoriteIcon = ({ locationId, userId }) => {
+const FavoriteIcon = ({
+  locationId,
+  userId,
+  color,
+  setFavStatus,
+  favStatus,
+}) => {
   const [fave, setFave] = useState(false);
-  const [fill, setFill] = useState("none");
+  const [fill, setFill] = useState(color);
 
   const faveHandle = async () => {
-    if (!fave) {
+    const { data } = await supabase
+      .from("user_locations")
+      .select("id")
+      .match({ location_id: locationId, profile_id: userId });
+    if (data.length === 0) {
       console.log("add favorite");
       setFill("purple");
       const { data, error } = await supabase
@@ -15,6 +25,17 @@ const FavoriteIcon = ({ locationId, userId }) => {
           { location_id: locationId, profile_id: userId, is_favorited: true },
         ]);
       setFave(!fave);
+      setFavStatus(!favStatus);
+      return data;
+    } else if (data.length === 1 && !fave) {
+      console.log("update favorite");
+      setFill("purple");
+      const { data, error } = await supabase
+        .from("user_locations")
+        .update([{ is_favorited: true }])
+        .match({ location_id: locationId, profile_id: userId });
+      setFave(!fave);
+      setFavStatus(!favStatus);
       return data;
     } else {
       console.log("delete favorite");
@@ -24,6 +45,7 @@ const FavoriteIcon = ({ locationId, userId }) => {
         .update([{ is_favorited: false }])
         .match({ location_id: locationId, profile_id: userId });
       setFave(!fave);
+      setFavStatus(!favStatus);
       return data;
     }
   };
