@@ -6,11 +6,8 @@ const UserEdit = () => {
 
   const [username, setUsername] = useState("");
   const [full_name, setFullname] = useState("");
-  const [phone, setPhone] = useState("");
 
-  const [loading, setLoading] = useState(true);
-
-  async function updateProfile({ username }) {
+  async function updateProfile() {
     try {
       const avatar_url = `public/avatar${user?.id}.png`;
       const updates = {
@@ -31,24 +28,24 @@ const UserEdit = () => {
     console.log(user);
   }
 
-  async function storeProfilePic(file) {
-    try {
-      const avatarFile = file;
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .upload(`public/avatar${user?.id}.png`, avatarFile, {
-          cacheControl: "3600",
-          upsert: true,
-        });
-      if (error) {
-        throw error;
-      }else{
-        alert('profile updated')
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  }
+  // async function storeProfilePic(file) {
+  //   try {
+  //     const avatarFile = file;
+  //     const { data, error } = await supabase.storage
+  //       .from("avatars")
+  //       .upload(`public/avatar${user?.id}.png`, avatarFile, {
+  //         cacheControl: "3600",
+  //         upsert: true,
+  //       });
+  //     if (error) {
+  //       throw error;
+  //     }else{
+  //       alert('profile updated')
+  //     }
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // }
 
   return (
     <div className="m-4 flex flex-col">
@@ -70,7 +67,7 @@ const UserEdit = () => {
         onChange={(e) => setUsername(e.target.value)}
       />
 
-      <h4>Select Image</h4>
+      {/* <h4>Select Image</h4>
       <input
         className="text-sm text-grey-500
             file:mr-5 file:py-3 file:px-10
@@ -81,7 +78,7 @@ const UserEdit = () => {
         type="file"
         name="myImage"
         onChange={(e) => storeProfilePic(e.target.files)}
-      />
+      /> */}
 
       <button
         className="flex flex-row justify-between pl-2 pr-2 border-solid border-2 hover:bg-slate-900 rounded-md border-purple-600 text-purple-600 hover:cursor-pointer hover:border-green-600 hover:text-green-600"
