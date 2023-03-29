@@ -4,16 +4,29 @@ import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { Fragment } from "react";
-import { useSelector } from "react-redux";
-import { selectUserComments } from "@/slices/userCommentsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchUserComments,
+  selectUserComments,
+} from "@/slices/userCommentsSlice";
 import { useEffect, useState } from "react";
 import CommentsHeader from "./comments-header";
 
 const UserCommentsPage = () => {
+  const user = useUser();
+  const dispatch = useDispatch();
   const userComments = useSelector(selectUserComments);
   const [locs, setLocs] = useState([]);
 
   useEffect(() => {
+    dispatch(fetchUserComments(user?.id));
+  }, []);
+
+  useEffect(() => {
+    organizeLocs();
+  }, [userComments]);
+
+  const organizeLocs = () => {
     let current = 0;
     let idx = 0;
     const commentedLocs = [];
@@ -57,9 +70,7 @@ const UserCommentsPage = () => {
       }
     }
     setLocs(commentedLocs);
-  }, [userComments]);
-
-  console.log(locs);
+  };
 
   return (
     <div>
