@@ -1,32 +1,39 @@
 import { useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { supabase } from "@/lib/supabaseClient";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchAllUserComments } from "@/slices/allUserCommentsSlice";
 
 const CommentFooter = ({ location }) => {
   const [input, setInput] = useState("");
   const [comment, setComment] = useState("");
+  const [commented, setCommented] = useState(false);
   const user = useUser();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllUserComments(location?.id));
+    setCommented(false);
+  }, [commented]);
 
   const commentHandle = async (e) => {
     e.preventDefault();
     setComment(input);
     setInput("");
     try {
-      const { data, error } = await supabase
-        .from("comments")
-        .upsert([
-          {
-            content: input,
-            profile_id: `${user.id}`,
-            location_id: `${location.id}`,
-          },
-        ]);
+      const { data, error } = await supabase.from("comments").upsert([
+        {
+          content: input,
+          profile_id: `${user.id}`,
+          location_id: `${location.id}`,
+        },
+      ]);
+      setCommented(true);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(input);
-  console.log(comment);
 
   return (
     <div>

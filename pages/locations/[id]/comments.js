@@ -11,22 +11,11 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectUserComments } from "@/slices/userCommentsSlice";
 
-// export const getServerSideProps = async (context) => {
-//   const { id } = context.params;
-//   const { data } = await supabase
-//     .from("comments")
-//     .select("*,profiles(*),locations(*)")
-//     .eq("location_id", id);
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
+//This isn't getting called anywhere. Let's just delete it.
 
 const CommentsPage = ({ data }) => {
   const userComments = useSelector(selectUserComments);
-  console.log(userComments);
+
   return (
     <div className="max-h-400">
       <LocationHeader location={data[0].locations} />
