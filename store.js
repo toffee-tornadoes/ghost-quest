@@ -6,6 +6,7 @@ import userSavedLocsReducer from "./slices/userSavedLocsSlice";
 import userCommentsReducer from "./slices/userCommentsSlice";
 import userVisitedLocsReducer from "./slices/userVisitedSlice";
 import allUserCommentsReducer from "./slices/allUserCommentsSlice";
+import userProfileReducer from "./slices/userProfileSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     userComments: userCommentsReducer,
     userVisitedLocs: userVisitedLocsReducer,
     allUserComments: allUserCommentsReducer,
+    userProfile: userProfileReducer,
   },
 });
