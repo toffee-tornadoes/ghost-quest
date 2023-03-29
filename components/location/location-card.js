@@ -1,12 +1,13 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import { useState, useEffect } from "react";
 import {
   selectAllUserComments,
   fetchAllUserComments,
 } from "@/slices/allUserCommentsSlice";
+import StarRatings from "react-star-ratings";
+import { supabase } from "@/lib/supabaseClient";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
@@ -18,12 +19,10 @@ const LocationCard = ({ location }) => {
   }, []);
 
   console.log(allUserComments);
-import StarRatings from "react-star-ratings";
-import { supabase } from "@/lib/supabaseClient";
 
-const LocationCard = ({ location  }) => {
+
   console.log(location)
-  const userComments = useSelector(selectUserComments);
+  const userComments = useSelector(selectAllUserComments);
   console.log(userComments);
   const [rating, setRating] = useState(0);
 
