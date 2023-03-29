@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 const LocationHeader = ({ location, savedLocs }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const [isAdded, setIsAdded] = useState(false);
+  const [visited, setHasVisited] = useState(false);
+  console.log("visited state:", visited);
   const user = useUser();
   const userId = user?.id;
   const locationId = location?.id;
@@ -23,37 +23,62 @@ const LocationHeader = ({ location, savedLocs }) => {
 
   useEffect(() => {
     dispatch(getUserSavedLocs(userId));
-  }, [dispatch, userLocs]);
+
+    const current = userLocs.filter((obj) => {
+      return obj?.location_id == locationId;
+    });
+    // console.log(current);
+    if (current?.length == 0 || current[0]?.has_visited == false) {
+      return;
+    } else if (current?.length >= 1 && current[0]?.has_visited === true) {
+      return setHasVisited(true);
+    }
+    console.log("current:", current);
+    console.log("visited:", visited);
+  }, [dispatch, location, toggle]);
 
   // useEffect(() => {
   //   const current = userLocs.filter((obj) => {
-  //     return obj.location_id == locationId;
+  //     return obj?.location_id == locationId;
   //   })
-  //   console.log(current.has_visited);
-  // }, []);
+  //   // console.log(current);
+  //   if (current?.length == 0 || current?.has_visited == false) {
+  //     setHasVisited(false)
+  //   }
+
+  //   if (current?.length >= 1 && current?.has_visited == true) {
+  //     setHasVisited(true)
+  //   }
+  //   console.log("current:", current)
+  //   console.log("visited:", visited)
+  // }, [toggle]);
 
   const visitHandler = () => {
     const current = userLocs?.filter((obj) => {
       return obj?.location_id == locationId;
     });
 
-    console.log(current.length)
-
-    if(current?.length == 0 || current?.length == undefined) {
-      console.log('no match! adding now...')
-      dispatch(addVisitedLoc({ userId, locationId }));
+    if (current?.length == 0 || current?.length == undefined) {
+      console.log("no match! adding now...");
+      dispatch(addVisitedLoc({ userId, locationId })).then(()=>{setToggle(true)});
     }
 
     if (current[0]?.has_visited === true) {
-      setToggle(false)
-      console.log(toggle)
-      return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(()=>setToggle(!toggle));
+      setToggle(false);
+      setHasVisited(false);
+      // console.log(toggle)
+      return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(() =>
+        setToggle(!toggle)
+      ).then(()=>{setHasVisited(!visited)});
     }
 
     if (current[0]?.has_visited === false) {
-      setToggle(true)
-      console.log(toggle)
-      return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(()=>setToggle(!toggle));
+      // setToggle(!toggle);
+      setHasVisited(true);
+      // console.log(toggle)
+      return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(() =>
+        setToggle(!toggle)
+      );
     }
 
     return dispatch(getUserSavedLocs(userId));
@@ -71,19 +96,24 @@ const LocationHeader = ({ location, savedLocs }) => {
           </h1>
         </div>
       </div>
-      <div className="flex p-2">
-        <FontAwesomeIcon
-          className="text-2xl p-1 mr-2"
-          icon={faHouseCircleCheck}
-          style={{ color: "#27ca12" }}
-        />
-        <button onClick={visitHandler}>
-          <FontAwesomeIcon
-            className="text-2xl p-1 mr-2"
-            icon={faHouse}
-            style={{ color: "#8c8c8c" }}
-          />
-        </button>
+      <div className="p-2 flex flex-row">
+        {visited ? (
+          <button className="flex p-1" onClick={visitHandler}>
+            <FontAwesomeIcon
+              className="text-2xl mr-2"
+              icon={faHouseCircleCheck}
+              style={{ color: "#27ca12" }}
+            />
+          </button>
+        ) : (
+          <button className="flex p-1" onClick={visitHandler}>
+            <FontAwesomeIcon
+              className="text-2xl mr-2"
+              icon={faHouse}
+              style={{ color: "#8c8c8c" }}
+            />
+          </button>
+        )}
         <BackIcon />
       </div>
     </div>
