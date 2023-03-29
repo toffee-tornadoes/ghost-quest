@@ -90,19 +90,14 @@ const UserCommentsPage = () => {
                     </h2>
                   </Link>
                 </div>
-                <div className="p-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col items-center space-x-4">
-                  {loc.comments.map((comment) => {
+                <div className="flex flex-col justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-slate-700">
+                  {loc.comments.map((comment, idx) => {
                     if (comment)
                       return (
-                        <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
-                          {comment}
+                        <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
+                          {`${idx + 1}. ${comment}`}
                         </div>
                       );
-                    return (
-                      <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
-                        {comment?.content}
-                      </div>
-                    );
                   })}
                 </div>
               </Fragment>
