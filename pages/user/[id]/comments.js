@@ -105,7 +105,10 @@ const UserCommentsPage = () => {
                   {loc.comments.map((comment, idx) => {
                     if (comment)
                       return (
-                        <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
+                        <div
+                          key={idx}
+                          className="px-3 border-solid border-2 rounded-lg mt-4 text-left"
+                        >
                           {`${idx + 1}. ${comment}`}
                         </div>
                       );

@@ -16,8 +16,6 @@ const LocationCard = ({ location }) => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
 
-  console.log(allUserComments);
-
   return (
     <div className="flex top-0 flex-col m-5 ">
       <div className="">
