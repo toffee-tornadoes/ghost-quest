@@ -29,14 +29,16 @@ const LoginForm = () => {
 
   if (!user) {
     return (
-      <div className="w-full pl-14 pr-14">
-        {/* <button onClick={handleSignOut}>Sign Out</button> */}
-        <Auth
-          supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
-          theme="dark"
-          providers={["github", "google", "apple"]}
-        />
+      <div className="text-lg">
+        <div className="w-full pl-14 pr-14">
+          {/* <button onClick={handleSignOut}>Sign Out</button> */}
+          <Auth
+            supabaseClient={supabase}
+            appearance={{ theme: ThemeSupa }}
+            theme="dark"
+            providers={["github", "discord", "google"]}
+          />
+        </div>
       </div>
     );
   } else {
