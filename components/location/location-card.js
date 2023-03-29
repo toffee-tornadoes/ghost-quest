@@ -13,25 +13,64 @@ const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
   const [comments, setComments] = useState(allUserComments);
-  const [rating, setRating] = useState(0);
-
+  const [rating, setRating] = useState([]);
+  const [stars, setStars] = useState();
+  const [FetchRating, setFetchRating] = useState(false);
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
 
-  console.log(allUserComments);
+    useEffect(() => {
+    getRating(location.id).then((result)=>{ setRating(result);setFetchRating(false);});
+  }, [FetchRating]);
+  console.log(rating)
 
-  const ratingHandle = async () => {
+
+
+  const getRating = async (location_id) => {
     try {
-      console.log(rating);
-      const { error } = await supabase
+      // console.log(location_id)
+      const { data,error } = await supabase
         .from("locations")
-        .update([{ rating: [rating] }])
-        .eq("id", `${location.id}`);
+        .select('rating')
+        .eq("id", location_id);
+        setFetchRating(true)
+        return data
     } catch (error) {
       console.log(error);
     }
   };
+  //  getRating(location.id).then(console.log())
+  const ratingHandle =async (rating)=>{
+    console.log(rating)
+        try {
+          const { data, error } = await supabase
+            .from("locations")
+            .update([{rating:rating}])
+            .eq("id", `${location.id}`);
+            console.log(data)
+          return data;
+        } catch (error) {
+          console.log(error);
+        }
+  }
+  const newRating=(stars)=>{
+    console.log(stars)
+    const newArr = rating
+    newArr.push(stars)
+    ratingHandle(newArr);
+  }
+  const getAve = () => {
+    if (rating?.length) {
+      let sum = 0;
+      for (let i = 0; i < rating.length; i++) {
+        sum += Number(rating[i].rating);
+      }
+      console.log(sum)
+      return sum / rating.length;
+    }
+  };
+  console.log()
 
   return (
     <div className="flex top-0 flex-col m-5 ">
@@ -55,11 +94,12 @@ const LocationCard = ({ location }) => {
         <h1>Rating</h1>
         <div className="flex flex-row">
           <StarRatings
-            onChange={ratingHandle()}
-            rating={rating}
+            onChange={()=>newRating(stars)
+            }
+            rating={getAve()}
             starRatedColor="purple"
             starHoverColor="green"
-            changeRating={setRating}
+            changeRating={setStars}
             numberOfStars={5}
             name="rating"
           />
