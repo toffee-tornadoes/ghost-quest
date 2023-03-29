@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 const LocationHeader = ({ location, savedLocs }) => {
   const [toggle, setToggle] = useState(false);
   const [visited, setHasVisited] = useState(false);
-  console.log("visited state:", visited)
+  console.log("visited state:", visited);
   const user = useUser();
   const userId = user?.id;
   const locationId = location?.id;
@@ -26,17 +26,15 @@ const LocationHeader = ({ location, savedLocs }) => {
 
     const current = userLocs.filter((obj) => {
       return obj?.location_id == locationId;
-    })
+    });
     // console.log(current);
     if (current?.length == 0 || current[0]?.has_visited == false) {
-      return
+      return;
+    } else if (current?.length >= 1 && current[0]?.has_visited === true) {
+      return setHasVisited(true);
     }
-
-    else if (current?.length >= 1 && current[0]?.has_visited === true) {
-      return setHasVisited(true)
-    }
-    console.log("current:", current)
-    console.log("visited:", visited)
+    console.log("current:", current);
+    console.log("visited:", visited);
   }, [dispatch, location, toggle]);
 
   // useEffect(() => {
@@ -62,7 +60,7 @@ const LocationHeader = ({ location, savedLocs }) => {
 
     if (current?.length == 0 || current?.length == undefined) {
       console.log("no match! adding now...");
-      dispatch(addVisitedLoc({ userId, locationId }));
+      dispatch(addVisitedLoc({ userId, locationId })).then(()=>{setToggle(true)});
     }
 
     if (current[0]?.has_visited === true) {
@@ -71,11 +69,11 @@ const LocationHeader = ({ location, savedLocs }) => {
       // console.log(toggle)
       return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(() =>
         setToggle(!toggle)
-      );
+      ).then(()=>{setHasVisited(!visited)});
     }
 
     if (current[0]?.has_visited === false) {
-      setToggle(true);
+      // setToggle(!toggle);
       setHasVisited(true);
       // console.log(toggle)
       return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(() =>
@@ -116,7 +114,7 @@ const LocationHeader = ({ location, savedLocs }) => {
             />
           </button>
         )}
-          <BackIcon />
+        <BackIcon />
       </div>
     </div>
   );

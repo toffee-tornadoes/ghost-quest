@@ -8,6 +8,8 @@ import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
 import FaveButton from "@/components/ui/fave-button";
 import { useUser } from "@supabase/auth-helpers-react";
+import { useSelector } from "react-redux";
+import { selectLocations } from "@/slices/locationsSlice";
 
 // HOME VIEW/ROOT
 
@@ -26,10 +28,12 @@ export default function Home() {
   const loginText = "Login or Create an Account";
   const randomText = "Random Location";
 
+  const locations = useSelector(selectLocations)
+  const randomNum = Math.floor(Math.random() * locations.length);
   const locURL = "locations";
   const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
-  const randomURL = `location/[id]`;
+  const randomURL = `location/${randomNum}`;
 
   return (
     <Fragment>
