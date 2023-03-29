@@ -8,8 +8,6 @@ import {
 } from "@/slices/allUserCommentsSlice";
 import StarRatings from "react-star-ratings";
 import { supabase } from "@/lib/supabaseClient";
-import StarRatings from "react-star-ratings";
-import { supabase } from "@/lib/supabaseClient";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
@@ -28,7 +26,7 @@ const LocationCard = ({ location }) => {
       console.log(rating);
       const { error } = await supabase
         .from("locations")
-        .insert([{ rating: [rating] }])
+        .update([{ rating: [rating] }])
         .eq("id", `${location.id}`);
     } catch (error) {
       console.log(error);
