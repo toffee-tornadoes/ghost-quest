@@ -28,12 +28,12 @@ export default function Home() {
   const loginText = "Login or Create an Account";
   const randomText = "Random Location";
 
-  const locations = useSelector(selectLocations)
+  const locations = useSelector(selectLocations);
   const randomNum = Math.floor(Math.random() * locations.length);
   const locURL = "locations";
   const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
-  const randomURL = `location/${randomNum}`;
+  const randomURL = `locations/${randomNum}`;
 
   return (
     <Fragment>
@@ -60,7 +60,11 @@ export default function Home() {
         />
         <HomeButton link={locURL} text={clickText} />
         <FaveButton link={favURL} text={favesText} />
-        <HomeButton link={randomURL} text={randomText} />
+        <HomeButton
+          link={randomURL}
+          text={randomText}
+          location={locations[randomNum]}
+        />
       </div>
       {!user && (
         <div className="flex justify-center mb-8">
