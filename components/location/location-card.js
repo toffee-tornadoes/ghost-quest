@@ -1,40 +1,37 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import { useState, useEffect } from "react";
 import {
   selectAllUserComments,
   fetchAllUserComments,
 } from "@/slices/allUserCommentsSlice";
+import StarRatings from "react-star-ratings";
+import { supabase } from "@/lib/supabaseClient";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
   const [comments, setComments] = useState(allUserComments);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
 
   console.log(allUserComments);
-import StarRatings from "react-star-ratings";
-import { supabase } from "@/lib/supabaseClient";
 
-const LocationCard = ({ location  }) => {
-  console.log(location)
-  const userComments = useSelector(selectUserComments);
-  console.log(userComments);
-  const [rating, setRating] = useState(0);
-
-    const ratingHandle = async () => {
-      try {
-        console.log(rating)
-        const { error } = await supabase.from("locations").insert([{  rating: [rating] }]).eq('id',`${location.id}`);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const ratingHandle = async () => {
+    try {
+      console.log(rating);
+      const { error } = await supabase
+        .from("locations")
+        .insert([{ rating: [rating] }])
+        .eq("id", `${location.id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex top-0 flex-col m-5 ">
@@ -61,7 +58,7 @@ const LocationCard = ({ location  }) => {
             onChange={ratingHandle()}
             rating={rating}
             starRatedColor="purple"
-            starHoverColor='green'
+            starHoverColor="green"
             changeRating={setRating}
             numberOfStars={5}
             name="rating"
