@@ -1,85 +1,38 @@
 // ghostquest.com/user/[id]/visited
 import { useUser } from "@supabase/auth-helpers-react";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { Fragment, useEffect, useState } from "react";
 import LocationListingCard from "@/components/locations/loc-listing-card";
-import BackIcon from "@/components/icons/back-icon";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getUserSavedLocs,
-  selectUserSavedLocs,
-  setVisitedLocs,
-} from "@/slices/userSavedLocsSlice";
-
-// export const getServerSideProps = async (context) => {
-//   const { id } = context.params;
-//   const { data } = await supabase
-//     .from("user_locations")
-//     .select("*,locations(*)")
-//     .eq("profile_id", id)
-//     .eq("has_visited", true);
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
+  getUserVisitedLocs,
+  selectUserVisitedLocs,
+} from "@/slices/userVisitedSlice";
+import VisitedHeader from "@/components/visited/visited-header";
 
 const UserPlacesVisitedPage = ({ data }) => {
   const user = useUser();
   const dispatch = useDispatch();
-  const savedLocs = useSelector(selectUserSavedLocs);
+  const userVisitedLocs = useSelector(selectUserVisitedLocs);
 
   useEffect(() => {
-    dispatch(getUserSavedLocs(user?.id));
+    dispatch(getUserVisitedLocs(user?.id));
   }, []);
-  console.log(savedLocs[0].locations)
-  // let visitedLocations = [];
 
-  // useEffect(() => {
-  //   savedLocs?.filter((location) => {
-  //     location?.has_visited === true && visitedLocations.push(location.locations);
-  //     console.log(visitedLocations);
-  //   });
-  // }, [dispatch]);
-
-  // if (savedLocs.length > 0 && savedLocs !== null) {
-  //   // console.log(visitedLocations)
-  //   // savedLocs?.map((location) => {
-  //   //   location?.has_visited && visitedLocations.push(location)
-      // return (
-      //   <div>
-      //     <LocationListingCard locations={savedLocs} />
-      //   </div>
-      // )
-  //   // })
-  // }
-
-
-  // else {
-  //   return (
-  //     <>
-  //       <div
-  //         className="border-b-white border-b flex justify-between"
-  //         id="favorites-header"
-  //       >
-  //         <div className="m-2 text-left text-3xl">
-  //           <h1 className="w-full">Visited Locations</h1>
-  //           <div className="text-slate-500 italic text-base">
-  //             <h1></h1>
-  //           </div>
-  //         </div>
-  //         <div className="p-2">
-  //           <BackIcon />
-  //         </div>
-  //       </div>
-  //       <div>
-  //         <p>No Visited Locations</p>
-  //       </div>
-  //     </>
-  //   );
-  // }
+  return (
+    <div>
+      <VisitedHeader />
+      <div>
+        {userVisitedLocs ||
+        userVisitedLocs.length >= 1 ||
+        userVisitedLocs !== null ? (
+          <LocationListingCard locations={userVisitedLocs} />
+        ) : (
+          <Fragment>
+          </Fragment>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default UserPlacesVisitedPage;

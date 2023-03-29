@@ -2,8 +2,6 @@ import Link from "next/link";
 import ForwardIcon from "../icons/forward-icon";
 
 const HomeButton = ({ text, link, location }) => {
-  console.log(location);
-
   return (
     <Link
       href={{ pathname: `/${link}`, query: location }}
