@@ -9,7 +9,7 @@ const CommentsHeader = () => {
       <div className="m-2 text-left text-3xl">
         <h1 className="w-full">Comments</h1>
         <div className="text-slate-500 italic text-base">
-          <h1></h1>
+          <h1>Your Comments...</h1>
         </div>
       </div>
       <div className="p-2">

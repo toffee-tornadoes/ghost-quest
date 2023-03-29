@@ -1,9 +1,23 @@
-import BackIcon from "../icons/back-icon";
 import { Fragment } from "react";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { selectUserComments } from "@/slices/userCommentsSlice";
+import { useState, useEffect } from "react";
+import {
+  selectAllUserComments,
+  fetchAllUserComments,
+} from "@/slices/allUserCommentsSlice";
+
+const LocationCard = ({ location }) => {
+  const dispatch = useDispatch();
+  const allUserComments = useSelector(selectAllUserComments);
+  const [comments, setComments] = useState(allUserComments);
+
+  useEffect(() => {
+    dispatch(fetchAllUserComments(location.id));
+  }, []);
+
+  console.log(allUserComments);
 import StarRatings from "react-star-ratings";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -63,21 +77,32 @@ const LocationCard = ({ location  }) => {
         <p># People</p>
       </div>
       <div>
+        <div
+          className="border-b-white border-b flex justify-between"
+          id="favorites-header"
+        >
+          <div className="m-2 text-left text-3xl">
+            <h1 className="w-full">Comments</h1>
+            <div className="text-slate-500 italic text-base">
+              <h1>All User Comments...</h1>
+            </div>
+          </div>
+        </div>
         <div className="overflow-auto content-center max-h-screen ">
-          {userComments?.map((comment) => {
+          {allUserComments?.map((comment) => {
             if (comment.location_id == location.id) {
               return (
                 <Fragment key={comment.id}>
-                  <div className="p-6 m-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4 shadow-green-400">
+                  <div className="flex flex-col justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-slate-700">
                     {comment.profiles && (
-                      <Link
+                      <div
                         className="p-6 text-lg hover:text-slate-300 "
                         href={`/user/${comment.profiles.id}`}
                       >
                         {comment.profiles.username}
-                      </Link>
+                      </div>
                     )}
-                    <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
+                    <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
                       {comment.content}
                     </div>
                   </div>
