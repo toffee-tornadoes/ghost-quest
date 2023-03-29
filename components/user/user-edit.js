@@ -1,38 +1,64 @@
-import { useUser } from "@supabase/auth-helpers-react";
-import { useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { useState, useEffect } from "react";
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import HomeButtonGr from "../ui/home-button-gr";
+import { resetUserComments } from "@/slices/userCommentsSlice";
+import { resetUserLocation } from "@/slices/userLocationSlice";
+import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
+import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
+
 const UserEdit = () => {
   const user = useUser();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const supabase = useSupabaseClient();
+  const userProfile = useSelector(selectUserProfile);
 
   const [username, setUsername] = useState("");
   const [full_name, setFullname] = useState("");
 
+  // useEffect(() => {
+  //   dispatch(fetchUserProfile(user?.id))
+  //   console.log("fetch user", fetchUserProfile)
+  //   console.log("user", user)
+  // }, [username, full_name])
+
   async function updateProfile() {
-
-      // const avatar_url = `public/avatar${user?.id}.png`;
-      const updates = {
-        id: user.id,
-        username,
-        full_name,
-        // avatar_url,
-        updated_at: new Date(),
-      };
-      if(username.length && full_name.length){
-        try {
-          let { error } = await supabase.from("profiles").upsert(updates);
-          alert('profile updated')
-          if (error) {
-            throw error;
-          }
-        } catch (error) {
-          alert(error.message);
+    // const avatar_url = `public/avatar${user?.id}.png`;
+    const updates = {
+      id: user.id,
+      username,
+      full_name,
+      // avatar_url,
+      updated_at: new Date(),
+    };
+    if (username.length && full_name.length) {
+      try {
+        let { error } = await supabase.from("profiles").upsert(updates);
+        alert("profile updated");
+        if (error) {
+          throw error;
         }
-      }else{
-        alert('please enter a username and your full name the press update')
+      } catch (error) {
+        alert(error.message);
       }
-
-
+    } else {
+      alert("please enter a username and your full name the press update");
+    }
   }
+
+  const handleSignOut = () => {
+    const confirmSignout = window.confirm("Are you sure you want to sign out?");
+    if (confirmSignout) {
+      supabase.auth.signOut();
+      dispatch(resetUserLocation());
+      dispatch(resetUserComments());
+      dispatch(resetUserSavedLocs());
+      console.log("signed out");
+      router.push(`/`);
+    }
+  };
 
   // async function storeProfilePic(file) {
   //   try {
@@ -87,13 +113,18 @@ const UserEdit = () => {
       /> */}
 
       <button
-        className="flex flex-row justify-between pl-2 pr-2 border-solid border-2 hover:bg-slate-900 rounded-md border-purple-600 text-purple-600 hover:cursor-pointer hover:border-green-600 hover:text-green-600"
+        className="w-full flex justify-center"
         onClick={() => {
           updateProfile({ username });
         }}
       >
-        update
+        update username
       </button>
+      <div>
+        <button onClick={handleSignOut} className="w-full flex justify-center">
+          <HomeButtonGr link={`/user/${user?.id}` || `/`} text="Sign Out" />
+        </button>
+      </div>
     </div>
   );
 };
