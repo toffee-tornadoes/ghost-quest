@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { selectUserComments } from "@/slices/userCommentsSlice";
 import { useEffect, useState } from "react";
+import CommentsHeader from "./comments-header";
 
 const UserCommentsPage = () => {
   const userComments = useSelector(selectUserComments);
@@ -62,49 +63,53 @@ const UserCommentsPage = () => {
 
   return (
     <div>
-      {locs?.map((loc) => {
-        return (
-          <Fragment key={loc.loc.id}>
-            <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
-              <Link
-                className="w-full text-base text-left text-slate-500 hover:text-purple-400"
-                href={{
-                  pathname: `/locations/${loc.loc.id}`,
-                  query: loc.loc,
-                }}
-              >
-                <h2 className="flex">
-                  {`"${loc.loc.location}"\u00A0`}{" "}
-                  <div
-                    id="cityState"
-                    className="italic text-slate-400 text-right pr-2"
+      <CommentsHeader />
+      <div>
+        <div className="text-lg">
+          {locs?.map((loc) => {
+            return (
+              <Fragment key={loc.loc.id}>
+                <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
+                  <Link
+                    className="w-full text-base text-left text-slate-500 hover:text-purple-400"
+                    href={{
+                      pathname: `/locations/${loc.loc.id}`,
+                      query: loc.loc,
+                    }}
                   >
-                    {loc.loc.city}
-                    {", "}
-                    {loc.loc.state}
-                  </div>
-                </h2>
-              </Link>
-            </div>
-            <div className="p-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col  items-center space-x-4">
-              {loc.comments.map((comment) => {
-                if (comment)
-                  return (
-                    <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
-                      {comment}
-                    </div>
-                  );
-                return (
-                  <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
-                    {"loading..."}
-                    {comment?.content}
-                  </div>
-                );
-              })}
-            </div>
-          </Fragment>
-        );
-      })}
+                    <h2 className="flex">
+                      {`"${loc.loc.location}"\u00A0`}{" "}
+                      <div
+                        id="cityState"
+                        className="italic text-slate-400 text-right pr-2"
+                      >
+                        {loc.loc.city}
+                        {", "}
+                        {loc.loc.state}
+                      </div>
+                    </h2>
+                  </Link>
+                </div>
+                <div className="p-6 max-w-sm mx-auto bg-purple-500 rounded-xl shadow-lg flex-col items-center space-x-4">
+                  {loc.comments.map((comment) => {
+                    if (comment)
+                      return (
+                        <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
+                          {comment}
+                        </div>
+                      );
+                    return (
+                      <div className="border-solid border-2 rounded-lg mt-4 border-indigo-600">
+                        {comment?.content}
+                      </div>
+                    );
+                  })}
+                </div>
+              </Fragment>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
