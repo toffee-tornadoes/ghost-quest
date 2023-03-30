@@ -4,7 +4,10 @@ import { supabase } from "@/lib/supabaseClient";
 const initialState = [];
 
 export const fetchLocations = createAsyncThunk("fetchLocations", async () => {
-  const { data } = await supabase.from("locations").select();
+  const { data } = await supabase
+    .from("locations")
+    .select()
+    .order("id", { ascending: true });
   return data;
 });
 
