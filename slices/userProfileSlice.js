@@ -11,6 +11,7 @@ export const fetchUserProfile = createAsyncThunk(
       .select("*")
       .eq("id", userId)
       .single();
+    console.log(data);
     return data;
   }
 );
@@ -18,7 +19,12 @@ export const fetchUserProfile = createAsyncThunk(
 const userProfileSlice = createSlice({
   name: "userProfile",
   initialState,
-  reducers: {},
+  reducers: {
+    resetUserProfile: (state, action) => {
+      state = initialState;
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       return action.payload;
@@ -26,5 +32,6 @@ const userProfileSlice = createSlice({
   },
 });
 
+export const { resetUserProfile } = userProfileSlice.actions;
 export const selectUserProfile = (state) => state.userProfile;
 export default userProfileSlice.reducer;
