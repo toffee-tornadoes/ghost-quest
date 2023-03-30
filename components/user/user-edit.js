@@ -6,7 +6,11 @@ import HomeButtonGr from "../ui/home-button-gr";
 import { resetUserComments } from "@/slices/userCommentsSlice";
 import { resetUserLocation } from "@/slices/userLocationSlice";
 import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
-import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
+import {
+  fetchUserProfile,
+  resetUserProfile,
+  selectUserProfile,
+} from "@/slices/userProfileSlice";
 
 const UserEdit = () => {
   const user = useUser();
@@ -14,15 +18,17 @@ const UserEdit = () => {
   const dispatch = useDispatch();
   const supabase = useSupabaseClient();
   const userProfile = useSelector(selectUserProfile);
+  const [userUpdated, setUserUpdated] = useState(false);
 
   const [username, setUsername] = useState("");
   const [full_name, setFullname] = useState("");
 
-  // useEffect(() => {
-  //   dispatch(fetchUserProfile(user?.id))
-  //   console.log("fetch user", fetchUserProfile)
-  //   console.log("user", user)
-  // }, [username, full_name])
+  useEffect(() => {
+    dispatch(fetchUserProfile(user?.id));
+    console.log("fetch user", fetchUserProfile);
+    console.log("user", user);
+    setUserUpdated(false);
+  }, [userUpdated]);
 
   async function updateProfile() {
     // const avatar_url = `public/avatar${user?.id}.png`;
@@ -40,6 +46,7 @@ const UserEdit = () => {
         if (error) {
           throw error;
         }
+        setUserUpdated(true);
       } catch (error) {
         alert(error.message);
       }
@@ -55,6 +62,7 @@ const UserEdit = () => {
       dispatch(resetUserLocation());
       dispatch(resetUserComments());
       dispatch(resetUserSavedLocs());
+      dispatch(resetUserProfile());
       console.log("signed out");
       router.push(`/`);
     }

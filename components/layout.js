@@ -21,6 +21,7 @@ import {
   selectUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
 import { fetchUserComments } from "@/slices/userCommentsSlice";
+import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -32,7 +33,7 @@ const Layout = ({ children }) => {
   const nearbyLocations = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
   const [arrow, setArrow] = useState(faChevronUp);
-
+  const userProfile = useSelector(selectUserProfile);
   const userSavedLocs = useSelector(selectUserSavedLocs);
 
   const clickHandler = () => {
@@ -77,6 +78,11 @@ const Layout = ({ children }) => {
   useEffect(() => {
     dispatch(fetchUserComments(user?.id));
   }, [locations]);
+
+  useEffect(() => {
+    dispatch(fetchUserProfile(user?.id));
+  }, [locations]);
+  console.log(userProfile);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
