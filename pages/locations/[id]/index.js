@@ -55,7 +55,7 @@ const LocationPage = () => {
       <LocationCard location={location} userComments={userComments} />
       {/* <hr /> */}
       <CommentFooter location={location} />
-      <button className="my-5 bg-cyan-900">Let's Hunt!</button>
+      {/* <button className="my-5 bg-cyan-900">Let's Hunt!</button> */}
     </div>
   );
 };
