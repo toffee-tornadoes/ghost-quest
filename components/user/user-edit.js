@@ -25,8 +25,6 @@ const UserEdit = () => {
 
   useEffect(() => {
     dispatch(fetchUserProfile(user?.id));
-    console.log("fetch user", fetchUserProfile);
-    console.log("user", user);
     setUserUpdated(false);
   }, [userUpdated]);
 
@@ -63,8 +61,6 @@ const UserEdit = () => {
       dispatch(resetUserComments());
       dispatch(resetUserSavedLocs());
       dispatch(resetUserProfile());
-      console.log("signed out");
-      router.push(`/`);
     }
   };
 
@@ -130,7 +126,7 @@ const UserEdit = () => {
       </button>
       <div>
         <button onClick={handleSignOut} className="w-full flex justify-center">
-          <HomeButtonGr link={`/user/${user?.id}` || `/`} text="Sign Out" />
+          <HomeButtonGr link={`/`} text="Sign Out" />
         </button>
       </div>
     </div>

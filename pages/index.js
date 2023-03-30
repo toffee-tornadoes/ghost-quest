@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Head>
+      {/* <Head>
         <title>GHOST QUEST</title>
         <meta
           name="description"
@@ -49,7 +49,7 @@ export default function Home() {
           type="image/svg+xml"
           href="ghost-quest-high-resolution-color-logo.png"
         />
-      </Head>
+      </Head> */}
       <div className="items-center text-white flex flex-col">
         <HomeHeader />
         <hr />
