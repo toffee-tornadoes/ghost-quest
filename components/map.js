@@ -23,9 +23,10 @@ const Map = ({
   const onLoad = useCallback((map) => (mapRef.current = map), []);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [directions, setDirections] = useState(google.maps.DirectionsResult);
-  const [travelMode, setTravelMode] = useState(google.maps.TravelMode.DRIVING);
+  const [travelMode, setTravelMode] = useState(null);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
+  const [showDirections, setShowDirections] = useState(null);
   const dispatch = useDispatch();
 
   //map parameters
@@ -91,7 +92,9 @@ const Map = ({
               (result, status) => {
                 if (status === "OK" && result) {
                   setDirections(null);
+                  // setShowDirections(false);
                   setDirections(result);
+                  // setShowDirections(true);
                 }
               }
             );
@@ -106,17 +109,35 @@ const Map = ({
   };
 
   const handleTravelModeChange = (mode) => {
+    // setShowDirections(false)
+    // setTravelMode(null);
     setTravelMode(mode);
     fetchDirections(selectedLocation, mode);
   };
 
-  const handleSelectLocation = (location) => {
-    if (distance && duration) {
-      setDistance(null);
-      setDuration(null);
-    } else {
-      setSelectedLocation(location);
-    }
+  const handleSelectLocation = async (location) => {
+    // if (distance && duration) {
+    //   setDistance(null);
+    //   setDuration(null);
+    // } else {
+    //   // handleRemoveRoute()
+    //   // setShowDirections(true)
+    handleRemoveRoute();
+    setShowDirections(false);
+    setSelectedLocation(location);
+    // }
+  };
+  // set selectedLocation null, new state T/F to show DirectionsRenderer
+  // const handleRemoveRoute = () => {
+  //   setShowDirections(false);
+  //   setDistance(null);
+  //   setDirections(null)
+  //   setTravelMode(null)
+  // };
+  const handleRemoveRoute = () => {
+    setTravelMode(null);
+    setDistance(null);
+    setDirections(null);
   };
 
   //circle parameters
@@ -168,15 +189,17 @@ const Map = ({
             // opacity: .5,
           }}
         >
-          <DirectionsRenderer
-            directions={directions}
-            options={{
-              suppressMarkers: true,
-              polylineOptions: {
-                strokeColor: "purple",
-              },
-            }}
-          />
+          {travelMode !== null ? (
+            <DirectionsRenderer
+              directions={directions}
+              options={{
+                suppressMarkers: true,
+                polylineOptions: {
+                  strokeColor: "purple",
+                },
+              }}
+            />
+          ) : null}
 
           {/* set user's starting location (either the default or based on geodata) */}
           <MarkerF
@@ -267,29 +290,48 @@ const Map = ({
                 >
                   See More Info
                 </Link>
-                <div className="flex justify-between">
-                  <button
-                    onClick={() =>
-                      handleTravelModeChange(google.maps.TravelMode.DRIVING)
-                    }
-                  >
-                    Driving
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleTravelModeChange(google.maps.TravelMode.BICYCLING)
-                    }
-                  >
-                    Bicycling
-                  </button>
-                  <button
-                    onClick={() =>
-                      handleTravelModeChange(google.maps.TravelMode.WALKING)
-                    }
-                  >
-                    Walking
-                  </button>
-                </div>
+                {showDirections ? (
+                  <div className="flex justify-between my-3 text-center">
+                    <button
+                      onClick={() =>
+                        handleTravelModeChange(google.maps.TravelMode.DRIVING)
+                      }
+                    >
+                      Driving
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleTravelModeChange(google.maps.TravelMode.BICYCLING)
+                      }
+                    >
+                      Bicycling
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleTravelModeChange(google.maps.TravelMode.WALKING)
+                      }
+                    >
+                      Walking
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-center my-3">
+                    <button onClick={() => setShowDirections(true)}>
+                      Directions?
+                    </button>
+                  </div>
+                )}
+                {travelMode && (
+                  <div className="text-center my-3">
+                    <button
+                      onClick={() => {
+                        handleRemoveRoute();
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             </InfoWindowF>
           )}
