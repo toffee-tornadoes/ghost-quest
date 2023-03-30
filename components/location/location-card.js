@@ -53,8 +53,11 @@ const LocationCard = ({ location }) => {
     const total = ratings?.reduce((acc, cv) => {
       return acc + cv;
     }, 0);
-    const rating = total / ratings?.length;
-    return rating;
+    if (ratings?.length === 1) return total;
+    else {
+      const rating = total / (ratings?.length - 1);
+      return rating;
+    }
   };
 
   return (
@@ -76,7 +79,7 @@ const LocationCard = ({ location }) => {
         <p>Some hours</p>
       </div>
       <div className="bg-slate-800 m-5">
-        <h1>Ratings</h1>
+        <h1>Ratings ({ratings?.length - 1})</h1>
         <div className="flex flex-row justify-center">
           <StarRatings
             rating={rating}
