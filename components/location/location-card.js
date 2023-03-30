@@ -13,24 +13,48 @@ const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
   const [comments, setComments] = useState(allUserComments);
-  const [rating, setRating] = useState(0);
+  const [ratings, setRatings] = useState();
+  const [rating, setRating] = useState();
+  const [ratingsFetched, setRatingsFetched] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
 
-  console.log(allUserComments);
+  useEffect(() => {
+    getRating(location?.id).then((result) => {
+      setRatings(result);
+      const avgRating = getAvg(result);
+      setRating(avgRating);
+    });
+    setRatingsFetched(false);
+  }, [ratingsFetched]);
 
-  const ratingHandle = async () => {
-    try {
-      console.log(rating);
-      const { error } = await supabase
-        .from("locations")
-        .insert([{ rating: [rating] }])
-        .eq("id", `${location.id}`);
-    } catch (error) {
-      console.log(error);
-    }
+  const getRating = async (locationId) => {
+    const { data } = await supabase
+      .from("locations")
+      .select("rating")
+      .eq("id", locationId);
+    const ratings = data[0].rating;
+    return ratings;
+  };
+
+  const ratingHandle = async (stars, ratings, locationId) => {
+    const newRatings = ratings;
+    newRatings.push(Number(stars));
+    const { data } = await supabase
+      .from("locations")
+      .update({ rating: newRatings })
+      .eq("id", locationId);
+    return data;
+  };
+
+  const getAvg = (ratings) => {
+    const total = ratings?.reduce((acc, cv) => {
+      return acc + cv;
+    }, 0);
+    const rating = total / ratings?.length;
+    return rating;
   };
 
   return (
@@ -52,16 +76,19 @@ const LocationCard = ({ location }) => {
         <p>Some hours</p>
       </div>
       <div className="bg-slate-800 m-5">
-        <h1>Rating</h1>
-        <div className="flex flex-row">
+        <h1>Ratings</h1>
+        <div className="flex flex-row justify-center">
           <StarRatings
-            onChange={ratingHandle()}
             rating={rating}
             starRatedColor="purple"
             starHoverColor="green"
-            changeRating={setRating}
+            changeRating={(evt) => {
+              ratingHandle(evt, ratings, location?.id);
+              setRatingsFetched(true);
+            }}
             numberOfStars={5}
             name="rating"
+            editing={false}
           />
         </div>
       </div>
