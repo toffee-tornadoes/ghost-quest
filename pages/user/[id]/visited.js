@@ -27,8 +27,9 @@ const UserPlacesVisitedPage = ({ data }) => {
         userVisitedLocs !== null ? (
           <LocationListingCard locations={userVisitedLocs} />
         ) : (
-          <Fragment>
-          </Fragment>
+          <h3>
+            You haven't haunted anything yet!
+          </h3>
         )}
       </div>
     </div>
