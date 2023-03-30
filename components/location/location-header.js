@@ -16,9 +16,7 @@ import {
 } from "@/slices/userVisitedSlice";
 
 const LocationHeader = ({ location, state }) => {
-  // const [toggle, setToggle] = useState(state);
   // console.log("visited state:", state);
-  // console.log("toggle state:", toggle);
 
   const user = useUser();
   const userId = user?.id;
@@ -26,8 +24,6 @@ const LocationHeader = ({ location, state }) => {
   const dispatch = useDispatch();
   const userLocs = useSelector(selectUserSavedLocs);
   const userVisitedLocs = useSelector(selectUserVisitedLocs);
-  // console.log(userVisitedLocs)
-  // console.log(userLocs)
 
   useEffect(() => {
     dispatch(getUserVisitedLocs(user?.id));
@@ -99,7 +95,7 @@ const LocationHeader = ({ location, state }) => {
       </div>
       <div className="p-2 flex flex-row">
         {state ? (
-          <button className="flex p-1" onClick={visitHandler}>
+          <button className="flex p-1 hover:opacity-70" onClick={visitHandler}>
             <FontAwesomeIcon
               className="text-2xl mr-2"
               icon={faHouseCircleCheck}
@@ -107,7 +103,7 @@ const LocationHeader = ({ location, state }) => {
             />
           </button>
         ) : (
-          <button className="flex p-1" onClick={visitHandler}>
+          <button className="flex p-1 opacity-50 hover:opacity-100" onClick={visitHandler}>
             <FontAwesomeIcon
               className="text-2xl mr-2"
               icon={faHouse}
