@@ -8,15 +8,17 @@ import {
 } from "@/slices/allUserCommentsSlice";
 import StarRatings from "react-star-ratings";
 import { supabase } from "@/lib/supabaseClient";
+import { selectLocations } from "@/slices/locationsSlice";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
+  const locations = useSelector(selectLocations)
   const [comments, setComments] = useState(allUserComments);
   const [ratings, setRatings] = useState();
   const [rating, setRating] = useState();
+  const [visitors, setVisitors] = useState(0);
   const [ratingsFetched, setRatingsFetched] = useState(false);
-
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
@@ -59,6 +61,24 @@ const LocationCard = ({ location }) => {
       return rating;
     }
   };
+    useEffect(() => {
+      getVisited().then((result) => {
+        setVisitors(result);
+      });
+      setRatingsFetched(false);
+    }, [ratingsFetched]);
+
+  const getVisited = async()=>{
+    let count =0
+    const {data}= await supabase.from('user_locations').select().eq('location_id',location.id).eq('has_visited', true)
+    console.log(data)
+    data.forEach(()=>{
+      count++
+    })
+    console.log(count)
+    return count
+  }
+
 
   return (
     <div className="flex top-0 flex-col m-5 ">
@@ -101,7 +121,7 @@ const LocationCard = ({ location }) => {
       </div>
       <div className="bg-slate-800 m-5">
         <h1>Past Visitors</h1>
-        <p># People</p>
+        <p> {visitors} People</p>
       </div>
       <div>
         <div
