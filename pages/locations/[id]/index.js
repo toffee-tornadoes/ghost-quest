@@ -53,7 +53,7 @@ const LocationPage = () => {
       <LocationHeader state={hasVisited} location={location} />
       <hr />
       <LocationCard location={location} userComments={userComments} />
-      <hr />
+      {/* <hr /> */}
       <CommentFooter location={location} />
       <button className="my-5 bg-cyan-900">Let's Hunt!</button>
     </div>

@@ -8,6 +8,7 @@ import {
 } from "@/slices/allUserCommentsSlice";
 import StarRatings from "react-star-ratings";
 import { supabase } from "@/lib/supabaseClient";
+import CommentCard from "./comment-card";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
@@ -70,14 +71,14 @@ const LocationCard = ({ location }) => {
         />
         <p className="text-left text-slate-300">{location?.description}</p>
       </div>
-      <div className="bg-slate-800 m-5">
+      {/* <div className="bg-slate-800 m-5">
         <h1>Distance</h1>
         <p>Some miles idk</p>
-      </div>
-      <div className="bg-slate-800 m-5">
+      </div> */}
+      {/* <div className="bg-slate-800 m-5">
         <h1>Destination Time</h1>
         <p>Some hours</p>
-      </div>
+      </div> */}
       <div className="bg-slate-800 m-5">
         <h1>Ratings ({ratings?.length - 1})</h1>
         <div className="flex flex-row justify-center">
@@ -95,45 +96,28 @@ const LocationCard = ({ location }) => {
           />
         </div>
       </div>
-      <div className="bg-slate-800 m-5">
+      {/* <div className="bg-slate-800 m-5">
         <h1>Fear Factor</h1>
         <p>0-10 Ghosts</p>
-      </div>
+      </div> */}
       <div className="bg-slate-800 m-5">
         <h1>Past Visitors</h1>
         <p># People</p>
       </div>
       <div>
-        <div
-          className="border-b-white border-b flex justify-between"
+        {/* <div
+          className="border-b-white flex justify-between"
           id="favorites-header"
         >
-          <div className="m-2 text-left text-3xl">
-            <h1 className="w-full">Comments</h1>
-            <div className="text-slate-500 italic text-base">
-              <h1>All User Comments...</h1>
-            </div>
-          </div>
-        </div>
-        <div className="overflow-auto content-center max-h-screen ">
+        </div> */}
+    <div id="commentHeader" className="text-slate-500 text-lg">
+      <h1>Comments:</h1>
+    </div>
+        <div id="commentsContainer" className="overflow-auto content-center max-h-screen ">
           {allUserComments?.map((comment) => {
             if (comment.location_id == location.id) {
               return (
-                <Fragment key={comment.id}>
-                  <div className="flex flex-col justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-slate-700">
-                    {comment.profiles && (
-                      <div
-                        className="p-6 text-lg hover:text-slate-300 "
-                        href={`/user/${comment.profiles.id}`}
-                      >
-                        {comment.profiles.username}
-                      </div>
-                    )}
-                    <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
-                      {comment.content}
-                    </div>
-                  </div>
-                </Fragment>
+                <CommentCard comment={comment} />
               );
             }
           })}
