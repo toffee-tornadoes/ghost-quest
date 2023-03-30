@@ -76,7 +76,7 @@ const LocationCard = ({ location }) => {
         <p>Some hours</p>
       </div>
       <div className="bg-slate-800 m-5">
-        <h1>Ratings ({ratings?.length})</h1>
+        <h1>Ratings</h1>
         <div className="flex flex-row justify-center">
           <StarRatings
             rating={rating}
