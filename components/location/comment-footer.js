@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchAllUserComments } from "@/slices/allUserCommentsSlice";
+import HomeButtonGr from "../ui/home-button-gr";
 
 const CommentFooter = ({ location }) => {
   const [input, setInput] = useState("");
@@ -36,9 +37,11 @@ const CommentFooter = ({ location }) => {
   };
 
   return (
-    <div>
-      <h1>Comments {"(#)"}</h1>
-      <form onSubmit={commentHandle}>
+    <div className="flex justify-center mb-5">
+      <form
+        className="flex flex-col items-center w-full mx-7"
+        onSubmit={commentHandle}
+      >
         <input
           onChange={(e) => {
             setInput(e.target.value);
@@ -48,8 +51,11 @@ const CommentFooter = ({ location }) => {
           name="comment"
           id={location.id}
           placeholder="Add your comment here..."
-          className="bg-slate-800 w-3/4 h-[100px] rounded-md pl-1 pr-1 pt-1 pb-20 text-white"
+          className="bg-slate-800 hover:bg-slate-600 w-full rounded-md pl-2 pt-1 pb-20 text-white"
         />
+        <button className="w-full flex justify-center" type="submit">
+          <HomeButtonGr text={"Submit Your Comment"} />
+        </button>
       </form>
     </div>
   );

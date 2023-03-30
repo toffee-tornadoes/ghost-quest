@@ -8,7 +8,7 @@ import {
 } from "@/slices/allUserCommentsSlice";
 import StarRatings from "react-star-ratings";
 import { supabase } from "@/lib/supabaseClient";
-import { selectLocations } from "@/slices/locationsSlice";
+import CommentCard from "./comment-card";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
@@ -82,28 +82,26 @@ const LocationCard = ({ location }) => {
 
   return (
     <div className="flex top-0 flex-col m-5 ">
-      <div className="">
+      <div className="mb-2 opacity-80 bg-slate-900 border-2 border-solid border-slate-700 rounded-lg p-2 text-left text-slate-300">
         <img
-          className="mr-4 border border-slate-700 p-2 float-left w-36 h-36"
+          className="m-3 mr-5 border-solid rounded-sm border-2 border-slate-400 float-left w-36"
           src="/haunted.png"
           alt=""
         />
-        <p className="text-left text-slate-300">{location?.description}</p>
+        <p className="p-1">{location?.description}</p>
       </div>
-      <div className="bg-slate-800 m-5">
-        <h1>Distance</h1>
-        <p>Some miles idk</p>
-      </div>
-      <div className="bg-slate-800 m-5">
-        <h1>Destination Time</h1>
-        <p>Some hours</p>
-      </div>
-      <div className="bg-slate-800 m-5">
-        <h1>Ratings ({ratings?.length - 1})</h1>
-        <div className="flex flex-row justify-center">
+{/* MORE INFO AND RATINGS */}
+      <div
+        id="moreInfoContainer"
+        className="flex text-purple-500 px-2 m-2 border-dashed border-2 rounded-md border-purple-500 justify-between"
+      >
+        <div className="flex p-1 flex-row justify-center">
+          <h1>Rating:({ratings?.length - 1})&nbsp;</h1>
           <StarRatings
             rating={rating}
             starRatedColor="purple"
+            starDimension="24"
+            starSpacing=""
             starHoverColor="green"
             changeRating={(evt) => {
               ratingHandle(evt, ratings, location?.id);
@@ -114,47 +112,22 @@ const LocationCard = ({ location }) => {
             editing={false}
           />
         </div>
-      </div>
-      <div className="bg-slate-800 m-5">
-        <h1>Fear Factor</h1>
-        <p>0-10 Ghosts</p>
-      </div>
-      <div className="bg-slate-800 m-5">
-        <h1>Past Visitors</h1>
-        <p> {visitors} People</p>
-      </div>
-      <div>
-        <div
-          className="border-b-white border-b flex justify-between"
-          id="favorites-header"
-        >
-          <div className="m-2 text-left text-3xl">
-            <h1 className="w-full">Comments</h1>
-            <div className="text-slate-500 italic text-base">
-              <h1>All User Comments...</h1>
-            </div>
-          </div>
+        <div className="flex items-center p-1">
+          <h1>{`Past Visitors( )`}</h1>
         </div>
-        <div className="overflow-auto content-center max-h-screen ">
+      </div>
+{/* COMMENTS */}
+      <div>
+        <div id="commentHeader" className="text-slate-500 text-lg">
+          <h1 className="text-orange-700 text-base">{`Comments (${allUserComments.length}):`}</h1>
+        </div>
+        <div
+          id="commentsContainer"
+          className="overflow-auto content-center max-h-screen "
+        >
           {allUserComments?.map((comment) => {
             if (comment.location_id == location.id) {
-              return (
-                <Fragment key={comment.id}>
-                  <div className="flex flex-col justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-slate-700">
-                    {comment.profiles && (
-                      <div
-                        className="p-6 text-lg hover:text-slate-300 "
-                        href={`/user/${comment.profiles.id}`}
-                      >
-                        {comment.profiles.username}
-                      </div>
-                    )}
-                    <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
-                      {comment.content}
-                    </div>
-                  </div>
-                </Fragment>
-              );
+              return <CommentCard comment={comment} />;
             }
           })}
         </div>

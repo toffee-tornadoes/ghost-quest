@@ -11,12 +11,14 @@ import {
 } from "@/slices/userCommentsSlice";
 import { useEffect, useState } from "react";
 import CommentsHeader from "./comments-header";
+import CommentCard from "@/components/location/comment-card";
 
 const UserCommentsPage = () => {
   const user = useUser();
   const dispatch = useDispatch();
   const userComments = useSelector(selectUserComments);
   const [locs, setLocs] = useState([]);
+  console.log(userComments)
 
   useEffect(() => {
     dispatch(fetchUserComments(user?.id));
@@ -101,14 +103,17 @@ const UserCommentsPage = () => {
                     </h2>
                   </Link>
                 </div>
+
                 <div className="flex flex-col justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-slate-700">
-                  {loc.comments.map((comment, idx) => {
-                    if (comment)
-                      return (
-                        <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
-                          {`${idx + 1}. ${comment}`}
-                        </div>
-                      );
+                  {loc?.comments.map((comment, idx) => {
+                    console.log(comment)
+                    return (
+                      <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
+                        {`${idx + 1}. ${comment}`}
+
+                      </div>
+                      // <CommentCard comment={comment} />
+                    );
                   })}
                 </div>
               </Fragment>

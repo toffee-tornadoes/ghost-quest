@@ -10,6 +10,7 @@ import FaveButton from "@/components/ui/fave-button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useSelector } from "react-redux";
 import { selectLocations } from "@/slices/locationsSlice";
+import VisitedButton from "@/components/ui/visited-button";
 
 // HOME VIEW/ROOT
 
@@ -37,7 +38,7 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Head>
+      {/* <Head>
         <title>GHOST QUEST</title>
         <meta
           name="description"
@@ -49,7 +50,7 @@ export default function Home() {
           type="image/svg+xml"
           href="ghost-quest-high-resolution-color-logo.png"
         />
-      </Head>
+      </Head> */}
       <div className="items-center text-white flex flex-col">
         <HomeHeader />
         <hr />
@@ -59,8 +60,17 @@ export default function Home() {
           alt="ghost quest logo"
         />
         <HomeButton link={locURL} text={clickText} />
-        <FaveButton link={favURL} text={favesText} />
-        <HomeButton
+        {user && (
+          <Fragment>
+            <FaveButton link={favURL} text={favesText} />
+            <VisitedButton
+              className="w-full flex justify-center"
+              link={`/user/${user.id}/visited`}
+              text={"Visited Locations"}
+            />
+          </Fragment>
+        )}
+        <FaveButton
           link={randomURL}
           text={randomText}
           location={locations[randomNum]}
