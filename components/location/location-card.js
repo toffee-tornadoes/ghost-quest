@@ -13,64 +13,49 @@ const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
   const [comments, setComments] = useState(allUserComments);
-  const [rating, setRating] = useState([]);
-  const [stars, setStars] = useState();
-  const [FetchRating, setFetchRating] = useState(false);
+  const [ratings, setRatings] = useState();
+  const [rating, setRating] = useState();
+  const [ratingsFetched, setRatingsFetched] = useState(false);
+
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
 
-    useEffect(() => {
-    getRating(location.id).then((result)=>{ setRating(result);setFetchRating(false);});
-  }, [FetchRating]);
-  console.log(rating)
+  useEffect(() => {
+    getRating(location?.id).then((result) => {
+      setRatings(result);
+      const avgRating = getAvg(result);
+      setRating(avgRating);
+    });
+    setRatingsFetched(false);
+  }, [ratingsFetched]);
 
-
-
-  const getRating = async (location_id) => {
-    try {
-      // console.log(location_id)
-      const { data,error } = await supabase
-        .from("locations")
-        .select('rating')
-        .eq("id", location_id);
-        setFetchRating(true)
-        return data
-    } catch (error) {
-      console.log(error);
-    }
+  const getRating = async (locationId) => {
+    const { data } = await supabase
+      .from("locations")
+      .select("rating")
+      .eq("id", locationId);
+    const ratings = data[0].rating;
+    return ratings;
   };
-  //  getRating(location.id).then(console.log())
-  const ratingHandle =async (rating)=>{
-    console.log(rating)
-        try {
-          const { data, error } = await supabase
-            .from("locations")
-            .update([{rating:rating}])
-            .eq("id", `${location.id}`);
-            console.log(data)
-          return data;
-        } catch (error) {
-          console.log(error);
-        }
-  }
-  const newRating=(stars)=>{
-    console.log(stars)
-    const newArr = rating
-    newArr.push(stars)
-    ratingHandle(newArr);
-  }
-  const getAve = () => {
-    if (rating?.length) {
-      let sum = 0;
-      for (let i = 0; i < rating.length; i++) {
-        sum += Number(rating[i].rating);
-      }
-      console.log(sum)
-      return sum / rating.length;
-    }
+
+  const ratingHandle = async (stars, ratings, locationId) => {
+    const newRatings = ratings;
+    newRatings.push(Number(stars));
+    const { data } = await supabase
+      .from("locations")
+      .update({ rating: newRatings })
+      .eq("id", locationId);
+    return data;
   };
-  console.log()
+
+  const getAvg = (ratings) => {
+    const total = ratings?.reduce((acc, cv) => {
+      return acc + cv;
+    }, 0);
+    const rating = total / ratings?.length;
+    return rating;
+  };
 
   return (
     <div className="flex top-0 flex-col m-5 ">
@@ -94,14 +79,16 @@ const LocationCard = ({ location }) => {
         <h1>Rating</h1>
         <div className="flex flex-row">
           <StarRatings
-            onChange={()=>newRating(stars)
-            }
-            rating={getAve()}
+            rating={rating}
             starRatedColor="purple"
             starHoverColor="green"
-            changeRating={setStars}
+            changeRating={(evt) => {
+              ratingHandle(evt, ratings, location?.id);
+              setRatingsFetched(true);
+            }}
             numberOfStars={5}
             name="rating"
+            editing={false}
           />
         </div>
       </div>
