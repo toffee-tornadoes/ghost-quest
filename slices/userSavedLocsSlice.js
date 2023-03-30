@@ -17,15 +17,14 @@ export const getUserSavedLocs = createAsyncThunk(
 export const setVisitedLocs = createAsyncThunk(
   "setVisitedLocs",
   async ({ userId, state, locationId }) => {
-    console.log("slice state:", state)
+    // console.log("slice state:", state)
     const { data, error } = await supabase
       .from("user_locations")
       .update({ has_visited: state ? false : true })
       .eq("location_id", locationId)
       .eq("profile_id", userId)
       .select();
-      // console.log("data:", data)
-      // console.log("error:", error)
+    // console.log("error:", error)
     return data;
   }
 );
@@ -35,11 +34,11 @@ export const addVisitedLoc = createAsyncThunk(
   async ({ userId, locationId }) => {
     const { data, error } = await supabase
       .from("user_locations")
-      .upsert([
+      .upsert(
         { location_id: locationId, profile_id: userId, has_visited: true },
-      ])
-
-    return data;
+      )
+      .select()
+    return data[0];
   }
 );
 
@@ -58,17 +57,17 @@ const userSavedLocsSlice = createSlice({
       return state;
     });
     builder.addCase(addVisitedLoc.fulfilled, (state, action) => {
-      state.push(action.payload)
+      state.push(action.payload);
+      return state;
     });
     builder.addCase(setVisitedLocs.fulfilled, (state, action) => {
       state.forEach((object) => {
         if (object?.location_id === action.payload[0].location_id) {
-          const idx = state.indexOf(object)
-          state.splice(idx, 1)
-          state.push(action.payload[0])
+          const idx = state.indexOf(object);
+          state.splice(idx, 1);
+          state.push(action.payload[0]);
         }
       });
-      console.log(current(state))
       return state
     });
   },

@@ -16,8 +16,6 @@ import {
 } from "@/slices/userVisitedSlice";
 
 const LocationHeader = ({ location, state }) => {
-  // console.log("visited state:", state);
-
   const user = useUser();
   const userId = user?.id;
   const locationId = location?.id;
@@ -29,56 +27,20 @@ const LocationHeader = ({ location, state }) => {
     dispatch(getUserVisitedLocs(user?.id));
   }, [state, userLocs]);
 
-  // useEffect(() => {
-  //   dispatch(getUserSavedLocs(userId));
-
-  //   const current = userLocs.filter((obj) => {
-  //     return obj?.location_id == locationId;
-  //   });
-  //   // console.log(current);
-  //   if (current?.length == 0 || current[0]?.has_visited == false) {
-  //     return;
-  //   } else if (current?.length >= 1 && current[0]?.has_visited === true) {
-  //     return setHasVisited(true);
-  //   }
-  //   console.log("current:", current);
-  //   console.log("visited:", visited);
-  // }, [dispatch, location, toggle]);
-
-  // useEffect(() => {
-  //   const current = userLocs.filter((obj) => {
-  //     return obj?.location_id == locationId;
-  //   })
-  //   // console.log(current);
-  //   if (current?.length == 0 || current?.has_visited == false) {
-  //     setHasVisited(false)
-  //   }
-
-  //   if (current?.length >= 1 && current?.has_visited == true) {
-  //     setHasVisited(true)
-  //   }
-  //   console.log("current:", current)
-  //   console.log("visited:", visited)
-  // }, [toggle]);
   const visitHandler = () => {
-    if (state === false || state === true) {
-      dispatch(setVisitedLocs({ userId, state, locationId }))
+    const current = userLocs?.filter((obj) => {
+      return obj?.location_id == locationId;
+    });
+
+    // console.log("current length", current.length)
+    if (current?.length === 0) {
+      // console.log("no match! adding now...");
+      dispatch(addVisitedLoc({ userId, locationId }))
     }
-    // console.log("new toggled state:", state);
 
-    // const current = userLocs?.filter((obj) => {
-    //   return obj?.location_id == locationId;
-    // });
-
-    // if (current?.length == 0 || current?.length == undefined) {
-    //   console.log("no match! adding now...");
-    //   dispatch(addVisitedLoc({ userId, locationId })).then(()=>{setToggle(true)});
-    // }
-
-    // else {
-    //   // setHasVisited(true);
-    //   return dispatch(setVisitedLocs({ userId, toggle, locationId })).then(() =>setToggle(!toggle));
-    // }
+    if (state === false || state === true) {
+      dispatch(setVisitedLocs({ userId, state, locationId }));
+    }
   };
 
   return (
@@ -103,7 +65,10 @@ const LocationHeader = ({ location, state }) => {
             />
           </button>
         ) : (
-          <button className="flex p-1 opacity-50 hover:opacity-100" onClick={visitHandler}>
+          <button
+            className="flex p-1 opacity-50 hover:opacity-100"
+            onClick={visitHandler}
+          >
             <FontAwesomeIcon
               className="text-2xl mr-2"
               icon={faHouse}
