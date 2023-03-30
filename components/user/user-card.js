@@ -1,12 +1,7 @@
-import UserHeader from "./user-header";
-import Link from "next/link";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
-import HomeButtonGr from "../ui/home-button-gr";
+import { useUser } from "@supabase/auth-helpers-react";
 import HomeButton from "../ui/home-button";
 
 const UserCard = ({ data }) => {
-
-
   const user = useUser();
   if (user) {
     return (
