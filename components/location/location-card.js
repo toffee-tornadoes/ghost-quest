@@ -13,7 +13,6 @@ import CommentCard from "./comment-card";
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
-  const locations = useSelector(selectLocations)
   const [comments, setComments] = useState(allUserComments);
   const [ratings, setRatings] = useState();
   const [rating, setRating] = useState();
@@ -113,7 +112,7 @@ const LocationCard = ({ location }) => {
           />
         </div>
         <div className="flex items-center p-1">
-          <h1>{`Past Visitors( )`}</h1>
+          <h1>{`Past Visitors(${visitors} )`}</h1>
         </div>
       </div>
 {/* COMMENTS */}
