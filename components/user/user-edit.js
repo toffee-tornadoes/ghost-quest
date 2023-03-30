@@ -1,12 +1,9 @@
 import { useState, useEffect, Fragment } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import HomeButtonGr from "../ui/home-button-gr";
-import { resetUserComments } from "@/slices/userCommentsSlice";
-import { resetUserLocation } from "@/slices/userLocationSlice";
-import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
+
 import { fetchUserProfile, resetUserProfile } from "@/slices/userProfileSlice";
+import Router from "next/router";
 
 const UserEdit = ({ user, editStatus, setEditStatus }) => {
   console.log("user: ", user);
@@ -28,7 +25,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   async function updateProfile() {
     // const avatar_url = `public/avatar${user?.id}.png`;
     const updates = {
-      id: user.id,
+      id: user?.id,
       username,
       full_name,
       // avatar_url,
@@ -50,15 +47,22 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     }
   }
 
-  const handleSignOut = (evt) => {
-    evt.preventDefault();
-    const confirmSignout = window.confirm("Are you sure you want to sign out?");
-    if (confirmSignout) {
-      supabase.auth.signOut();
-      dispatch(resetUserLocation());
-      dispatch(resetUserComments());
-      dispatch(resetUserSavedLocs());
-      dispatch(resetUserProfile());
+  const handleDelete = async (userId) => {
+    console.log(userId);
+    try {
+      const confirmDeleteAccount = window.confirm(
+        "Are you sure you want to quit ghost hunting?"
+      );
+      if (confirmDeleteAccount) {
+        const { error } = await supabase
+          .from("profiles")
+          .delete()
+          .eq("id", userId);
+        supabase.auth.signOut();
+        Router.push("/");
+      }
+    } catch (err) {
+      alert(err.message);
     }
   };
 
@@ -84,7 +88,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   return (
     <Fragment>
       <form
-        className="w-full flex flex-col border-solid border-2 border-slate-200 bg-black content-center"
+        className="w-3/4 mt-10 p-5 flex flex-col border-solid border-2 border-slate-200 bg-black content-center"
         onSubmit={(evt) => evt.preventDefault()}
       >
         <label htmlFor="full_name">Edit Full Name</label>
@@ -139,10 +143,15 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
             </p>
           </button>
         </div>
+        <buttton
+          className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
+          onClick={() => handleDelete(user?.id)}
+        >
+          <p className="w-full text-base text-slate-300 hover:text-red-400">
+            Delete Account
+          </p>
+        </buttton>
       </form>
-      <button onClick={handleSignOut} className="w-full flex justify-center">
-        <HomeButtonGr link={`/`} text="Sign Out" />
-      </button>
     </Fragment>
   );
 };
