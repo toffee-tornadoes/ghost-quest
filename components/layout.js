@@ -82,7 +82,6 @@ const Layout = ({ children }) => {
   useEffect(() => {
     dispatch(fetchUserProfile(user?.id));
   }, [locations]);
-  console.log(userProfile);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,
