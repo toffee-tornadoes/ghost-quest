@@ -16,8 +16,8 @@ const LocationCard = ({ location }) => {
   const [comments, setComments] = useState(allUserComments);
   const [ratings, setRatings] = useState();
   const [rating, setRating] = useState();
+  const [visitors, setVisitors] = useState(0);
   const [ratingsFetched, setRatingsFetched] = useState(false);
-
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
   }, []);
@@ -60,6 +60,24 @@ const LocationCard = ({ location }) => {
       return rating;
     }
   };
+    useEffect(() => {
+      getVisited().then((result) => {
+        setVisitors(result);
+      });
+      setRatingsFetched(false);
+    }, [ratingsFetched]);
+
+  const getVisited = async()=>{
+    let count =0
+    const {data}= await supabase.from('user_locations').select().eq('location_id',location.id).eq('has_visited', true)
+    console.log(data)
+    data.forEach(()=>{
+      count++
+    })
+    console.log(count)
+    return count
+  }
+
 
   return (
     <div className="flex top-0 flex-col m-5 ">
@@ -94,7 +112,7 @@ const LocationCard = ({ location }) => {
           />
         </div>
         <div className="flex items-center p-1">
-          <h1>{`Past Visitors( )`}</h1>
+          <h1>{`Past Visitors(${visitors} )`}</h1>
         </div>
       </div>
 {/* COMMENTS */}
