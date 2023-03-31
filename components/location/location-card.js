@@ -64,7 +64,6 @@ const LocationCard = ({ location }) => {
       getVisited().then((result) => {
         setVisitors(result);
       });
-      setRatingsFetched(false);
     }, []);
 
   const getVisited = async()=>{
