@@ -2,7 +2,7 @@ import BackIcon from "../icons/back-icon";
 
 const VisitedHeader = () => {
   return (
-    <div className="flex justify-between" id="searchHeader">
+    <div className="flex border-b justify-between mb-5" id="searchHeader">
       <div className="m-2 text-left text-3xl">
         <h1>Visited Locations</h1>
         <div className="text-slate-500 italic text-base">

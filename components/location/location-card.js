@@ -81,13 +81,15 @@ const LocationCard = ({ location }) => {
 
   return (
     <div className="flex top-0 flex-col m-5 ">
-      <div className="mb-2 opacity-80 bg-slate-900 border-2 border-solid border-slate-700 rounded-lg p-2 text-left text-slate-300">
+      <div className="mb-2 opacity-80 bg-slate-900 border-2 border-solid border-slate-700 rounded-lg m-2 p-2 text-left text-slate-300">
         <img
           className="m-3 mr-5 border-solid rounded-sm border-2 border-slate-400 float-left w-36"
           src="/haunted.png"
           alt=""
         />
-        <p className="p-1">{location?.description}</p>
+        <p className="p-1 text-justify">{location?.description.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
+            i.toUpperCase()
+          )}</p>
       </div>
 {/* MORE INFO AND RATINGS */}
       <div
@@ -95,7 +97,8 @@ const LocationCard = ({ location }) => {
         className="flex text-purple-500 px-2 m-2 border-dashed border-2 rounded-md border-purple-500 justify-between"
       >
         <div className="flex p-1 flex-row justify-center">
-          <h1>Rating:({ratings?.length - 1})&nbsp;</h1>
+          <h1>Average Rating &nbsp;</h1>
+          <h1 className="text-slate-300">({Math.round(rating * 10) / 10})&nbsp;</h1>
           <StarRatings
             rating={rating}
             starRatedColor="purple"
@@ -112,7 +115,8 @@ const LocationCard = ({ location }) => {
           />
         </div>
         <div className="flex items-center p-1">
-          <h1>{`Past Visitors(${visitors} )`}</h1>
+          <h1>{`Past Visitors`}</h1>
+          <h1 className="text-slate-300">&nbsp;{`(${visitors})`}</h1>
         </div>
       </div>
 {/* COMMENTS */}

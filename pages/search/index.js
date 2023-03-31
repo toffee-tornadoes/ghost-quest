@@ -34,7 +34,6 @@ const SearchPage = () => {
     <div>
       {/*  */}
       <SearchHeader />
-      <hr />
       <SearchBar
         setLoading={setLoading}
         fetchResults={fetchResults}
