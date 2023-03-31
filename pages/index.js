@@ -7,6 +7,7 @@ import HomeHeader from "@/components/home/home-header";
 import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
 import FaveButton from "@/components/ui/fave-button";
+import RandomButton from "@/components/ui/random-button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useSelector } from "react-redux";
 import { selectLocations } from "@/slices/locationsSlice";
@@ -74,7 +75,7 @@ export default function Home() {
             />
           </Fragment>
         )}
-        <FaveButton
+        <RandomButton
           link={randomURL}
           text={randomText}
           location={locations[randomNum]}

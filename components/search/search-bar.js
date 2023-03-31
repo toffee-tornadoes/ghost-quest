@@ -16,13 +16,13 @@ const SearchBar = ({ fetchResults, setLoading }) => {
       <div id="searchDiv" className="pt-4 flex-row">
         <form
           id="search"
-          className="m-1 gap-3 flex justify-start"
+          className="m-1 gap-3 flex justify-center"
           onSubmit={handleSubmit}
           action="submit"
         >
           <input
             onChange={(e) => setInput(e.target.value)}
-            className="text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
+            className="text-slate-400 w-1/2 pl-2 rounded-md bg-slate-800 flex-row"
             value={input}
             type="text"
             placeholder="Search"

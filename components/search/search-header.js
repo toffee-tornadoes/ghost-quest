@@ -7,7 +7,7 @@ const SearchHeader = () => {
         <h1>Search</h1>
         <div className="text-slate-500 italic text-base">
           <h1>
-            Enter you creepy queries below...
+            Enter your creepy queries below...
           </h1>
         </div>
       </div>

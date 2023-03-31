@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FavoriteIcon2 from "../icons/favorite-icon2";
 
 const FaveButton = ({ text, link, location }) => {
   return (
@@ -9,6 +10,7 @@ const FaveButton = ({ text, link, location }) => {
       <div className="w-full text-base text-slate-300 hover:text-purple-400">
         <h2 className="text-center">{text}</h2>
       </div>
+      <FavoriteIcon2 />
     </Link>
   );
 };
