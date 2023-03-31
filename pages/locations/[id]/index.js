@@ -26,9 +26,7 @@ const LocationPage = () => {
   const userComments = useSelector(selectUserComments);
   const userVisitedLocs = useSelector(selectUserVisitedLocs);
   const userSavedLocs = useSelector(selectUserSavedLocs);
-  // console.log(userSavedLocs)
   const [hasVisited, setHasVisited] = useState(null);
-  // console.log("has visited:", userVisitedLocs)
   console.log("location: ", location);
 
   useEffect(() => {
@@ -43,8 +41,6 @@ const LocationPage = () => {
     }
   }, [userVisitedLocs, userSavedLocs]);
 
-  // console.log("has visited: ", hasVisited);
-
   useEffect(() => {
     dispatch(getUserVisitedLocs(user?.id));
     dispatch(getUserSavedLocs(user?.id));
@@ -57,9 +53,7 @@ const LocationPage = () => {
       <LocationHeader state={hasVisited} location={location} />
       <hr />
       <LocationCard location={location} userComments={userComments} />
-      {/* <hr /> */}
       <CommentFooter location={location} />
-      {/* <button className="my-5 bg-cyan-900">Let's Hunt!</button> */}
     </div>
   );
 };

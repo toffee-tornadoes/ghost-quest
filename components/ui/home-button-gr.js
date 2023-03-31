@@ -1,5 +1,4 @@
 import Link from "next/link";
-// import FavoriteIcon from "../icons/favorite-icon 3";
 
 const HomeButtonGr = ({ text, link }) => {
   return (
@@ -14,9 +13,6 @@ const HomeButtonGr = ({ text, link }) => {
           {text}
         </h2>
       </div>
-      {/* <button>
-        <FavoriteIcon />
-      </button> */}
     </Link>
   );
 };

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import FavoriteIcon from "../icons/favorite-icon";
 import { useUser } from "@supabase/auth-helpers-react";
-import { supabase } from "@/lib/supabaseClient";
+
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {

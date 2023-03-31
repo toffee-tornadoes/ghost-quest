@@ -13,32 +13,7 @@ import HomeButtonRed from "@/components/ui/home-button-red";
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
 
-// export const getServerSideProps = async (context) => {
-//   const { id } = context.params;
-//   const { data } = await supabase
-//     .from("user_locations")
-//     .select("* ,profiles(*)")
-//     .eq("profile_id", id);
-//   const { data: profile } = await supabase
-//     .from("profiles")
-//     .select()
-//     .eq("id", id);
-//   const { data: pic } = supabase.storage
-//     .from("public-bucket")
-//     .getPublicUrl(`folder/avatar${id}.png`, {
-//       transform: {
-//         width: 20,
-//         height: 20,
-//       },
-//     });
-//   return {
-//     props: {
-//       data,
-//       profile,
-//       pic,
-//     },
-//   };
-// };
+
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -59,7 +34,7 @@ const UserPage = () => {
 
   return (
     <div>
-      <UserHeader profile={profile} /*pic={pic}*/ />
+      <UserHeader profile={profile} />
       <UserCard />
       <div id="settingsSignOut" className="w-full flex flex-col justify-center items-center flex-wrap mt-10 gap-4">
         {!editStatus ? (

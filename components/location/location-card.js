@@ -1,5 +1,3 @@
-import { Fragment } from "react";
-import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import {
@@ -13,10 +11,10 @@ import CommentCard from "./comment-card";
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
   const allUserComments = useSelector(selectAllUserComments);
-  const [comments, setComments] = useState(allUserComments);
   const [ratings, setRatings] = useState();
   const [rating, setRating] = useState();
   const [visitors, setVisitors] = useState(0);
+  const [visitorsFetched, setVisitorsFetched] = useState(false);
   const [ratingsFetched, setRatingsFetched] = useState(false);
   useEffect(() => {
     dispatch(fetchAllUserComments(location.id));
@@ -60,23 +58,26 @@ const LocationCard = ({ location }) => {
       return rating;
     }
   };
-    useEffect(() => {
-      getVisited().then((result) => {
-        setVisitors(result);
-      });
-    }, []);
+  useEffect(() => {
+    getVisited().then((result) => {
+      setVisitors(result);
+    });
+  }, []);
 
-  const getVisited = async()=>{
-    let count =0
-    const {data}= await supabase.from('user_locations').select().eq('location_id',location.id).eq('has_visited', true)
-    console.log(data)
-    data.forEach(()=>{
-      count++
-    })
-    console.log(count)
-    return count
-  }
-
+  const getVisited = async () => {
+    let count = 0;
+    const { data } = await supabase
+      .from("user_locations")
+      .select()
+      .eq("location_id", location.id)
+      .eq("has_visited", true);
+    console.log(data);
+    data.forEach(() => {
+      count++;
+    });
+    console.log(count);
+    return count;
+  };
 
   return (
     <div className="flex top-0 flex-col m-5 ">
@@ -86,18 +87,22 @@ const LocationCard = ({ location }) => {
           src="/haunted.png"
           alt=""
         />
-        <p className="p-1 text-justify">{location?.description.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
+        <p className="p-1 text-justify">
+          {location?.description.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
             i.toUpperCase()
-          )}</p>
+          )}
+        </p>
       </div>
-{/* MORE INFO AND RATINGS */}
+      {/* MORE INFO AND RATINGS */}
       <div
         id="moreInfoContainer"
         className="flex text-purple-500 px-2 m-2 border-dashed border-2 rounded-md border-purple-500 justify-between"
       >
         <div className="flex p-1 flex-row justify-center">
           <h1>Average Rating &nbsp;</h1>
-          <h1 className="text-slate-300">({Math.round(rating * 10) / 10})&nbsp;</h1>
+          <h1 className="text-slate-300">
+            ({Math.round(rating * 10) / 10})&nbsp;
+          </h1>
           <StarRatings
             rating={rating}
             starRatedColor="purple"
@@ -118,7 +123,7 @@ const LocationCard = ({ location }) => {
           <h1 className="text-slate-300">&nbsp;{`(${visitors})`}</h1>
         </div>
       </div>
-{/* COMMENTS */}
+      {/* COMMENTS */}
       <div>
         <div id="commentHeader" className="text-slate-500 text-lg">
           <h1 className="text-orange-700 text-base">{`Comments (${allUserComments.length}):`}</h1>

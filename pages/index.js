@@ -1,8 +1,6 @@
-import Head from "next/head";
-import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+
 import { Fragment } from "react";
-import Header from "@/components/header";
+
 import HomeHeader from "@/components/home/home-header";
 import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
@@ -38,19 +36,6 @@ export default function Home() {
 
   return (
     <Fragment>
-      {/* <Head>
-        <title>GHOST QUEST</title>
-        <meta
-          name="description"
-          content="Embark on a journey to hunt for ghosts across the country."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="icon"
-          type="image/svg+xml"
-          href="ghost-quest-high-resolution-color-logo.png"
-        />
-      </Head> */}
       <div className="items-center text-white flex flex-col">
         <HomeHeader />
         <hr />

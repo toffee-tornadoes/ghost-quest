@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 
 const BackIcon = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <svg
@@ -9,7 +9,9 @@ const BackIcon = () => {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      onClick={()=>{router.back()}}
+      onClick={() => {
+        router.back();
+      }}
       stroke="grey"
       className="w-9 h-9 hover:cursor-pointer hover:stroke-orange-700"
     >

@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchAllUserComments } from "@/slices/allUserCommentsSlice";
-import HomeButtonGr from "../ui/home-button-gr";
 
 const CommentFooter = ({ location }) => {
   const [input, setInput] = useState("");
@@ -58,9 +57,7 @@ const CommentFooter = ({ location }) => {
     hover:bg-green-700 rounded-md m-2 hover:cursor-pointer bg-green-900 mt-4`}
           type="submit"
         >
-          <div
-            className="w-full text-base text-slate-300"
-          >
+          <div className="w-full text-base text-slate-300">
             <h2 className="text-center">Submit Your Comment</h2>
           </div>
         </button>

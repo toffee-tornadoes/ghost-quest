@@ -14,9 +14,6 @@ const HomeButtonRed = ({ text, link }) => {
           {text}
         </h2>
       </div>
-      {/* <button>
-        <FavoriteIcon />
-      </button> */}
     </Link>
   );
 };

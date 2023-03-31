@@ -1,6 +1,5 @@
 // ghostquest.com/user/[id]/comments
 
-import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { Fragment } from "react";
@@ -11,14 +10,13 @@ import {
 } from "@/slices/userCommentsSlice";
 import { useEffect, useState } from "react";
 import CommentsHeader from "./comments-header";
-import CommentCard from "@/components/location/comment-card";
 
 const UserCommentsPage = () => {
   const user = useUser();
   const dispatch = useDispatch();
   const userComments = useSelector(selectUserComments);
   const [locs, setLocs] = useState([]);
-  console.log(userComments)
+  console.log(userComments);
 
   useEffect(() => {
     dispatch(fetchUserComments(user?.id));
@@ -106,13 +104,11 @@ const UserCommentsPage = () => {
 
                 <div className="flex flex-col justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-slate-700">
                   {loc?.comments.map((comment, idx) => {
-                    console.log(comment)
+                    console.log(comment);
                     return (
                       <div className="px-3 border-solid border-2 rounded-lg mt-4 text-left">
                         {`${idx + 1}. ${comment}`}
-
                       </div>
-                      // <CommentCard comment={comment} />
                     );
                   })}
                 </div>

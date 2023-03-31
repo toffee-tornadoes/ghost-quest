@@ -113,16 +113,12 @@ const Layout = ({ children }) => {
             fade
             style={{ color: "#968d8d" }}
           />
-          {/* <NavIcon /> */}
         </div>
         <div
           className={`${hidden} pt-10 h-full justify-between w-full p-3 flex flex-col`}
           id="pageContainer"
         >
           {children}
-          {/* <div className="pb-5">
-            <NavButton />
-          </div> */}
         </div>
       </div>
     </>

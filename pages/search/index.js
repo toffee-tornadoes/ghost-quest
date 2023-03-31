@@ -2,8 +2,8 @@ import LocationListingCard from "@/components/locations/loc-listing-card";
 import SearchBar from "@/components/search/search-bar";
 import SearchHeader from "@/components/search/search-header";
 import { supabase } from "@/lib/supabaseClient";
-import { data } from "autoprefixer";
-import { Fragment, use, useEffect, useState } from "react";
+
+import { Fragment, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 

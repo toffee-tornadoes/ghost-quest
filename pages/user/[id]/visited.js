@@ -1,6 +1,6 @@
 // ghostquest.com/user/[id]/visited
 import { useUser } from "@supabase/auth-helpers-react";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect } from "react";
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import { useDispatch, useSelector } from "react-redux";
 import {

@@ -4,9 +4,7 @@
 
 import CommentFooter from "@/components/location/comment-footer";
 import LocationHeader from "@/components/location/location-header";
-import { supabase } from "@/lib/supabaseClient";
-import { Fragment, useEffect, useState } from "react";
-import { useUser } from "@supabase/auth-helpers-react";
+import { Fragment } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { selectUserComments } from "@/slices/userCommentsSlice";
