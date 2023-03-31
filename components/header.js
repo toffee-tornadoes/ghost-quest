@@ -1,3 +1,4 @@
+import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 // import { useState } from "react";
 import SearchIcon from "./icons/search-icon";
@@ -5,6 +6,7 @@ import UserIcon from "./icons/user-icon";
 
 const Header = ({ clickHandler, navUp }) => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const user = useUser()
 
   return (
     <div id="headerDiv" className="flex-row">
@@ -13,7 +15,7 @@ const Header = ({ clickHandler, navUp }) => {
         className="pl-3 pt-3 flex justify-between z-10 top-0 fixed"
       >
         <div>
-          <Link onClick={!navUp && clickHandler} href={`/user/`}>
+          <Link onClick={!navUp && clickHandler} href={user ? `/user/${user?.id}` : "/user"}>
             <UserIcon />
           </Link>
           <Link onClick={!navUp && clickHandler} href="/search">

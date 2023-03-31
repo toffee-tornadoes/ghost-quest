@@ -42,7 +42,7 @@ const LoginForm = () => {
       </div>
     );
   } else {
-    router.push(`/user/${user.id}`);
+    router.push(`/`);
   }
 
   // return (

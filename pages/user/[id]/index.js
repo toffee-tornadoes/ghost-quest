@@ -8,6 +8,7 @@ import { resetUserComments } from "@/slices/userCommentsSlice";
 import { resetUserLocation } from "@/slices/userLocationSlice";
 import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
 import { resetUserProfile } from "@/slices/userProfileSlice";
+import HomeButtonRed from "@/components/ui/home-button-red";
 
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
@@ -59,16 +60,14 @@ const UserPage = () => {
   return (
     <div>
       <UserHeader profile={profile} /*pic={pic}*/ />
-      <hr />
       <UserCard />
-      <hr />
-      <div className="w-full flex flex-col justify-center content-center flex-wrap">
+      <div id="settingsSignOut" className="w-full flex flex-col justify-center items-center flex-wrap mt-10 gap-4">
         {!editStatus ? (
           <button
-            className={`w-3/4 flex flex-row p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
+            className={`w-1/2 flex p-2 border-solid border-2 hover:bg-slate-900 rounded-md  hover:border-yellow-600 hover:cursor-pointer border-yellow-700 justify-center`}
             onClick={() => setEditStatus(!editStatus)}
           >
-            <p className="text-base text-slate-300 hover:text-green-400 ">
+            <p className="text-base w-3/4 text-slate-300 hover:text-yellow-400 ">
               Settings
             </p>
           </button>
@@ -79,8 +78,8 @@ const UserPage = () => {
             setEditStatus={setEditStatus}
           />
         )}
-        <button onClick={handleSignOut} className="flex justify-center">
-          <HomeButtonGr link={`/`} text="Sign Out" />
+        <button onClick={handleSignOut} className="w-1/2 flex justify-center">
+          <HomeButtonRed link={`/`} text="Sign Out" />
         </button>
       </div>
     </div>
