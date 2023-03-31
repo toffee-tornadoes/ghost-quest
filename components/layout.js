@@ -22,7 +22,7 @@ import {
 } from "@/slices/userSavedLocsSlice";
 import { fetchUserComments } from "@/slices/userCommentsSlice";
 import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
-import { findFavs } from "@/slices/userFavoritesSlice";
+import { findFavs, selectUserFavorites } from "@/slices/userFavoritesSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -34,7 +34,6 @@ const Layout = ({ children }) => {
   const nearbyLocations = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
   const [arrow, setArrow] = useState(faChevronUp);
-  const userProfile = useSelector(selectUserProfile);
   const userSavedLocs = useSelector(selectUserSavedLocs);
 
   const clickHandler = () => {
@@ -78,7 +77,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(findFavs(userSavedLocs));
-  }, [locations, userSavedLocs]);
+  }, [locations]);
 
   useEffect(() => {
     dispatch(fetchUserComments(user?.id));

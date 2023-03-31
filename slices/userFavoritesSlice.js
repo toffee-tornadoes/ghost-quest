@@ -1,19 +1,10 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { supabase } from "@/lib/supabaseClient";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = [];
 
-// export const fetchUserFavorites = createAsyncThunk(
-//   "fetchUserFavorites",
-//   async (userId) => {
-//     const { data } = await supabase
-//       .from("user_locations")
-//       .select("*,locations(*)")
-//       .eq("profile_id", userId)
-//       .eq("is_favorited", true);
-//     return data;
-//   }
-// );
+// export const fetchFavs = createAsyncThunk('fetchFavs', async(userId) => {
+
+// })
 
 const userFavoritesSlice = createSlice({
   name: "userFavoritedLocs",
@@ -33,15 +24,6 @@ const userFavoritesSlice = createSlice({
       return state;
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(fetchUserFavorites.fulfilled, (state, action) => {
-  //     const newState = [];
-  //     action.payload.map((loc) => {
-  //       newState.push(loc.locations);
-  //     });
-  //     return (state = newState);
-  //   });
-  // },
 });
 
 export const { fetchFavs, findFavs } = userFavoritesSlice.actions;
