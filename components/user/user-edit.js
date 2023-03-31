@@ -86,8 +86,11 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   // }
 
   return (
-    <div id="settingsModal" className="backdrop-blur-3xl fixed flex items-center justify-center h-screen w-full
-    ">
+    <div
+      id="settingsModal"
+      className="backdrop-blur-3xl fixed flex items-center justify-center h-screen w-full
+    "
+    >
       <form
         className="w-3/4 h-1/2 mt-10 p-5 flex flex-col rounded-lg border-dashed border-2 border-yellow-400 bg-slate-900 content-center"
         onSubmit={(evt) => evt.preventDefault()}

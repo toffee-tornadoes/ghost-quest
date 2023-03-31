@@ -33,7 +33,6 @@ const Layout = ({ children }) => {
   const nearbyLocations = useSelector(selectNearbyLocations);
   const dispatch = useDispatch();
   const [arrow, setArrow] = useState(faChevronUp);
-  const userProfile = useSelector(selectUserProfile);
   const userSavedLocs = useSelector(selectUserSavedLocs);
 
   const clickHandler = () => {
