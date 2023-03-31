@@ -65,7 +65,7 @@ const LocationCard = ({ location }) => {
         setVisitors(result);
       });
       setRatingsFetched(false);
-    }, [ratingsFetched]);
+    }, []);
 
   const getVisited = async()=>{
     let count =0
