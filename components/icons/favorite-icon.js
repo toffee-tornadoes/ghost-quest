@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { toast } from "react-toastify";
 
 const FavoriteIcon = ({
   locationId,
@@ -26,6 +27,7 @@ const FavoriteIcon = ({
         ]);
       setFave(!fave);
       setFavStatus(!favStatus);
+      toast("Favorited!");
       return data;
     } else if (data.length === 1 && !fave) {
       console.log("update favorite");
@@ -36,6 +38,7 @@ const FavoriteIcon = ({
         .match({ location_id: locationId, profile_id: userId });
       setFave(!fave);
       setFavStatus(!favStatus);
+      toast("Favorited!");
       return data;
     } else {
       console.log("delete favorite");
@@ -46,6 +49,7 @@ const FavoriteIcon = ({
         .match({ location_id: locationId, profile_id: userId });
       setFave(!fave);
       setFavStatus(!favStatus);
+      toast("Unfavorited!");
       return data;
     }
   };
