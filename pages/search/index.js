@@ -26,7 +26,6 @@ const SearchPage = () => {
     setCurrSearch(searchQuery);
     setLoading(false);
     setHidden("");
-    console.log(hidden);
     return data;
   };
 

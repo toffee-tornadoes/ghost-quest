@@ -1,9 +1,7 @@
-// Simple component that displays location name, distance, icon/image, etc.
 import Link from "next/link";
 import { Fragment } from "react";
 import FavoriteIcon from "../icons/favorite-icon";
 import { useUser } from "@supabase/auth-helpers-react";
-import { supabase } from "@/lib/supabaseClient";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,7 +22,6 @@ const LocationListingCard = ({ locations }) => {
   }, [locations, favStatus]);
 
   const isFav = (locationId, userSavedLocs) => {
-    //return a boolean that confirms whether a given location has been favorited by a user
     let i = 0;
     while (i < userSavedLocs.length) {
       if (

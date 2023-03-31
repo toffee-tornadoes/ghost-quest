@@ -21,11 +21,8 @@ const UserFavoritesPage = () => {
         favLocs.push(savedLocs[i]?.locations);
       }
     }
-    console.log("fav locs: ", favLocs);
     return favLocs;
   };
-
-  console.log("user favs: ", userFavs);
 
   if (userFavs?.length > 0) {
     return (

@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchAllUserComments } from "@/slices/allUserCommentsSlice";
-import HomeButtonGr from "../ui/home-button-gr";
 
 const CommentFooter = ({ location }) => {
   const [input, setInput] = useState("");

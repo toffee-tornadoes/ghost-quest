@@ -40,7 +40,6 @@ const LocationPage = () => {
     }
   }, [userVisitedLocs, userSavedLocs]);
 
-  // console.log("has visited: ", hasVisited);
 
   useEffect(() => {
     dispatch(getUserVisitedLocs(user?.id));

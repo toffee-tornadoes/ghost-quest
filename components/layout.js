@@ -53,7 +53,6 @@ const Layout = ({ children }) => {
     const { latLng } = event;
     const lat = latLng.lat();
     const lng = latLng.lng();
-    console.log(`New latitude: ${lat}, New longitude: ${lng}`);
     dispatch(updateUserLocation({ lat: lat, lng: lng }));
     dispatch(fetchNearbyLocations({ locations, userLocation }));
   };

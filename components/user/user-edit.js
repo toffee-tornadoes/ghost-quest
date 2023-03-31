@@ -6,9 +6,6 @@ import { fetchUserProfile, resetUserProfile } from "@/slices/userProfileSlice";
 import Router from "next/router";
 
 const UserEdit = ({ user, editStatus, setEditStatus }) => {
-  console.log("user: ", user);
-  console.log("editStatus: ", editStatus);
-  console.log("setEditStatus: ", setEditStatus);
 
   const dispatch = useDispatch();
   const supabase = useSupabaseClient();
@@ -48,7 +45,6 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   }
 
   const handleDelete = async (userId) => {
-    console.log(userId);
     try {
       const confirmDeleteAccount = window.confirm(
         "Are you sure you want to quit ghost hunting?"
@@ -115,18 +111,6 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        {/* <h4>Select Image</h4>
-      <input
-        className="text-sm text-grey-500
-            file:mr-5 file:py-3 file:px-10
-            file:rounded-full file:border-0
-            file:text-md file:font-semibold  file:text-white
-            file:bg-gradient-to-r file:from-purple-600 file:to-green-600
-            hover:file:cursor-pointer hover:file:opacity-80"
-        type="file"
-        name="myImage"
-        onChange={(e) => storeProfilePic(e.target.files)}
-      /> */}
         <div className="w-full flex-col">
           <button
             className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}

@@ -1,7 +1,6 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import CommentsButton from "../ui/comments-button";
 import FaveButton from "../ui/fave-button";
-import HomeButton from "../ui/home-button";
 import VisitedButton from "../ui/visited-button";
 
 const UserCard = ({ data }) => {
