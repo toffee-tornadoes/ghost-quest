@@ -7,6 +7,7 @@ import HomeHeader from "@/components/home/home-header";
 import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
 import FaveButton from "@/components/ui/fave-button";
+import RandomButton from "@/components/ui/random-button";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useSelector } from "react-redux";
 import { selectLocations } from "@/slices/locationsSlice";
@@ -30,7 +31,7 @@ export default function Home() {
   const randomText = "Random Location";
 
   const locations = useSelector(selectLocations);
-  const randomNum = Math.ceil(Math.random() * locations.length) - 1;
+  const randomNum = Math.floor(Math.random() * locations.length);
   const locURL = "locations";
   const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
@@ -38,19 +39,6 @@ export default function Home() {
 
   return (
     <Fragment>
-      {/* <Head>
-        <title>GHOST QUEST</title>
-        <meta
-          name="description"
-          content="Embark on a journey to hunt for ghosts across the country."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="icon"
-          type="image/svg+xml"
-          href="ghost-quest-high-resolution-color-logo.png"
-        />
-      </Head> */}
       <div className="items-center text-white flex flex-col">
         <HomeHeader />
         <hr />
@@ -62,11 +50,7 @@ export default function Home() {
         <HomeButton link={locURL} text={clickText} />
         {user && (
           <Fragment>
-            <FaveButton
-              link={favURL}
-              text={favesText}
-              location={locations[randomNum]}
-            />
+            <FaveButton link={favURL} text={favesText} />
             <VisitedButton
               className="w-full flex justify-center"
               link={`/user/${user.id}/visited`}
@@ -74,10 +58,10 @@ export default function Home() {
             />
           </Fragment>
         )}
-        <FaveButton
+        <RandomButton
           link={randomURL}
           text={randomText}
-          location={locations[randomNum]}
+          location={locations[randomNum-1]}
         />
       </div>
       {!user && (

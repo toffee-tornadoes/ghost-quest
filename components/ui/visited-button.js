@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HomeIcon from "../icons/home-icon";
 
 const VisitedButton = ({ text, link }) => {
   return (
@@ -12,6 +13,7 @@ const VisitedButton = ({ text, link }) => {
       <button>
         {/* add visited icon */}
       </button>
+      <HomeIcon />
     </Link>
   );
 };

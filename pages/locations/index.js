@@ -5,6 +5,7 @@ import { selectNearbyLocations } from "@/slices/nearbyLocationsSlice";
 
 const Locations = () => {
   const nearbyLocations = useSelector(selectNearbyLocations);
+  console.log(nearbyLocations);
 
   return (
     <div>

@@ -35,7 +35,7 @@ const LocationHeader = ({ location, state }) => {
     // console.log("current length", current.length)
     if (current?.length === 0) {
       // console.log("no match! adding now...");
-      dispatch(addVisitedLoc({ userId, locationId }))
+      dispatch(addVisitedLoc({ userId, locationId }));
     }
 
     if (state === false || state === true) {
@@ -55,29 +55,39 @@ const LocationHeader = ({ location, state }) => {
           </h1>
         </div>
       </div>
-      <div className="p-2 flex flex-row">
-        {state ? (
-          <button className="flex p-1 hover:opacity-70" onClick={visitHandler}>
-            <FontAwesomeIcon
-              className="text-2xl mr-2"
-              icon={faHouseCircleCheck}
-              style={{ color: "#27ca12" }}
-            />
-          </button>
-        ) : (
-          <button
-            className="flex p-1 opacity-50 hover:opacity-100"
-            onClick={visitHandler}
-          >
-            <FontAwesomeIcon
-              className="text-2xl mr-2"
-              icon={faHouse}
-              style={{ color: "#8c8c8c" }}
-            />
-          </button>
-        )}
-        <BackIcon />
-      </div>
+
+      {user ? (
+        <div className="p-2 flex flex-row">
+          {state ? (
+            <button
+              className="flex p-1 hover:opacity-70"
+              onClick={visitHandler}
+            >
+              <FontAwesomeIcon
+                className="text-2xl mr-2"
+                icon={faHouseCircleCheck}
+                style={{ color: "#27ca12" }}
+              />
+            </button>
+          ) : (
+            <button
+              className="flex p-1 opacity-50 hover:opacity-100"
+              onClick={visitHandler}
+            >
+              <FontAwesomeIcon
+                className="text-2xl mr-2"
+                icon={faHouse}
+                style={{ color: "#8c8c8c" }}
+              />
+            </button>
+          )}
+          <BackIcon />
+        </div>
+      ) : (
+        <div className="p-2 flex flex-row">
+          <BackIcon />
+        </div>
+      )}
     </div>
   );
 };

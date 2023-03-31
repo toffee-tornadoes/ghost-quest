@@ -5,7 +5,7 @@ const ForwardIcon = () => {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="purple"
+      stroke="grey"
       className="w-6 h-6 hover:cursor-pointer hover:stroke-purple-700"
     >
       <path
