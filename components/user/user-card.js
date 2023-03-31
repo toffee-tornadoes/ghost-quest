@@ -5,7 +5,7 @@ const UserCard = ({ data }) => {
   const user = useUser();
   if (user) {
     return (
-      <div className="m-4 flex flex-col" data={data}>
+      <div className="flex flex-col" data={data}>
         <div className="w-full flex flex-col items-center">
           <HomeButton
             className="w-full flex justify-center"

@@ -8,8 +8,10 @@ const FavoriteIcon = ({
   setFavStatus,
   favStatus,
 }) => {
-  const [fave, setFave] = useState(false);
-  const [fill, setFill] = useState(color);
+  const [fill, setFill] = useState(color.color);
+  const [fave, setFave] = useState(color.status);
+
+  console.log(color);
 
   const faveHandle = async () => {
     const { data } = await supabase

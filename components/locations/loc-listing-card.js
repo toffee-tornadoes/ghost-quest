@@ -16,12 +16,10 @@ const LocationListingCard = ({ locations }) => {
   const dispatch = useDispatch();
   const userSavedLocs = useSelector(selectUserSavedLocs);
   const [favStatus, setFavStatus] = useState(false);
-  const [color, setColor] = useState(false);
 
   useEffect(() => {
     dispatch(getUserSavedLocs(user?.id));
-    setColor(false);
-  }, [locations, favStatus, color]);
+  }, [locations, favStatus]);
 
   const isFav = (locationId, userSavedLocs) => {
     //return a boolean that confirms whether a given location has been favorited by a user
@@ -31,14 +29,18 @@ const LocationListingCard = ({ locations }) => {
         locationId === userSavedLocs[i].location_id &&
         userSavedLocs[i].is_favorited === true
       ) {
-        setColor(true);
-        return "purple";
+        return {
+          color: "purple",
+          status: true,
+        };
       } else {
         i++;
       }
     }
-    setColor(true);
-    return "none";
+    return {
+      color: "none",
+      status: false,
+    };
   };
 
   return (
@@ -72,7 +74,7 @@ const LocationListingCard = ({ locations }) => {
                     <FavoriteIcon
                       locationId={location.id}
                       userId={user.id}
-                      color={() => isFav(location.id, userSavedLocs)}
+                      color={isFav(location.id, userSavedLocs)}
                       setFavStatus={setFavStatus}
                       favStatus={favStatus}
                     />
