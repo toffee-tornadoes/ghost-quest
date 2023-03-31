@@ -1,6 +1,3 @@
-// ghostquest.com/user/[id]/comments
-
-import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { Fragment } from "react";
@@ -11,7 +8,6 @@ import {
 } from "@/slices/userCommentsSlice";
 import { useEffect, useState } from "react";
 import CommentsHeader from "./comments-header";
-import CommentCard from "@/components/location/comment-card";
 import ForwardIcon from "@/components/icons/forward-icon";
 
 const UserCommentsPage = () => {
@@ -110,7 +106,6 @@ const UserCommentsPage = () => {
                       <div className="px-2 p-1 hover:bg-slate-800 bg-slate-900 border-solid border-2 hover:border-orange-800 border-slate-800 rounded-md m-2 text-slate-400 text-left text-base">
                         {`${idx + 1}. ${comment}`}
                       </div>
-                      // <CommentCard comment={comment} />
                     );
                   })}
                 </div>

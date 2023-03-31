@@ -1,6 +1,4 @@
-// ghostquest.com/location/[id]/visitors
 
-// Displays list of past users who've visited this location
 
 
 import CommentFooter from "@/components/location/comment-footer";
@@ -10,7 +8,6 @@ const VisitorsPage = () => {
   return (
     <div>
       <LocationHeader/>
-      {/* visitors list ele */}
       <CommentFooter/>
       take me there button
     </div>

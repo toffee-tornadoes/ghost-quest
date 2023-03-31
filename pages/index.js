@@ -1,8 +1,4 @@
-import Head from "next/head";
-import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 import { Fragment } from "react";
-import Header from "@/components/header";
 import HomeHeader from "@/components/home/home-header";
 import HomeButton from "@/components/ui/home-button";
 import HomeButtonGr from "@/components/ui/home-button-gr";
@@ -13,23 +9,12 @@ import { useSelector } from "react-redux";
 import { selectLocations } from "@/slices/locationsSlice";
 import VisitedButton from "@/components/ui/visited-button";
 
-// HOME VIEW/ROOT
-
-// Main Nav component - include this in Layout component
-// User Icon Component - link to user-profile page
-// Search Icon component - filter component
-// Favorites Icon component - link to favorites page
-
-// Displays pins of nearby locations (if there are any)
-
 export default function Home() {
   const user = useUser();
-
   const clickText = "Nearby Locations";
   const favesText = "Favorites";
   const loginText = "Login or Create an Account";
   const randomText = "Random Location";
-
   const locations = useSelector(selectLocations);
   const randomNum = Math.floor(Math.random() * locations.length);
   const locURL = "locations";
@@ -61,7 +46,7 @@ export default function Home() {
         <RandomButton
           link={randomURL}
           text={randomText}
-          location={locations[randomNum-1]}
+          location={locations[randomNum - 1]}
         />
       </div>
       {!user && (

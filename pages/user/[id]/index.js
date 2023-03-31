@@ -3,7 +3,6 @@ import UserEdit from "@/components/user/user-edit";
 import { selectUserProfile } from "@/slices/userProfileSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import HomeButtonGr from "@/components/ui/home-button-gr";
 import { resetUserComments } from "@/slices/userCommentsSlice";
 import { resetUserLocation } from "@/slices/userLocationSlice";
 import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
@@ -12,33 +11,6 @@ import HomeButtonRed from "@/components/ui/home-button-red";
 
 const { default: UserCard } = require("@/components/user/user-card");
 const { default: UserHeader } = require("@/components/user/user-header");
-
-// export const getServerSideProps = async (context) => {
-//   const { id } = context.params;
-//   const { data } = await supabase
-//     .from("user_locations")
-//     .select("* ,profiles(*)")
-//     .eq("profile_id", id);
-//   const { data: profile } = await supabase
-//     .from("profiles")
-//     .select()
-//     .eq("id", id);
-//   const { data: pic } = supabase.storage
-//     .from("public-bucket")
-//     .getPublicUrl(`folder/avatar${id}.png`, {
-//       transform: {
-//         width: 20,
-//         height: 20,
-//       },
-//     });
-//   return {
-//     props: {
-//       data,
-//       profile,
-//       pic,
-//     },
-//   };
-// };
 
 const UserPage = () => {
   const dispatch = useDispatch();
@@ -59,9 +31,12 @@ const UserPage = () => {
 
   return (
     <div>
-      <UserHeader profile={profile} /*pic={pic}*/ />
+      <UserHeader profile={profile} />
       <UserCard />
-      <div id="settingsSignOut" className="w-full flex flex-col justify-center items-center flex-wrap mt-10 gap-4">
+      <div
+        id="settingsSignOut"
+        className="w-full flex flex-col justify-center items-center flex-wrap mt-10 gap-4"
+      >
         {!editStatus ? (
           <button
             className={`w-1/2 flex p-2 border-solid border-2 hover:bg-slate-900 rounded-md  hover:border-yellow-600 hover:cursor-pointer border-yellow-700 justify-center`}

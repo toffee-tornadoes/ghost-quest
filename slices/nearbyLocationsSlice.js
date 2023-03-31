@@ -2,10 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = [];
 
-//create functions for limited amount of markers here and save returned array to local state that can be passed as a prop to other parts of the app
-//getNearbyLocations function that then sets local state
 
-//check to see if a given marker is within the bounds of given circle's radius
 const checkDistance = (marker, circle, radius) => {
   var km = radius / 1000;
   var kx = Math.cos((Math.PI * circle.lat) / 180) * 111;
@@ -14,7 +11,6 @@ const checkDistance = (marker, circle, radius) => {
   return Math.sqrt(dx * dx + dy * dy) <= km;
 };
 
-//THE ISSUE IS PROBABLY HERE SOMEWHERE!!!
 const getNearbyLocations = async (locations, userLocation) => {
   const nearby = [];
   locations.map((location) => {
