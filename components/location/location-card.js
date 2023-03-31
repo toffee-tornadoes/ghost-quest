@@ -9,6 +9,7 @@ import {
 import StarRatings from "react-star-ratings";
 import { supabase } from "@/lib/supabaseClient";
 import CommentCard from "./comment-card";
+import CommentIcon from "../icons/comment-icon";
 
 const LocationCard = ({ location }) => {
   const dispatch = useDispatch();
@@ -121,8 +122,11 @@ const LocationCard = ({ location }) => {
       </div>
 {/* COMMENTS */}
       <div>
-        <div id="commentHeader" className="text-slate-500 text-lg">
-          <h1 className="text-orange-700 text-base">{`Comments (${allUserComments.length}):`}</h1>
+        <div id="commentHeader" className="flex justify-center text-slate-500 text-lg">
+        <CommentIcon />
+          <h1 className="text-orange-700 text-base">
+          &nbsp;
+            {`Comments (${allUserComments.length}):`}</h1>
         </div>
         <div
           id="commentsContainer"

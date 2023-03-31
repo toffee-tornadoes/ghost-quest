@@ -1,26 +1,37 @@
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import FavoritesHeader from "./favorites-header";
-import { selectUserSavedLocs } from "@/slices/userSavedLocsSlice";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { selectUserProfile } from "@/slices/userProfileSlice";
+import { selectUserSavedLocs } from "@/slices/userSavedLocsSlice";
 
 const UserFavoritesPage = () => {
+  const user = useSelector(selectUserProfile);
   const userSavedLocs = useSelector(selectUserSavedLocs);
+  const [userFavs, setUserFavs] = useState();
 
-  const findFavs = () => {
+  useEffect(() => {
+    findFavs(userSavedLocs).then((result) => setUserFavs(result));
+  }, [user]);
+
+  const findFavs = async (savedLocs) => {
     const favLocs = [];
-    for (let i = 0; i < userSavedLocs.length; i++) {
-      if (userSavedLocs[i].is_favorited === true) {
-        favLocs.push(userSavedLocs[i].locations);
+    for (let i = 0; i < savedLocs?.length; i++) {
+      if (savedLocs[i]?.is_favorited === true) {
+        favLocs.push(savedLocs[i]?.locations);
       }
     }
+    console.log("fav locs: ", favLocs);
     return favLocs;
   };
 
-  if (userSavedLocs.length > 0) {
+  console.log("user favs: ", userFavs);
+
+  if (userFavs?.length > 0) {
     return (
       <div>
         <FavoritesHeader />
-        <LocationListingCard locations={findFavs()} />
+        <LocationListingCard locations={userFavs} />
       </div>
     );
   } else {

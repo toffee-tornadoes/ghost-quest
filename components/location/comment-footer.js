@@ -51,7 +51,7 @@ const CommentFooter = ({ location }) => {
           name="comment"
           id={location.id}
           placeholder="Add your comment here..."
-          className="bg-slate-800 border border-solid border-slate-300 hover:bg-slate-600 w-full wrap rounded-md pl-2 pt-1 h-20 text-white"
+          className="bg-slate-800 border border-solid border-slate-300 italic hover:bg-slate-600 w-full wrap rounded-md pl-2 pt-1 h-20 text-white"
         />
         <button
           className={`w-1/2 flex flex-row p-1
