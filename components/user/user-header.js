@@ -12,10 +12,11 @@ const UserHeader = ({ profile, pic }) => {
   useEffect(()=>{
     dispatch(fetchUserProfile(user?.id))
   }, [])
-
+  console.log(userProfile?.profile_pic)
   return (
     <div className="flex justify-between border-b mb-5" id="locListingHeader">
       <div className="m-2 text-left text-3xl">
+        <img src={userProfile?.profile_pic} alt="Profile pic" />
         <h1>{userProfile?.username}</h1>
         <p className="text-slate-500 italic text-base">{user?.email}</p>
 

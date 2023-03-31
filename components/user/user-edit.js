@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useDispatch } from "react-redux";
+import ReactDropzone from "react-dropzone";
 
 import { fetchUserProfile, resetUserProfile } from "@/slices/userProfileSlice";
 import Router from "next/router";
@@ -13,6 +14,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
 
   const [username, setUsername] = useState("");
   const [full_name, setFullname] = useState("");
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     dispatch(fetchUserProfile(user?.id));
@@ -62,24 +64,45 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     }
   };
 
-  // async function storeProfilePic(file) {
-  //   try {
-  //     const avatarFile = file;
-  //     const { data, error } = await supabase.storage
-  //       .from("avatars")
-  //       .upload(`public/avatar${user?.id}.png`, avatarFile, {
-  //         cacheControl: "3600",
-  //         upsert: true,
-  //       });
-  //     if (error) {
-  //       throw error;
-  //     }else{
-  //       alert('profile updated')
-  //     }
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // }
+  const handleFileChange = (acceptedFiles) => {
+    setFile(acceptedFiles[0]);
+  };
+
+  const handlePicSubmit = async (event) => {
+    event.preventDefault();
+
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .upload(file.name, file);
+      console.log("Data key: ", data);
+    if (error) {
+
+      console.log("Error uploading file: ", error);
+      return;
+    }
+
+    const { data: publicURL, error: urlError } = await supabase.storage
+      .from("avatars")
+      .getPublicUrl(data.path);
+
+      console.log(publicURL.publicUrl);
+      console.log(file.name === data.path);
+
+      //{"publicUrl":"https://nhpfatsjworjodawkvdl.supabase.co/storage/v1/object/public/avatars/%5Bobject%20Object%5D"}
+
+    const { data: updateData, error: updateDataError } = await supabase
+      .from("profiles")
+      .update({ profile_pic: publicURL.publicUrl })
+      .eq("id", user.id);
+
+    if (updateDataError) {
+      console.log("Error updating user profile pic: ", updateDataError);
+      return;
+    }
+
+    console.log("Profile pic updated successfully!");
+    dispatch(fetchUserProfile(user?.id))
+  };
 
   return (
     <div
@@ -87,6 +110,21 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
       className="backdrop-blur-3xl fixed flex items-center justify-center h-screen w-full
     "
     >
+      <form onSubmit={handlePicSubmit}>
+        <ReactDropzone onDrop={handleFileChange}>
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {file ? (
+                <p>Selected file: {file.name}</p>
+              ) : (
+                <p>Drag and drop a file here, or click to select a file</p>
+              )}
+            </div>
+          )}
+        </ReactDropzone>
+        <button type="submit">Save Profile Pic</button>
+      </form>
       <form
         className="w-3/4 h-1/2 mt-10 p-5 flex flex-col rounded-lg border-dashed border-2 border-yellow-400 bg-slate-900 content-center"
         onSubmit={(evt) => evt.preventDefault()}
