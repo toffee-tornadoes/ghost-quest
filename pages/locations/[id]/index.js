@@ -29,7 +29,6 @@ const LocationPage = () => {
   // console.log(userSavedLocs)
   const [hasVisited, setHasVisited] = useState(null);
   // console.log("has visited:", userVisitedLocs)
-  console.log("location: ", location);
 
   useEffect(() => {
     const curr = userVisitedLocs?.filter((loc) => {

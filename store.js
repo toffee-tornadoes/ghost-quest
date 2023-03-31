@@ -5,6 +5,7 @@ import nearbyLocationsReducer from "./slices/nearbyLocationsSlice";
 import userSavedLocsReducer from "./slices/userSavedLocsSlice";
 import userCommentsReducer from "./slices/userCommentsSlice";
 import userVisitedLocsReducer from "./slices/userVisitedSlice";
+import userFavoritedLocsReducer from "./slices/userFavoritesSlice";
 import allUserCommentsReducer from "./slices/allUserCommentsSlice";
 import userProfileReducer from "./slices/userProfileSlice";
 
@@ -16,6 +17,7 @@ export const store = configureStore({
     userSavedLocs: userSavedLocsReducer,
     userComments: userCommentsReducer,
     userVisitedLocs: userVisitedLocsReducer,
+    userFavoritedLocs: userFavoritedLocsReducer,
     allUserComments: allUserCommentsReducer,
     userProfile: userProfileReducer,
   },

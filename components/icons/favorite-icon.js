@@ -11,8 +11,6 @@ const FavoriteIcon = ({
   const [fill, setFill] = useState(color.color);
   const [fave, setFave] = useState(color.status);
 
-  console.log(color);
-
   const faveHandle = async () => {
     const { data } = await supabase
       .from("user_locations")
