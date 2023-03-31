@@ -8,18 +8,16 @@ import {
   selectUserFavorites,
 } from "@/slices/userFavoritesSlice";
 import { useUser } from "@supabase/auth-helpers-react";
+import { getUserSavedLocs } from "@/slices/userSavedLocsSlice";
 
 const UserFavoritesPage = () => {
   const user = useUser();
   const dispatch = useDispatch();
   const userFavs = useSelector(selectUserFavorites);
-  const [newFavorites, setNewFavorites] = useState(false);
 
   useEffect(() => {
     dispatch(fetchUserFavorites(user?.id));
   }, []);
-
-  console.log(userFavs);
 
   if (userFavs.length > 0) {
     return (
