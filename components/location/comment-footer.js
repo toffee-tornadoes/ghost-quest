@@ -42,7 +42,7 @@ const CommentFooter = ({ location }) => {
         className="flex flex-col items-center w-full mx-7"
         onSubmit={commentHandle}
       >
-        <input
+        <textarea
           onChange={(e) => {
             setInput(e.target.value);
           }}
@@ -51,10 +51,18 @@ const CommentFooter = ({ location }) => {
           name="comment"
           id={location.id}
           placeholder="Add your comment here..."
-          className="bg-slate-800 hover:bg-slate-600 w-full rounded-md pl-2 pt-1 pb-20 text-white"
+          className="bg-slate-800 border border-solid border-slate-300 hover:bg-slate-600 w-full wrap rounded-md pl-2 pt-1 h-20 text-white"
         />
-        <button className="w-full flex justify-center" type="submit">
-          <HomeButtonGr text={"Submit Your Comment"} />
+        <button
+          className={`w-1/2 flex flex-row p-1
+    hover:bg-green-700 rounded-md m-2 hover:cursor-pointer bg-green-900 mt-4`}
+          type="submit"
+        >
+          <div
+            className="w-full text-base text-slate-300"
+          >
+            <h2 className="text-center">Submit Your Comment</h2>
+          </div>
         </button>
       </form>
     </div>
