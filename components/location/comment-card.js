@@ -15,7 +15,7 @@ const CommentCard = ({ comment }) => {
     <Fragment key={comment.id}>
       <div
         id="commentCard"
-        className="flex flex-col p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-orange-700"
+        className="flex flex-col p-1 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-orange-700"
       >
         {comment.profiles && (
           <div

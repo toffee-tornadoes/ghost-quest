@@ -40,7 +40,7 @@ const SearchPage = () => {
         results={results}
       />
       {loading ? (
-        <div className="pt-2">
+        <div className="pt-2 text-slate-500">
           Loading your results...
           <br />
           <FontAwesomeIcon
