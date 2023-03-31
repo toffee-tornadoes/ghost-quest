@@ -26,10 +26,7 @@ const LocationPage = () => {
   const userComments = useSelector(selectUserComments);
   const userVisitedLocs = useSelector(selectUserVisitedLocs);
   const userSavedLocs = useSelector(selectUserSavedLocs);
-  // console.log(userSavedLocs)
   const [hasVisited, setHasVisited] = useState(null);
-  console.log("this location:", location)
-  console.log("this query:", router.query)
 
   useEffect(() => {
     const curr = userVisitedLocs?.filter((loc) => {

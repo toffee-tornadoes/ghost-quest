@@ -32,7 +32,6 @@ export default function Home() {
 
   const locations = useSelector(selectLocations);
   const randomNum = Math.floor(Math.random() * locations.length);
-  console.log("randomNum", randomNum)
   const locURL = "locations";
   const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
