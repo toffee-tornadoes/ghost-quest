@@ -78,7 +78,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(findFavs(userSavedLocs));
-  }, [locations]);
+  }, [locations, userSavedLocs]);
 
   useEffect(() => {
     dispatch(fetchUserComments(user?.id));

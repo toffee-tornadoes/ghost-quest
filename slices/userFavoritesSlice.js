@@ -19,6 +19,9 @@ const userFavoritesSlice = createSlice({
   name: "userFavoritedLocs",
   initialState,
   reducers: {
+    fetchFavs: (state, action) => {
+      return state;
+    },
     findFavs: (state, action) => {
       const favLocs = [];
       for (let i = 0; i < action.payload?.length; i++) {
@@ -41,6 +44,6 @@ const userFavoritesSlice = createSlice({
   // },
 });
 
-export const { findFavs } = userFavoritesSlice.actions;
+export const { fetchFavs, findFavs } = userFavoritesSlice.actions;
 export const selectUserFavorites = (state) => state.userFavoritedLocs;
 export default userFavoritesSlice.reducer;
