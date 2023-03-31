@@ -22,7 +22,6 @@ import {
 } from "@/slices/userSavedLocsSlice";
 import { fetchUserComments } from "@/slices/userCommentsSlice";
 import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
-import { findFavs, selectUserFavorites } from "@/slices/userFavoritesSlice";
 
 const Layout = ({ children }) => {
   const user = useUser();
@@ -73,10 +72,6 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     dispatch(getUserSavedLocs(user?.id));
-  }, [locations]);
-
-  useEffect(() => {
-    dispatch(findFavs(userSavedLocs));
   }, [locations]);
 
   useEffect(() => {

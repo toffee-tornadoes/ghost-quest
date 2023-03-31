@@ -10,7 +10,6 @@ import {
   selectUserSavedLocs,
   getUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
-import { findFavs } from "@/slices/userFavoritesSlice";
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();

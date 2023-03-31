@@ -1,24 +1,31 @@
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import FavoritesHeader from "./favorites-header";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  selectUserFavorites,
-  fetchFavs,
-  findFavs,
-} from "@/slices/userFavoritesSlice";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
+import { selectUserProfile } from "@/slices/userProfileSlice";
 import { selectUserSavedLocs } from "@/slices/userSavedLocsSlice";
 
 const UserFavoritesPage = () => {
-  const dispatch = useDispatch();
   const user = useSelector(selectUserProfile);
-  const userFavs = useSelector(selectUserFavorites);
   const userSavedLocs = useSelector(selectUserSavedLocs);
+  const [userFavs, setUserFavs] = useState();
 
   useEffect(() => {
-    dispatch(fetchFavs(userSavedLocs));
-  }, []);
+    findFavs(userSavedLocs).then((result) => setUserFavs(result));
+  }, [user]);
+
+  const findFavs = async (savedLocs) => {
+    const favLocs = [];
+    for (let i = 0; i < savedLocs?.length; i++) {
+      if (savedLocs[i]?.is_favorited === true) {
+        favLocs.push(savedLocs[i]?.locations);
+      }
+    }
+    console.log("fav locs: ", favLocs);
+    return favLocs;
+  };
+
+  console.log("user favs: ", userFavs);
 
   if (userFavs?.length > 0) {
     return (
