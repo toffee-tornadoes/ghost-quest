@@ -30,7 +30,7 @@ export default function Home() {
   const randomText = "Random Location";
 
   const locations = useSelector(selectLocations);
-  const randomNum = Math.floor(Math.random() * locations.length);
+  const randomNum = Math.ceil(Math.random() * locations.length) - 1;
   const locURL = "locations";
   const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
@@ -62,7 +62,11 @@ export default function Home() {
         <HomeButton link={locURL} text={clickText} />
         {user && (
           <Fragment>
-            <FaveButton link={favURL} text={favesText} />
+            <FaveButton
+              link={favURL}
+              text={favesText}
+              location={locations[randomNum]}
+            />
             <VisitedButton
               className="w-full flex justify-center"
               link={`/user/${user.id}/visited`}
