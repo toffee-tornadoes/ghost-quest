@@ -24,7 +24,9 @@ const userVisitedLocs = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUserVisitedLocs.fulfilled, (state, action) => {
       const newState = []
-      action.payload.map((loc)=>{newState.push(loc.locations)})
+      if(action.payload !== null){
+        action.payload.map((loc)=>{newState.push(loc.locations)})
+      }
       return state = newState
     });
   },

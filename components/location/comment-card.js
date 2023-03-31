@@ -1,7 +1,9 @@
 import { Fragment } from "react";
 import Link from "next/link";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const CommentCard = ({ comment }) => {
+  const user = useUser();
   const formattedDate = new Date(comment.created_at).toLocaleTimeString(
     "en-US",
     {
@@ -25,7 +27,7 @@ const CommentCard = ({ comment }) => {
             <div className="flex">
               <Link
                 className="text-orange-700 italic hover:text-orange-300"
-                href={`/user/${comment.profiles.id}`}
+                href={user ? `/user/${comment.profiles.id}` : '/user/'}
               >
                 {`${comment.profiles.username}`}
               </Link>

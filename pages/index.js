@@ -31,7 +31,8 @@ export default function Home() {
   const randomText = "Random Location";
 
   const locations = useSelector(selectLocations);
-  const randomNum = Math.ceil(Math.random() * locations.length) - 1;
+  const randomNum = Math.floor(Math.random() * locations.length);
+  console.log("randomNum", randomNum)
   const locURL = "locations";
   const favURL = `user/${user?.id}/favorites`;
   const loginURL = `user`;
@@ -61,7 +62,7 @@ export default function Home() {
         <RandomButton
           link={randomURL}
           text={randomText}
-          location={locations[randomNum]}
+          location={locations[randomNum-1]}
         />
       </div>
       {!user && (
