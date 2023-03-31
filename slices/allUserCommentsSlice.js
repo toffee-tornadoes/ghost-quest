@@ -20,7 +20,6 @@ const allUserCommentsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAllUserComments.fulfilled, (state, action) => {
-      console.log(action.payload);
       return action.payload;
     });
   },

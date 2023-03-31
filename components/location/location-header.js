@@ -3,13 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouseCircleCheck, faHouse } from "@fortawesome/free-solid-svg-icons";
 import {
   addVisitedLoc,
-  getUserSavedLocs,
   selectUserSavedLocs,
   setVisitedLocs,
 } from "@/slices/userSavedLocsSlice";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   getUserVisitedLocs,
   selectUserVisitedLocs,
@@ -32,9 +31,7 @@ const LocationHeader = ({ location, state }) => {
       return obj?.location_id == locationId;
     });
 
-    // console.log("current length", current.length)
     if (current?.length === 0) {
-      // console.log("no match! adding now...");
       dispatch(addVisitedLoc({ userId, locationId }));
     }
 

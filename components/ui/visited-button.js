@@ -10,9 +10,7 @@ const VisitedButton = ({ text, link }) => {
       <div className="w-full text-base text-slate-300 hover:text-green-400">
         <h2 className="text-center">{text}</h2>
       </div>
-      <button>
-        {/* add visited icon */}
-      </button>
+      <button></button>
       <HomeIcon />
     </Link>
   );

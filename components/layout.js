@@ -53,7 +53,6 @@ const Layout = ({ children }) => {
     const { latLng } = event;
     const lat = latLng.lat();
     const lng = latLng.lng();
-    console.log(`New latitude: ${lat}, New longitude: ${lng}`);
     dispatch(updateUserLocation({ lat: lat, lng: lng }));
     dispatch(fetchNearbyLocations({ locations, userLocation }));
   };
@@ -112,16 +111,12 @@ const Layout = ({ children }) => {
             fade
             style={{ color: "#968d8d" }}
           />
-          {/* <NavIcon /> */}
         </div>
         <div
           className={`${hidden} pt-10 h-full justify-between w-full p-3 flex flex-col`}
           id="pageContainer"
         >
           {children}
-          {/* <div className="pb-5">
-            <NavButton />
-          </div> */}
         </div>
       </div>
     </>

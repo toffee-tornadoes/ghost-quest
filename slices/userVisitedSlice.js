@@ -10,8 +10,7 @@ export const getUserVisitedLocs = createAsyncThunk(
       .from("user_locations")
       .select("*,locations(*)")
       .eq("profile_id", userId)
-      .eq("has_visited", true)
-      // console.log(data)
+      .eq("has_visited", true);
     return data;
   }
 );
@@ -19,18 +18,19 @@ export const getUserVisitedLocs = createAsyncThunk(
 const userVisitedLocs = createSlice({
   name: "userVisitedLocs",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserVisitedLocs.fulfilled, (state, action) => {
-      const newState = []
-      if(action.payload !== null){
-        action.payload.map((loc)=>{newState.push(loc.locations)})
+      const newState = [];
+      if (action.payload !== null) {
+        action.payload.map((loc) => {
+          newState.push(loc.locations);
+        });
       }
-      return state = newState
+      return (state = newState);
     });
   },
 });
 
-export const selectUserVisitedLocs = (state) => state.userVisitedLocs
+export const selectUserVisitedLocs = (state) => state.userVisitedLocs;
 export default userVisitedLocs.reducer;

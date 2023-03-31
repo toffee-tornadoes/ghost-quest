@@ -17,14 +17,13 @@ export const getUserSavedLocs = createAsyncThunk(
 export const setVisitedLocs = createAsyncThunk(
   "setVisitedLocs",
   async ({ userId, state, locationId }) => {
-    // console.log("slice state:", state)
+
     const { data, error } = await supabase
       .from("user_locations")
       .update({ has_visited: state ? false : true })
       .eq("location_id", locationId)
       .eq("profile_id", userId)
       .select();
-    // console.log("error:", error)
     return data;
   }
 );
@@ -73,16 +72,6 @@ const userSavedLocsSlice = createSlice({
   },
 });
 
-// let visitedLocations = [...current(state)]
-//       for (let i = 0; i < visitedLocations.length; i++) {
-//         if (visitedLocations[i].id === action.payload[0].id) {
-//           console.log(visitedLocations[i].has_visited)
-//           visitedLocations[i].has_visited = action.payload[0].has_visited
-//           break;
-//         }
-//       }
-//       console.log(visitedLocations)
-//       return visitedLocations
 
 export const { resetUserSavedLocs } = userSavedLocsSlice.actions;
 export const selectUserSavedLocs = (state) => state?.userSavedLocs || "";

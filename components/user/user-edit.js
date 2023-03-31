@@ -7,9 +7,6 @@ import { fetchUserProfile, resetUserProfile } from "@/slices/userProfileSlice";
 import Router from "next/router";
 
 const UserEdit = ({ user, editStatus, setEditStatus }) => {
-  console.log("user: ", user);
-  console.log("editStatus: ", editStatus);
-  console.log("setEditStatus: ", setEditStatus);
 
   const dispatch = useDispatch();
   const supabase = useSupabaseClient();
@@ -50,7 +47,6 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   }
 
   const handleDelete = async (userId) => {
-    console.log(userId);
     try {
       const confirmDeleteAccount = window.confirm(
         "Are you sure you want to quit ghost hunting?"
@@ -80,7 +76,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
       .upload(file.name, file);
       console.log("Data key: ", data);
     if (error) {
-      
+
       console.log("Error uploading file: ", error);
       return;
     }
@@ -152,6 +148,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
           placeholder="username..."
           onChange={(e) => setUsername(e.target.value)}
         />
+
         <div className="w-full flex-col">
           <button
             className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}

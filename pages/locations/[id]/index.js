@@ -1,6 +1,3 @@
-// // ghostquest.com/location/[id]
-// This is the single location view
-
 import CommentFooter from "@/components/location/comment-footer";
 import LocationCard from "@/components/location/location-card";
 import LocationHeader from "@/components/location/location-header";
@@ -40,23 +37,17 @@ const LocationPage = () => {
     }
   }, [userVisitedLocs, userSavedLocs]);
 
-  // console.log("has visited: ", hasVisited);
-
   useEffect(() => {
     dispatch(getUserVisitedLocs(user?.id));
     dispatch(getUserSavedLocs(user?.id));
   }, []);
-
-  // the props being passed to LocationCard and CommentFooter may change
 
   return (
     <div>
       <LocationHeader state={hasVisited} location={location} />
       <hr />
       <LocationCard location={location} userComments={userComments} />
-      {/* <hr /> */}
       <CommentFooter location={location} />
-      {/* <button className="my-5 bg-cyan-900">Let's Hunt!</button> */}
     </div>
   );
 };

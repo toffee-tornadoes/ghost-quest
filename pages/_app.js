@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }) {
-  // Add a Layout component here
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
   return (
     <Provider store={store}>
