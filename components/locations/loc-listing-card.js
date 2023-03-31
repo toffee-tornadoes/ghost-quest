@@ -10,12 +10,14 @@ import {
   selectUserSavedLocs,
   getUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();
   const dispatch = useDispatch();
   const userSavedLocs = useSelector(selectUserSavedLocs);
   const [favStatus, setFavStatus] = useState(false);
+  const notify = () => toast("Favorited!");
 
   useEffect(() => {
     dispatch(getUserSavedLocs(user?.id));
@@ -77,6 +79,7 @@ const LocationListingCard = ({ locations }) => {
                       color={isFav(location.id, userSavedLocs)}
                       setFavStatus={setFavStatus}
                       favStatus={favStatus}
+                      onClick={notify}
                     />
                   </button>
                 ) : null}
