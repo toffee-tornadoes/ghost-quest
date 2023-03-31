@@ -13,7 +13,10 @@ import {
 } from "@/slices/userVisitedSlice";
 import { useEffect, useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
-import { getUserSavedLocs, selectUserSavedLocs } from "@/slices/userSavedLocsSlice";
+import {
+  getUserSavedLocs,
+  selectUserSavedLocs,
+} from "@/slices/userSavedLocsSlice";
 
 const LocationPage = () => {
   const router = useRouter();
@@ -24,10 +27,11 @@ const LocationPage = () => {
   const userVisitedLocs = useSelector(selectUserVisitedLocs);
   const userSavedLocs = useSelector(selectUserSavedLocs);
   // console.log(userSavedLocs)
-  const [hasVisited, setHasVisited] = useState(null)
+  const [hasVisited, setHasVisited] = useState(null);
   // console.log("has visited:", userVisitedLocs)
+  console.log("location: ", location);
 
-  useEffect(()=>{
+  useEffect(() => {
     const curr = userVisitedLocs?.filter((loc) => {
       return loc.id == location.id;
     });
@@ -37,7 +41,7 @@ const LocationPage = () => {
     } else {
       setHasVisited(false);
     }
-  }, [userVisitedLocs, userSavedLocs])
+  }, [userVisitedLocs, userSavedLocs]);
 
   // console.log("has visited: ", hasVisited);
 
