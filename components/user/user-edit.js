@@ -2,12 +2,13 @@ import { useState, useEffect, Fragment } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useDispatch } from "react-redux";
 import ReactDropzone from "react-dropzone";
-
-import { fetchUserProfile, resetUserProfile } from "@/slices/userProfileSlice";
+import { fetchUserProfile } from "@/slices/userProfileSlice";
 import Router from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import EditConfirmation from "./editConfirmation";
 
 const UserEdit = ({ user, editStatus, setEditStatus }) => {
-
   const dispatch = useDispatch();
   const supabase = useSupabaseClient();
   const [userUpdated, setUserUpdated] = useState(false);
@@ -21,30 +22,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     setUserUpdated(false);
   }, [userUpdated]);
 
-  async function updateProfile() {
-    // const avatar_url = `public/avatar${user?.id}.png`;
-    const updates = {
-      id: user?.id,
-      username,
-      full_name,
-      // avatar_url,
-      updated_at: new Date(),
-    };
-    if (username.length && full_name.length) {
-      try {
-        let { error } = await supabase.from("profiles").upsert(updates);
-        alert("profile updated");
-        if (error) {
-          throw error;
-        }
-        setUserUpdated(true);
-      } catch (error) {
-        alert(error.message);
-      }
-    } else {
-      alert("please enter a username and your full name the press update");
-    }
-  }
+  const editConfirmation = () => toast(<EditConfirmation />);
 
   const handleDelete = async (userId) => {
     try {
@@ -74,9 +52,8 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     const { data, error } = await supabase.storage
       .from("avatars")
       .upload(file.name, file);
-      console.log("Data key: ", data);
+    console.log("Data key: ", data);
     if (error) {
-
       console.log("Error uploading file: ", error);
       return;
     }
@@ -85,10 +62,10 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
       .from("avatars")
       .getPublicUrl(data.path);
 
-      console.log(publicURL.publicUrl);
-      console.log(file.name === data.path);
+    console.log(publicURL.publicUrl);
+    console.log(file.name === data.path);
 
-      //{"publicUrl":"https://nhpfatsjworjodawkvdl.supabase.co/storage/v1/object/public/avatars/%5Bobject%20Object%5D"}
+    //{"publicUrl":"https://nhpfatsjworjodawkvdl.supabase.co/storage/v1/object/public/avatars/%5Bobject%20Object%5D"}
 
     const { data: updateData, error: updateDataError } = await supabase
       .from("profiles")
@@ -101,7 +78,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     }
 
     console.log("Profile pic updated successfully!");
-    dispatch(fetchUserProfile(user?.id))
+    dispatch(fetchUserProfile(user?.id));
   };
 
   return (
@@ -152,14 +129,22 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         <div className="w-full flex-col">
           <button
             className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
-            onClick={() => {
-              updateProfile({ username });
-            }}
+            onClick={editConfirmation}
           >
             <p className="w-full text-base text-slate-300 hover:text-green-400">
               Update Username
             </p>
           </button>
+          <ToastContainer
+            position="top-center"
+            autoClose={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
           <button
             className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
             onClick={() => setEditStatus(!editStatus)}
