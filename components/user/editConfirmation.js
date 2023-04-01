@@ -1,8 +1,16 @@
 import CancelButton from "../ui/cancel-button";
 import ConfirmUpdateButton from "../ui/confirm-update-button";
+import { toast } from "react-toastify";
+import { supabase } from "@/lib/supabaseClient";
 
-const EditConfirmation = () => {
-  async function updateProfile() {
+const EditConfirmation = ({
+  user,
+  username,
+  full_name,
+  setUserUpdated,
+  closeToast,
+}) => {
+  async function updateProfile(username, full_name) {
     // const avatar_url = `public/avatar${user?.id}.png`;
     const updates = {
       id: user?.id,
@@ -14,24 +22,27 @@ const EditConfirmation = () => {
     if (username.length && full_name.length) {
       try {
         let { error } = await supabase.from("profiles").upsert(updates);
-        alert("profile updated");
+        toast("Profile Updated!");
         if (error) {
           throw error;
         }
         setUserUpdated(true);
       } catch (error) {
-        alert(error.message);
+        toast(error.message);
       }
-    } else {
-      alert("please enter a username and your full name the press update");
     }
   }
 
   return (
     <>
-      <h1 className="p-2">Test</h1>
-      <ConfirmUpdateButton />
-      <CancelButton onClick={console.log("testing")} />
+      <h1 className="p-2">{`Are you sure you want to change your name to ${full_name} and your username to ${username}`}</h1>
+      <ConfirmUpdateButton
+        updateProfile={updateProfile}
+        user={user}
+        username={username}
+        full_name={full_name}
+      />
+      <CancelButton closeToast={closeToast} />
     </>
   );
 };
