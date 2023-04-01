@@ -3,10 +3,10 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useDispatch } from "react-redux";
 import ReactDropzone from "react-dropzone";
 import { fetchUserProfile } from "@/slices/userProfileSlice";
-import Router from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import EditConfirmation from "./editConfirmation";
+import EditConfirmation from "./edit-confirmation";
+import DeleteConfirmation from "./delete-profile-confirmation";
 
 const UserEdit = ({ user, editStatus, setEditStatus }) => {
   const dispatch = useDispatch();
@@ -32,26 +32,12 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
       />
     );
 
-  const warning = () => {
-    toast("Please enter a new username and full name");
+  const deleteConfirmation = () => {
+    toast(<DeleteConfirmation user={user} />);
   };
 
-  const handleDelete = async (userId) => {
-    try {
-      const confirmDeleteAccount = window.confirm(
-        "Are you sure you want to quit ghost hunting?"
-      );
-      if (confirmDeleteAccount) {
-        const { error } = await supabase
-          .from("profiles")
-          .delete()
-          .eq("id", userId);
-        supabase.auth.signOut();
-        Router.push("/");
-      }
-    } catch (err) {
-      alert(err.message);
-    }
+  const warning = () => {
+    toast("Please enter a new username and full name");
   };
 
   const handleFileChange = (acceptedFiles) => {
@@ -163,22 +149,12 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         </div>
         <button
           className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
-          onClick={() => handleDelete(user?.id)}
+          onClick={deleteConfirmation}
         >
           <p className="w-full text-base text-slate-300 hover:text-red-400">
             Delete Account
           </p>
         </button>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          newestOnTop={false}
-          closeOnClick={true}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          theme="dark"
-        />
       </form>
     </div>
   );
