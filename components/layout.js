@@ -77,9 +77,9 @@ const Layout = ({ children }) => {
     dispatch(fetchUserComments(user?.id));
   }, [locations]);
 
-  useEffect(() => {
-    dispatch(fetchUserProfile(user?.id));
-  }, [locations]);
+  // useEffect(() => {
+  //   dispatch(fetchUserProfile(user?.id));
+  // }, [locations]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API,

@@ -1,6 +1,6 @@
 import BackIcon from "../icons/back-icon";
 
-const VisitedHeader = () => {
+const VisitedHeader = ({profile}) => {
   return (
     <div className="flex border-b justify-between mb-5" id="searchHeader">
       <div className="m-2 text-left text-3xl">
