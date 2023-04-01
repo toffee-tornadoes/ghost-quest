@@ -11,6 +11,7 @@ export const fetchUserProfile = createAsyncThunk(
       .select("*")
       .eq("id", userId)
       .single();
+      // console.log("profile data:", data)
     return data;
   }
 );
