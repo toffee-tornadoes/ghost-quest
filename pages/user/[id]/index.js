@@ -45,10 +45,13 @@ const UserPage = () => {
           />
         )}
         <button
-          className="w-1/2 flex justify-center"
+          className={`w-1/2 flex p-2 border-solid border-2 hover:bg-slate-900 rounded-md  hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
           onClick={signoutConfirmation}
         >
-          Signout
+          <p className="w-full text-base text-slate-300 hover:text-red-400">
+            {" "}
+            Signout
+          </p>
           {/* <HomeButtonRed link={`/`} text="Sign Out" /> */}
         </button>
         <ToastContainer
