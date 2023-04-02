@@ -11,7 +11,7 @@ const UserHeader = ({ profile, pic }) => {
   const user = useUser();
   const dispatch = useDispatch();
   // const userProfile = useSelector(selectUserProfile);
-  const userProfile = profile
+  const userProfile = profile;
   // const allUsers = useSelector(selectAllUsers);
   // console.log("all users:", allUsers)
   // console.log("user profile:", userProfile);
@@ -33,8 +33,12 @@ const UserHeader = ({ profile, pic }) => {
             />
           </div>
           <div className="flex flex-col">
-            <h1>{userProfile?.username}</h1>
-            <p className="text-slate-500 italic text-base">{userProfile?.email}</p>
+            <h1>{`${userProfile?.username}'s Page`}</h1>
+            {user.id === router.query.id ? (
+              <p className="text-slate-500 italic text-base">{user?.email}</p>
+            ) : (
+              <div className="text-slate-500 italic text-base">{`${userProfile?.username}'s spooky stats...`}</div>
+            )}
           </div>
         </div>
       </div>

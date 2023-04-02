@@ -61,7 +61,7 @@ const userSavedLocsSlice = createSlice({
     });
     builder.addCase(setVisitedLocs.fulfilled, (state, action) => {
       state.forEach((object) => {
-        if (object?.location_id === action.payload[0].location_id) {
+        if (object?.location_id === action.payload[0]?.location_id) {
           const idx = state.indexOf(object);
           state.splice(idx, 1);
           state.push(action.payload[0]);

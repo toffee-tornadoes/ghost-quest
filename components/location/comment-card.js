@@ -21,7 +21,14 @@ const CommentCard = ({ comment }) => {
       >
         {comment.profiles && (
           <div className="flex text-left justify-between pl-2">
-            <div className="flex">
+            <div className="flex items-center">
+              <div className="m-2 rounded-full w-6 h-6 border-2 border-slate-300 overflow-clip">
+                <img
+                  className=""
+                  src={comment.profiles.profile_pic}
+                  alt="Profile pic"
+                />
+              </div>
               <Link
                 className="text-orange-700 italic hover:text-orange-300"
                 href={user ? `/user/${comment.profiles.id}` : "/user/"}
