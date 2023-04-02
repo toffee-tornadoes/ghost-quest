@@ -6,6 +6,7 @@ import { useState } from "react";
 import { store } from "@/store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
@@ -15,19 +16,24 @@ export default function App({ Component, pageProps }) {
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession}
       >
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
         <Layout>
+          <Head>
+            {" "}
+            <title>GHOST QUEST</title>
+            <meta
+              name="description"
+              content="Embark on a journey to hunt for ghosts across the country."
+            />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+            <link
+              rel="icon"
+              type="image/svg+xml"
+              href="ghost-quest-high-resolution-color-logo.png"
+            />
+          </Head>
           <Component {...pageProps} />
         </Layout>
       </SessionContextProvider>
