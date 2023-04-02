@@ -9,15 +9,20 @@ import {
 import { useEffect, useState } from "react";
 import CommentsHeader from "./comments-header";
 import ForwardIcon from "@/components/icons/forward-icon";
+import { useRouter } from "next/router";
+import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
 
 const UserCommentsPage = () => {
   const user = useUser();
+  const router = useRouter();
   const dispatch = useDispatch();
   const userComments = useSelector(selectUserComments);
+  const profile = useSelector(selectUserProfile);
   const [locs, setLocs] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchUserComments(user?.id));
+    dispatch(fetchUserComments(router.query.id));
+    dispatch(fetchUserProfile(router.query.id))
   }, []);
 
   useEffect(() => {
@@ -72,7 +77,7 @@ const UserCommentsPage = () => {
 
   return (
     <div>
-      <CommentsHeader />
+      <CommentsHeader profile={profile} />
       <div>
         <div className="text-lg">
           {locs?.map((loc) => {
