@@ -5,7 +5,7 @@ import VisitedButton from "../ui/visited-button";
 
 const UserCard = ({ data }) => {
   const user = useUser();
-  console.log("user card data:", data)
+  // console.log("user card data:", data)
   if (user) {
     return (
       <div className="flex flex-col" data={data}>

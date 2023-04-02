@@ -33,9 +33,16 @@ const UserHeader = ({ profile, pic }) => {
             />
           </div>
           <div className="flex flex-col">
-            <h1>{`${userProfile?.username}'s Page`}</h1>
             {user.id === router.query.id ? (
-              <p className="text-slate-500 italic text-base">{user?.email}</p>
+              <h1>Your Profile</h1>
+            ) : (
+              <h1>{`${userProfile?.username}'s Profile`}</h1>
+            )}
+
+            {user.id === router.query.id ? (
+              <p className="text-slate-500 italic text-base">
+                {`${userProfile?.username}`} &nbsp; {user?.email}
+              </p>
             ) : (
               <div className="text-slate-500 italic text-base">{`${userProfile?.username}'s spooky stats...`}</div>
             )}
