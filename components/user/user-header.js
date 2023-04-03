@@ -6,42 +6,27 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BackIcon from "../icons/back-icon";
 
-const UserHeader = ({ profile, pic }) => {
+const UserHeader = ({ profile, isLoading }) => {
   const router = useRouter();
   const user = useUser();
   const dispatch = useDispatch();
   // const userProfile = useSelector(selectUserProfile);
   const userProfile = profile;
-  // const allUsers = useSelector(selectAllUsers);
-  // console.log("all users:", allUsers)
-  // console.log("user profile:", userProfile);
-  // console.log("router query:", router.query);
 
-  // useEffect(() => {
-  //   dispatch(fetchUserProfile(router.query.id));
-  // }, [router, dispatch]);
-  // console.log(userProfile?.profile_pic);
-  console.log(userProfile.profile_pic)
+  if (isLoading) {
+    return <div></div>;
+  }
+
   return (
     <div className="flex justify-between border-b mb-5" id="locListingHeader">
       <div className="m-2 text-left text-3xl">
         <div className="flex flex-row gap-2 items-end">
           <div className="m-2 rounded-full w-16 h-16 border-2 border-slate-300 overflow-clip">
-            {userProfile?.profile_pic == null ? (
-              <img
-                className=""
-                src={
-                  "https://media.istockphoto.com/id/1389019209/vector/ghost-doodle-5.jpg?s=612x612&w=0&k=20&c=gVQEhbG2cN2sk0JO7HRcpSlwjiZHMHq2lucDKVlTqSc="
-                }
-                alt="Profile pic"
-              />
-            ) : (
-              <img
-                className=""
-                src={userProfile?.profile_pic}
-                alt="Profile pic"
-              />
-            )}
+            <img
+              className=""
+              src={userProfile?.profile_pic}
+              alt="Profile pic"
+            />
           </div>
           <div className="flex flex-col">
             {user.id === router.query.id ? (

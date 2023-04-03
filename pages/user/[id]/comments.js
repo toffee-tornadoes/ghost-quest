@@ -11,6 +11,8 @@ import CommentsHeader from "./comments-header";
 import ForwardIcon from "@/components/icons/forward-icon";
 import { useRouter } from "next/router";
 import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const UserCommentsPage = () => {
   const user = useUser();
@@ -19,10 +21,13 @@ const UserCommentsPage = () => {
   const userComments = useSelector(selectUserComments);
   const profile = useSelector(selectUserProfile);
   const [locs, setLocs] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch(fetchUserComments(router.query.id));
-    dispatch(fetchUserProfile(router.query.id));
+    dispatch(fetchUserProfile(router.query.id)).then(() => {
+      setIsLoading(false)});
   }, []);
 
   useEffect(() => {
@@ -74,10 +79,27 @@ const UserCommentsPage = () => {
     }
     setLocs(commentedLocs);
   };
+
+  if (isLoading) {
+    return (
+      <div>
+        <CommentsHeader isLoading={isLoading} profile={profile} />
+        <div className="pt-2 text-slate-500">
+          Loading your results...
+          <br />
+          <FontAwesomeIcon
+            icon={faSpinner}
+            className="text-4xl mt-3"
+            spinPulse
+          />
+        </div>
+      </div>
+    );
+  }
   if (locs?.length > 0) {
     return (
       <div>
-        <CommentsHeader profile={profile} />
+        <CommentsHeader isLoading={isLoading} profile={profile} />
         <div>
           <div className="text-lg">
             {locs?.map((loc) => {

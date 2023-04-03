@@ -1,8 +1,12 @@
 import BackIcon from "@/components/icons/back-icon";
 import { useUser } from "@supabase/auth-helpers-react";
 
-const CommentsHeader = ({ profile }) => {
+const CommentsHeader = ({ profile, isLoading }) => {
   const user = useUser();
+
+  if (isLoading) {
+    return <div></div>;
+  }
 
   return (
     <div
@@ -20,9 +24,9 @@ const CommentsHeader = ({ profile }) => {
             ) : (
               <h1 className="w-full">{`${profile?.username}'s Comments`}</h1>
             )}
-          <div className="text-slate-500 italic text-base">
-            Comment History...
-          </div>
+            <div className="text-slate-500 italic text-base">
+              Comment History...
+            </div>
           </div>
         </div>
       </div>
