@@ -101,11 +101,11 @@ const Layout = ({ children }) => {
       />
       <div
         id="layoutDiv"
-        className={`flex-col z-1 items-center overflow-auto transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 w-full gap-y-10 text-center text-white flex fixed bg-black bg-opacity-60 backdrop-blur-lg bottom-0`}
+        className={`flex-col z-1 items-center overflow-auto transition-height duration-300 ease-in-out rounded-t-2xl ${height} pt-4 md:pt-10 w-full gap-y-10 text-center text-white flex fixed bg-black bg-opacity-60 backdrop-blur-lg bottom-0 md:h-full md:w-1/4 md:rounded-none`}
       >
         <div
           onClick={clickHandler}
-          className="flex cursor-pointer hover:scale-110 justify-center fixed"
+          className="flex cursor-pointer hover:scale-110 justify-center fixed md:hidden"
         >
           <FontAwesomeIcon
             className="text-4xl"
@@ -115,7 +115,7 @@ const Layout = ({ children }) => {
           />
         </div>
         <div
-          className={`${hidden} pt-10 h-full justify-between w-full p-3 flex flex-col`}
+          className={`${hidden} md:block pt-10 h-full justify-between w-full p-3 flex flex-col`}
           id="pageContainer"
         >
           {children}

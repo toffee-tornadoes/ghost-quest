@@ -148,15 +148,15 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   return (
     <div
       id="settingsModal"
-      className="backdrop-blur-3xl fixed flex items-center justify-center h-full w-full "
+      className="fixed top-0 flex items-center justify-center h-full w-full "
     >
       <form
-        className="w-3/4 h-min mt-10 p-5 flex flex-col rounded-lg border-dashed border-2 border-yellow-400 bg-slate-900 content-center items-center"
+        className="w-3/4 h-min mt-10 p-5 flex flex-col rounded-lg border-2 border-yellow-400 bg-slate-900 content-center items-center"
         onSubmit={(evt) => evt.preventDefault()}
       >
-        <label htmlFor="full_name">Edit Full Name</label>
+        <label className="m-2" htmlFor="full_name">Edit Full Name</label>
         <input
-          className="w-1/4 text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
+          className=" text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
           id="full_name"
           type="text"
           value={full_name || ""}
@@ -164,9 +164,9 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
           onChange={(e) => setFullname(e.target.value)}
         />
 
-        <label htmlFor="username">Edit Username</label>
+        <label className="m-2" htmlFor="username">Edit Username</label>
         <input
-          className="w-1/4 text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
+          className=" text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
           id="username"
           type="text"
           value={username || ""}
@@ -175,7 +175,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         />
         <div className="w-full flex-col">
           <button
-            className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
+            className={`p-1 px-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
             onClick={() => {
               if (username && full_name) return editConfirmation();
               return warning();
@@ -186,7 +186,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
             </p>
           </button>
           <button
-            className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
+            className={`p-1 px-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
             onClick={() => setEditStatus(!editStatus)}
           >
             <p className="w-full text-base text-slate-300 hover:text-red-400">
@@ -196,7 +196,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         </div>
         <div
           className={
-            "w-1/4 p-2 border-dashed border-white border-2 hover:bg-slate-600"
+            "w-2/4 p-2 m-2 border-dashed border-white border-2 hover:bg-slate-600"
           }
         >
           <ReactDropzone onDrop={handleFileChange}>
@@ -213,7 +213,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
           </ReactDropzone>
         </div>
         <button
-          className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
+          className={`p-1 px-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
           onClick={handlePicSubmit}
         >
           <p className="w-full text-base text-slate-300 hover:text-green-400">
@@ -221,7 +221,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
           </p>
         </button>
         <button
-          className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
+          className={`p-1 px-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
           onClick={deleteConfirmation}
         >
           <p className="w-full text-base text-slate-300 hover:text-red-400">

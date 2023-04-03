@@ -53,14 +53,11 @@ const CommentFooter = ({ location }) => {
           className="bg-slate-800 border border-solid border-slate-300 italic hover:bg-slate-600 w-full wrap rounded-md pl-2 pt-1 h-20 text-white"
         />
         <button
-          className={`w-1/2 flex flex-row p-1
-    hover:bg-green-700 rounded-md m-2 hover:cursor-pointer bg-green-900 mt-4`}
+          className={`w-1/2 flex flex-row p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700`}
           type="submit"
         >
-          <div
-            className="w-full text-base text-slate-300"
-          >
-            <h2 className="text-center">Submit Your Comment</h2>
+          <div className="w-full text-base text-slate-300 hover:text-green-400">
+            <h2 className="text-center text-sm">Submit a Comment</h2>
           </div>
         </button>
       </form>
