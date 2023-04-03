@@ -59,9 +59,4 @@ const UserHeader = ({ profile, isLoading }) => {
 
 export default UserHeader;
 
-//
-// begin
-//   insert into public.profiles (id, full_name, profile_pic)
-//   values (new.id, new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'profile_pic');
-//   return new;
-// end;
+
