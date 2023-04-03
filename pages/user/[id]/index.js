@@ -3,11 +3,9 @@ import UserEdit from "@/components/user/user-edit";
 import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
-import { resetUserComments } from "@/slices/userCommentsSlice";
-import { resetUserLocation } from "@/slices/userLocationSlice";
-import { resetUserSavedLocs } from "@/slices/userSavedLocsSlice";
-import { resetUserProfile } from "@/slices/userProfileSlice";
 import HomeButtonRed from "@/components/ui/home-button-red";
+import { toast, ToastContainer } from "react-toastify";
+import SignoutConfirmation from "@/components/user/signout-confirmation";
 import { useRouter } from "next/router";
 import ProfileCard from "@/components/profile/profile-card";
 
@@ -27,15 +25,8 @@ const UserPage = () => {
     // dispatch(fetchAllUsers());
   }, [router, dispatch]);
 
-  const handleSignOut = () => {
-    const confirmSignout = window.confirm("Are you sure you want to sign out?");
-    if (confirmSignout) {
-      supabase.auth.signOut();
-      dispatch(resetUserLocation());
-      dispatch(resetUserComments());
-      dispatch(resetUserSavedLocs());
-      dispatch(resetUserProfile());
-    }
+  const signoutConfirmation = () => {
+    toast(<SignoutConfirmation />);
   };
 
   return (
@@ -69,12 +60,29 @@ const UserPage = () => {
           />
         )}
         {user?.id === router.query.id ? (
-          <button onClick={handleSignOut} className="w-1/2 flex justify-center">
-            <HomeButtonRed link={`/`} text="Sign Out" />
+          <button
+          className={`w-1/2 flex p-2 border-solid border-2 hover:bg-slate-900 rounded-md  hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
+          onClick={signoutConfirmation}
+        >
+          <p className="w-full text-base text-slate-300 hover:text-red-400">
+              {" "}
+            Signout
+          </p>
+          {/* <HomeButtonRed link={`/`} text="Sign Out" /> */}
           </button>
         ) : (
           <div></div>
         )}
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          theme="dark"
+        />{" "}
       </div>
     </div>
   );

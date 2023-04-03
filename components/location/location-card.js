@@ -88,9 +88,11 @@ const LocationCard = ({ location }) => {
           alt=""
         />
         <p className="p-1 text-justify">
-          {location?.description.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
+          {
+            location?.description /*.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
             i.toUpperCase()
-          )}
+          )*/
+          }
         </p>
       </div>
       {/* MORE INFO AND RATINGS */}

@@ -69,20 +69,34 @@ const LocationListingCard = ({ locations }) => {
                   </h2>
                 </Link>
                 {user ? (
-                  <button>
-                    <FavoriteIcon
-                      locationId={location.id}
-                      userId={user.id}
-                      color={isFav(location.id, userSavedLocs)}
-                      setFavStatus={setFavStatus}
-                      favStatus={favStatus}
-                    />
-                  </button>
+                  <>
+                    <button>
+                      <FavoriteIcon
+                        locationId={location.id}
+                        userId={user.id}
+                        color={isFav(location.id, userSavedLocs)}
+                        setFavStatus={setFavStatus}
+                        favStatus={favStatus}
+                      />
+                    </button>
+                  </>
                 ) : null}
               </div>
             </Fragment>
           );
         })}
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     </div>
   );
