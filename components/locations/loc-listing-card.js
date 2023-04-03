@@ -89,14 +89,14 @@ const LocationListingCard = ({ locations }) => {
         })}
         <ToastContainer
           position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
+          autoClose={300}
+          hideProgressBar={true}
           newestOnTop={false}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
-          pauseOnHover
+          pauseOnHover={false}
           theme="dark"
         />
       </div>

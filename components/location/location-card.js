@@ -80,14 +80,14 @@ const LocationCard = ({ location }) => {
   };
 
   return (
-    <div className="flex top-0 flex-col m-5 ">
-      <div className="mb-2 opacity-80 bg-slate-900 border-2 border-solid border-slate-700 rounded-lg m-2 p-2 text-left text-slate-300">
+    <div className="flex top-0 flex-col mt-5 ">
+      <div className="mb-2 opacity-80 bg-slate-900 border-2 border-solid border-slate-700 rounded-lg p-2 text-left text-slate-300">
         <img
           className="m-3 mr-5 border-solid rounded-sm border-2 border-slate-400 float-left w-36"
           src="/haunted.png"
           alt=""
         />
-        <p className="p-1 text-justify">
+        <p className="p-1 leading-5 text-justify">
           {
             location?.description /*.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
             i.toUpperCase()
@@ -129,7 +129,7 @@ const LocationCard = ({ location }) => {
       <div>
         <div
           id="commentHeader"
-          className="flex justify-center text-slate-500 text-lg"
+          className="flex justify-center text-slate-500 mb-3 text-lg"
         >
           <CommentIcon />
           <h1 className="text-orange-700 text-base">
