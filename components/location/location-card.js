@@ -78,13 +78,46 @@ const LocationCard = ({ location }) => {
     });
     return count;
   };
+  let url = "/haunted.png";
+  const randomPic = () => {
+    console.log(location.id)
+    const num=location?.id[location.id.length - 1];
+
+    console.log(num)
+  if(num==0){
+      url= "/haunted.png";
+    }else if(num==1){
+      url= "/haunted2.1.jpg";
+    }else if(num==2){
+      url = "/haunted3.jpg";
+    }else if(num==3){
+      url = "/haunted4.jpg";
+    }else if(num==4){
+      url = "/haunted5.webp";
+    }else if(num==5){
+      url = "/haunted6.jpg";
+    }else if(num==6){
+      url = "/haunted7.jpg";
+    }else if(num==7){
+      url = "/haunted8.jpg";
+    }else if(num==8){
+      url = "/haunted9.jpg";
+    }else if(num==9){
+      url = "/haunted10.jpg";
+    }
+    console.log(url)
+    return url
+  };
+  randomPic()
+
+
 
   return (
     <div className="flex top-0 flex-col mt-5 ">
       <div className="mb-2 opacity-80 bg-slate-900 border-2 border-solid border-slate-700 rounded-lg p-2 text-left text-slate-300">
         <img
           className="m-3 mr-5 border-solid rounded-sm border-2 border-slate-400 float-left w-36"
-          src="/haunted.png"
+          src={url}
           alt=""
         />
         <p className="p-1 leading-5 text-justify">

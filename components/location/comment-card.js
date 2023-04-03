@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { useUser } from "@supabase/auth-helpers-react";
 
+
+
 const CommentCard = ({ comment }) => {
   const user = useUser();
   const formattedDate = new Date(comment.created_at).toLocaleTimeString(
