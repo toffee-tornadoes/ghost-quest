@@ -44,39 +44,105 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     setFile(acceptedFiles[0]);
   };
 
+  // const handlePicSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   const { data, error } = await supabase.storage
+  //     .from("avatars")
+  //     .upload(file.name, file);
+  //   console.log("Data key: ", data);
+  //   if (error) {
+  //     console.log("Error uploading file: ", error);
+  //     return;
+  //   }
+
+  //   const { data: publicURL, error: urlError } = await supabase.storage
+  //     .from("avatars")
+  //     .getPublicUrl(data.path);
+
+  //   console.log(publicURL.publicUrl);
+  //   console.log(file.name === data.path);
+
+  //   const { data: updateData, error: updateDataError } = await supabase
+  //     .from("profiles")
+  //     .update({ profile_pic: publicURL.publicUrl })
+  //     .eq("id", user.id);
+
+  //   if (updateDataError) {
+  //     console.log("Error updating user profile pic: ", updateDataError);
+  //     return;
+  //   }
+
+  //   console.log("Profile pic updated successfully!");
+  //   dispatch(fetchUserProfile(user?.id));
+  // };
+
   const handlePicSubmit = async (event) => {
     event.preventDefault();
 
-    const { data, error } = await supabase.storage
+    const { data, error: existingFileError } = await supabase.storage
       .from("avatars")
-      .upload(file.name, file);
-    console.log("Data key: ", data);
-    if (error) {
-      console.log("Error uploading file: ", error);
+      .getPublicUrl(file.path);
+
+    if (existingFileError && existingFileError.status !== 404) {
+      console.log("Error getting file: ", existingFileError);
       return;
     }
+    console.log("data: ", data)
 
-    const { data: publicURL, error: urlError } = await supabase.storage
-      .from("avatars")
-      .getPublicUrl(data.path);
+    if (data) {
+      console.log("File already exists");
+      const { data: publicURL, error: urlError } = await supabase.storage
+        .from("avatars")
+        .getPublicUrl(file.path);
+      if (urlError) {
+        console.log("Error getting public URL: ", urlError);
+        return;
+      }
+      console.log("publicURL: ", publicURL)
 
-    console.log(publicURL.publicUrl);
-    console.log(file.name === data.path);
+      const { data: updateData, error: updateDataError } = await supabase
+        .from("profiles")
+        .update({ profile_pic: publicURL.publicUrl })
+        .eq("id", user.id);
 
-    //{"publicUrl":"https://nhpfatsjworjodawkvdl.supabase.co/storage/v1/object/public/avatars/%5Bobject%20Object%5D"}
+      if (updateDataError) {
+        console.log("Error updating user profile pic: ", updateDataError);
+        return;
+      }
 
-    const { data: updateData, error: updateDataError } = await supabase
-      .from("profiles")
-      .update({ profile_pic: publicURL.publicUrl })
-      .eq("id", user.id);
+      console.log("Profile pic updated successfully!");
+      dispatch(fetchUserProfile(user?.id));
+    } else {
+      const { data, error } = await supabase.storage
+        .from("avatars")
+        .upload(file.name, file);
+      console.log("Data key: ", data);
+      if (error) {
+        console.log("Error uploading file: ", error);
+        return;
+      }
 
-    if (updateDataError) {
-      console.log("Error updating user profile pic: ", updateDataError);
-      return;
+      const { data: publicURL, error: urlError } = await supabase.storage
+        .from("avatars")
+        .getPublicUrl(data.path);
+
+      console.log(publicURL);
+      console.log(file.name === data.Key);
+
+      const { data: updateData, error: updateDataError } = await supabase
+        .from("profiles")
+        .update({ profile_pic: publicURL.publicUrl })
+        .eq("id", user.id);
+
+      if (updateDataError) {
+        console.log("Error updating user profile pic: ", updateDataError);
+        return;
+      }
+
+      console.log("Profile pic uploaded successfully!");
+      dispatch(fetchUserProfile(user?.id));
     }
-
-    console.log("Profile pic updated successfully!");
-    dispatch(fetchUserProfile(user?.id));
   };
 
   return (
@@ -145,8 +211,15 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
               </div>
             )}
           </ReactDropzone>
-          <button onClick={handlePicSubmit}>Save Profile Pic</button>
         </div>
+        <button
+          className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
+          onClick={handlePicSubmit}
+        >
+          <p className="w-full text-base text-slate-300 hover:text-green-400">
+            Save Profile Pic
+          </p>
+        </button>
         <button
           className={`p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
           onClick={deleteConfirmation}
