@@ -20,13 +20,13 @@ const SearchPage = () => {
     const { data, error } = await supabase
       .from("locations")
       .select()
-      .textSearch("description", `${searchQuery.split(" ").join(" & ")}`);
+      .textSearch(`search_all_columns(${searchQuery})`, `${searchQuery.split(" ").join(" & ")}`);
     setResults(data);
     setCurrSearch(searchQuery);
     setLoading(false);
     setHidden("");
     return data;
-  };
+  };  
 
   return (
     <div>
