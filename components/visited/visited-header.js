@@ -7,15 +7,25 @@ const VisitedHeader = ({ profile }) => {
   const user = useUser();
 
   return (
-    <div className="flex border-b justify-between mb-5" id="searchHeader">
+    <div
+      className="border-b-white border-b flex justify-between mb-5"
+      id="visited-header"
+    >
       <div className="m-2 text-left text-3xl">
-        {router.query.id === user.id ? (
-          <h1>Your Visits</h1>
-        ) : (
-          <h1>{`${profile.username}'s Visits`}</h1>
-        )}
-        <div className="text-slate-500 italic text-base">
-          <h1>{`Places ${profile.username} has haunted...`}</h1>
+        <div className="flex flex-row gap-2 items-end">
+          <div className="m-2 rounded-full w-16 h-16 border-2 border-slate-300 overflow-clip">
+            <img src={profile?.profile_pic} alt="Profile pic" />
+          </div>
+          <div className="flex flex-col">
+            {profile?.id === user?.id ? (
+              <h1 className="w-full">Your Visits</h1>
+            ) : (
+              <h1 className="w-full">{`${profile?.username}'s Visits`}</h1>
+            )}
+            <div className="text-slate-500 italic text-base">
+              Visit history...
+            </div>
+          </div>
         </div>
       </div>
       <div className="p-2">
