@@ -98,7 +98,7 @@ const LocationCard = ({ location }) => {
       {/* MORE INFO AND RATINGS */}
       <div
         id="moreInfoContainer"
-        className="flex text-purple-500 px-2 m-2 border-dashed border-2 rounded-md border-purple-500 justify-between"
+        className="flex text-purple-500 px-2  border-dashed border-2 rounded-md border-purple-500 justify-between"
       >
         <div className="flex p-1 flex-row justify-center">
           <h1>Average Rating &nbsp;</h1>
@@ -108,7 +108,7 @@ const LocationCard = ({ location }) => {
           <StarRatings
             rating={rating}
             starRatedColor="purple"
-            starDimension="24"
+            starDimension="20"
             starSpacing=""
             starHoverColor="green"
             changeRating={(evt) => {
