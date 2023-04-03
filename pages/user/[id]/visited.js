@@ -1,6 +1,6 @@
 // ghostquest.com/user/[id]/visited
 // import { useUser } from "@supabase/auth-helpers-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LocationListingCard from "@/components/locations/loc-listing-card";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +10,8 @@ import {
 import VisitedHeader from "@/components/visited/visited-header";
 import { useRouter } from "next/router";
 import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UserPlacesVisitedPage = ({ data }) => {
   const router = useRouter();
@@ -18,11 +20,33 @@ const UserPlacesVisitedPage = ({ data }) => {
   // const user = useUser();
   const dispatch = useDispatch();
   const userVisitedLocs = useSelector(selectUserVisitedLocs);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getUserVisitedLocs(router.query.id));
-    dispatch(fetchUserProfile(router.query.id));
+    dispatch(fetchUserProfile(router.query.id)).then(()=>{
+      setIsLoading(false)
+    });
   }, []);
+
+  if (isLoading) {
+    return (
+      <div>
+        {/* <VisitedHeader profile={profile} /> */}
+        <div className="pt-2 text-slate-500">
+          Loading your results...
+          <br />
+          <FontAwesomeIcon
+            icon={faSpinner}
+            className="text-4xl mt-3"
+            spinPulse
+          />
+        </div>
+      </div>
+    );
+  }
 
   // useEffect(() => {
   //   dispatch(fetchUserProfile(router.query.id));

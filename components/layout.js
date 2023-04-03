@@ -72,8 +72,8 @@ const Layout = ({ children }) => {
   }, [locations, userLocation]);
 
   useEffect(() => {
-    dispatch(getUserSavedLocs(router.query.id));
-  }, [locations]);
+    dispatch(getUserSavedLocs(user?.id));
+  }, []);
 
   useEffect(() => {
     dispatch(fetchUserComments(user?.id));

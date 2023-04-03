@@ -19,9 +19,13 @@ const UserPage = () => {
   const [editStatus, setEditStatus] = useState(false);
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUserProfile(router.query.id));
+    setIsLoading(true);
+    dispatch(fetchUserProfile(router.query.id)).then(() => {
+      setIsLoading(false);
+    });
     // dispatch(fetchAllUsers());
   }, [router, dispatch]);
 
@@ -29,10 +33,21 @@ const UserPage = () => {
     toast(<SignoutConfirmation />);
   };
 
+  if (isLoading) {
+    return (
+      <div>
+      </div>
+    );
+  }
+
   return (
     <div>
-    <UserHeader profile={profile} />
-      {user?.id === router.query.id ? <UserCard /> : <ProfileCard profile={profile} />}
+      <UserHeader isLoading={isLoading} profile={profile} />
+      {user?.id === router.query.id ? (
+        <UserCard />
+      ) : (
+        <ProfileCard profile={profile} />
+      )}
       <div
         id="settingsSignOut"
         className="w-full flex flex-col justify-center items-center flex-wrap mt-10 gap-4"
@@ -61,14 +76,14 @@ const UserPage = () => {
         )}
         {user?.id === router.query.id ? (
           <button
-          className={`w-1/2 flex p-2 border-solid border-2 hover:bg-slate-900 rounded-md  hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
-          onClick={signoutConfirmation}
-        >
-          <p className="w-full text-base text-slate-300 hover:text-red-400">
+            className={`w-1/2 flex p-2 border-solid border-2 hover:bg-slate-900 rounded-md  hover:border-red-600 hover:cursor-pointer border-red-700 justify-center`}
+            onClick={signoutConfirmation}
+          >
+            <p className="w-full text-base text-slate-300 hover:text-red-400">
               {" "}
-            Signout
-          </p>
-          {/* <HomeButtonRed link={`/`} text="Sign Out" /> */}
+              Signout
+            </p>
+            {/* <HomeButtonRed link={`/`} text="Sign Out" /> */}
           </button>
         ) : (
           <div></div>
