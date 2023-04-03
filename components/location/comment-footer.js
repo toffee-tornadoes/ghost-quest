@@ -57,7 +57,7 @@ const CommentFooter = ({ location }) => {
           type="submit"
         >
           <div className="w-full text-base text-slate-300 hover:text-green-400">
-            <h2 className="text-center">Submit Your Comment</h2>
+            <h2 className="text-center text-sm">Submit a Comment</h2>
           </div>
         </button>
       </form>

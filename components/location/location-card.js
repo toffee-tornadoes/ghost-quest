@@ -101,7 +101,7 @@ const LocationCard = ({ location }) => {
         className="flex text-purple-500 px-2  border-dashed border-2 rounded-md border-purple-500 justify-between"
       >
         <div className="flex p-1 flex-row justify-center">
-          <h1>Average Rating &nbsp;</h1>
+          <h1>Avg. Rating &nbsp;</h1>
           <h1 className="text-slate-300">
             ({Math.round(rating * 10) / 10})&nbsp;
           </h1>
@@ -129,7 +129,7 @@ const LocationCard = ({ location }) => {
       <div>
         <div
           id="commentHeader"
-          className="flex justify-center text-slate-500 mb-3 text-lg"
+          className="flex justify-center text-slate-500 mt-3 mb-3 text-lg"
         >
           <CommentIcon />
           <h1 className="text-orange-700 text-base">
@@ -137,9 +137,10 @@ const LocationCard = ({ location }) => {
             {`Comments (${allUserComments.length}):`}
           </h1>
         </div>
+        {/* This div below I took off overflow in comments */}
         <div
           id="commentsContainer"
-          className="overflow-auto content-center max-h-screen "
+          className="mb-3"
         >
           {allUserComments?.map((comment) => {
             if (comment.location_id == location.id) {
