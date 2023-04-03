@@ -21,7 +21,7 @@ const CommentCard = ({ comment }) => {
       >
         {comment.profiles && (
           <div className="flex text-left justify-between pl-2">
-            <div className="flex items-center">
+            <div className="flex min-w-fit items-center">
               <div className="m-2 rounded-full w-6 h-6 border-2 border-slate-300 overflow-clip">
                 <img
                   className=""

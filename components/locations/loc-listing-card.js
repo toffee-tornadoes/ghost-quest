@@ -10,15 +10,17 @@ import {
 } from "@/slices/userSavedLocsSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 
 const LocationListingCard = ({ locations }) => {
   const user = useUser();
+  const router = useRouter();
   const dispatch = useDispatch();
   const userSavedLocs = useSelector(selectUserSavedLocs);
   const [favStatus, setFavStatus] = useState(false);
 
   useEffect(() => {
-    dispatch(getUserSavedLocs(user?.id));
+    dispatch(getUserSavedLocs(router.query.id));
   }, [locations, favStatus]);
 
   const isFav = (locationId, userSavedLocs) => {

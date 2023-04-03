@@ -7,7 +7,7 @@ const CommentsHeader = ({ profile }) => {
   return (
     <div
       className="border-b-white border-b flex justify-between mb-5"
-      id="favorites-header"
+      id="comments-header"
     >
       <div className="m-2 text-left text-3xl">
         <div className="flex flex-row gap-2 items-end">

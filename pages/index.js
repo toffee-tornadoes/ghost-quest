@@ -38,7 +38,7 @@ export default function Home() {
             <FaveButton link={favURL} text={favesText} />
             <VisitedButton
               className="w-full flex justify-center"
-              link={`/user/${user.id}/visited`}
+              link={`/user/${user?.id}/visited`}
               text={"Visited Locations"}
             />
           </Fragment>

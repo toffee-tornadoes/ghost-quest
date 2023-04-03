@@ -22,9 +22,11 @@ import {
 } from "@/slices/userSavedLocsSlice";
 import { fetchUserComments } from "@/slices/userCommentsSlice";
 import { fetchUserProfile, selectUserProfile } from "@/slices/userProfileSlice";
+import { useRouter } from "next/router";
 
 const Layout = ({ children }) => {
   const user = useUser();
+  const router = useRouter();
   const [navUp, setNavUp] = useState(false);
   const [height, setHeight] = useState("h-24");
   const [hidden, setHidden] = useState("hidden");
@@ -70,7 +72,7 @@ const Layout = ({ children }) => {
   }, [locations, userLocation]);
 
   useEffect(() => {
-    dispatch(getUserSavedLocs(user?.id));
+    dispatch(getUserSavedLocs(router.query.id));
   }, [locations]);
 
   useEffect(() => {
