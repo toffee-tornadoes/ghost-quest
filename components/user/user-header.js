@@ -27,6 +27,11 @@ const UserHeader = ({ profile, isLoading }) => {
               src={userProfile?.profile_pic}
               alt="Profile pic"
             />
+            <img
+              className=""
+              src={userProfile?.profile_pic}
+              alt="Profile pic"
+            />
           </div>
           <div className="flex flex-col">
             {user.id === router.query.id ? (
@@ -53,3 +58,5 @@ const UserHeader = ({ profile, isLoading }) => {
 };
 
 export default UserHeader;
+
+
