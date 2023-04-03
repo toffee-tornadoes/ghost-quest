@@ -28,21 +28,34 @@ const UserPlacesVisitedPage = ({ data }) => {
   //   dispatch(fetchUserProfile(router.query.id));
   // }, [router, dispatch]);
   // console.log(userProfile?.profile_pic);
-
-  return (
-    <div>
-      <VisitedHeader profile={profile} />
+  if(userVisitedLocs?.length>0){
+      return (
+        <div>
+          <VisitedHeader profile={profile} />
+          <div>
+            {userVisitedLocs ||
+            userVisitedLocs.length >= 1 ||
+            userVisitedLocs !== null ? (
+              <LocationListingCard locations={userVisitedLocs} />
+            ) : (
+              <h3>You haven't haunted anything yet!</h3>
+            )}
+          </div>
+        </div>
+      );
+  }else{
+    return (
       <div>
-        {userVisitedLocs ||
-        userVisitedLocs.length >= 1 ||
-        userVisitedLocs !== null ? (
-          <LocationListingCard locations={userVisitedLocs} />
-        ) : (
-          <h3>You haven't haunted anything yet!</h3>
-        )}
+        <div className="text-lg">
+          <VisitedHeader profile={profile} />
+          <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
+            <p className="justify-">No visited Locations</p>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
 };
 
 export default UserPlacesVisitedPage;

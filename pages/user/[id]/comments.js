@@ -22,7 +22,7 @@ const UserCommentsPage = () => {
 
   useEffect(() => {
     dispatch(fetchUserComments(router.query.id));
-    dispatch(fetchUserProfile(router.query.id))
+    dispatch(fetchUserProfile(router.query.id));
   }, []);
 
   useEffect(() => {
@@ -74,53 +74,66 @@ const UserCommentsPage = () => {
     }
     setLocs(commentedLocs);
   };
-
-  return (
-    <div>
-      <CommentsHeader profile={profile} />
+  if (locs?.length > 0) {
+    return (
       <div>
-        <div className="text-lg">
-          {locs?.map((loc) => {
-            return (
-              <Fragment key={loc.loc.id}>
-                <div className="flex flex-col border-solid border-2 rounded-md m-3 border-slate-700">
-                  <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-purple-600 hover:cursor-pointer">
-                    <Link
-                      className="w-full text-base text-left text-slate-500 hover:text-purple-400"
-                      href={{
-                        pathname: `/locations/${loc.loc.id}`,
-                        query: loc.loc,
-                      }}
-                    >
-                      <h2 className="flex">
-                        {`"${loc.loc.location}"\u00A0`}{" "}
-                        <div
-                          id="cityState"
-                          className="italic text-slate-400 text-right pr-2"
-                        >
-                          {loc.loc.city}
-                          {", "}
-                          {loc.loc.state}
+        <CommentsHeader profile={profile} />
+        <div>
+          <div className="text-lg">
+            {locs?.map((loc) => {
+              return (
+                <Fragment key={loc.loc.id}>
+                  <div className="flex flex-col border-solid border-2 rounded-md m-3 border-slate-700">
+                    <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 border-purple-600 hover:cursor-pointer">
+                      <Link
+                        className="w-full text-base text-left text-slate-500 hover:text-purple-400"
+                        href={{
+                          pathname: `/locations/${loc.loc.id}`,
+                          query: loc.loc,
+                        }}
+                      >
+                        <h2 className="flex">
+                          {`"${loc.loc.location}"\u00A0`}{" "}
+                          <div
+                            id="cityState"
+                            className="italic text-slate-400 text-right pr-2"
+                          >
+                            {loc.loc.city}
+                            {", "}
+                            {loc.loc.state}
+                          </div>
+                        </h2>
+                      </Link>
+                      <ForwardIcon />
+                    </div>
+                    {loc?.comments.map((comment, idx) => {
+                      return (
+                        <div className="px-2 p-1 hover:bg-slate-800 bg-slate-900 border-solid border-2 hover:border-orange-800 border-slate-800 rounded-md m-2 text-slate-400 text-left text-base">
+                          {`${idx + 1}. ${comment}`}
                         </div>
-                      </h2>
-                    </Link>
-                    <ForwardIcon />
+                      );
+                    })}
                   </div>
-                  {loc?.comments.map((comment, idx) => {
-                    return (
-                      <div className="px-2 p-1 hover:bg-slate-800 bg-slate-900 border-solid border-2 hover:border-orange-800 border-slate-800 rounded-md m-2 text-slate-400 text-left text-base">
-                        {`${idx + 1}. ${comment}`}
-                      </div>
-                    );
-                  })}
-                </div>
-              </Fragment>
-            );
-          })}
+                </Fragment>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }else{
+    return (
+      <div>
+        <div className="text-lg">
+          <CommentsHeader profile={profile} />
+          <div className="flex flex-row justify-between p-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-purple-600 hover:cursor-pointer border-slate-700">
+            <p className="justify-">No comments</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 
 export default UserCommentsPage;
