@@ -228,12 +228,8 @@ const Map = ({
             <MarkerClustererF>
               {(clusterer) => {
                 return nearbyLocations?.map((location) => {
-                  const lat = location.latitude
-                    ? Number(location.latitude)
-                    : location.city_latitude;
-                  const lng = location.longitude
-                    ? Number(location.longitude)
-                    : location.city_longitude;
+                  const lat = Number(location.latitude);
+                  const lng = Number(location.longitude);
                   return (
                     <MarkerF
                       key={location.id}
@@ -256,12 +252,8 @@ const Map = ({
           {selectedLocation && (
             <InfoWindowF
               position={{
-                lat: selectedLocation.latitude
-                  ? Number(selectedLocation?.latitude)
-                  : selectedLocation.city_latitude,
-                lng: selectedLocation.longitude
-                  ? Number(selectedLocation?.longitude)
-                  : selectedLocation.city_longitude,
+                lat: Number(selectedLocation.latitude),
+                lng: Number(selectedLocation.longitude),
               }}
               onCloseClick={() => {
                 setSelectedLocation(null);
