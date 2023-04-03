@@ -21,7 +21,7 @@ const LocationListingCard = ({ locations }) => {
 
   useEffect(() => {
     dispatch(getUserSavedLocs(router.query.id));
-  }, [locations, favStatus]);
+  }, [locations, favStatus, router]);
 
   const isFav = (locationId, userSavedLocs) => {
     let i = 0;

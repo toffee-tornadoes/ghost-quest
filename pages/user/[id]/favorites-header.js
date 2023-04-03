@@ -1,8 +1,12 @@
 import BackIcon from "@/components/icons/back-icon";
 import { useUser } from "@supabase/auth-helpers-react";
 
-const FavoritesHeader = ({ profile }) => {
+const FavoritesHeader = ({ profile, isLoading }) => {
   const user = useUser();
+
+  if (isLoading) {
+    return <div></div>;
+  }
 
   return (
     <div
