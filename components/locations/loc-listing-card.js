@@ -8,7 +8,6 @@ import {
   selectUserSavedLocs,
   getUserSavedLocs,
 } from "@/slices/userSavedLocsSlice";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 
@@ -87,18 +86,6 @@ const LocationListingCard = ({ locations }) => {
             </Fragment>
           );
         })}
-        <ToastContainer
-          position="top-center"
-          autoClose={300}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover={false}
-          theme="dark"
-        />
       </div>
     </div>
   );
