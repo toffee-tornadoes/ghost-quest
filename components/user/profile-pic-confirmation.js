@@ -4,17 +4,22 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-const ProfilePicUpdateConfirmation = ({ user, closeToast, file }) => {
+const ProfilePicUpdateConfirmation = ({
+  user,
+  closeToast,
+  file,
+  fetchUserProfile,
+}) => {
   const dispatch = useDispatch();
   const supabase = useSupabaseClient();
 
   const handlePicSubmit = async (user) => {
-    try {
-      const { data, error } = await supabase.storage
-        .from("avatars")
-        .upload(file.name, file);
-    } catch (error) {
-      toast("Error uploading file: ", error.message);
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .upload(file.name, file);
+
+    if (error) {
+      toast("Error uploading file", error.message);
       return;
     }
 
@@ -31,13 +36,14 @@ const ProfilePicUpdateConfirmation = ({ user, closeToast, file }) => {
       .eq("id", user.id);
 
     if (updateDataError) {
-      console.log("Error updating user profile pic: ", updateDataError);
+      toast("Error updating user profile pic: ", updateDataError);
       return;
     }
 
-    console.log("Profile pic updated successfully!");
+    toast("Profile pic updated successfully!");
     dispatch(fetchUserProfile(user?.id));
   };
+
   return (
     <>
       <h1 className="p-2">{"Are you sure you want to upload this picture?"}</h1>

@@ -40,7 +40,13 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
   };
 
   const profilePicUpdateConfirmation = () => {
-    toast(<ProfilePicUpdateConfirmation user={user} file={file} />);
+    toast(
+      <ProfilePicUpdateConfirmation
+        user={user}
+        file={file}
+        fetchUserProfile={fetchUserProfile}
+      />
+    );
   };
 
   const updateProfileWarning = () => {
