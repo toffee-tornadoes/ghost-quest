@@ -136,12 +136,12 @@ const LocationCard = ({ location }) => {
         <div className="flex p-1 flex-row justify-center">
           <h1>Avg. Rating &nbsp;</h1>
           <h1 className="text-slate-300">
-            ({Math.round(rating * 10) / 10})&nbsp;
+            ({Math.round(rating * 10) / 10})
           </h1>
           <StarRatings
             rating={rating}
             starRatedColor="purple"
-            starDimension="20"
+            starDimension="18"
             starSpacing=""
             starHoverColor="green"
             changeRating={(evt) => {

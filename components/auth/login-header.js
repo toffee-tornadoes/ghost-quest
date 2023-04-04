@@ -6,7 +6,7 @@ const LoginHeader = () => {
       className="border-b-white border-b flex justify-between"
       id="loginHeader"
     >
-      <div className="m-2 text-left text-3xl">
+      <div className="m-2 text-left text-2xl">
         <h1 className="w-full">Sign In or Sign Up</h1>
         <div className="text-slate-500 italic text-base">
           <h1>Enter your details below...</h1>

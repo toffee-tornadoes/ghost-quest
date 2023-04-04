@@ -19,9 +19,9 @@ const UserHeader = ({ profile, isLoading }) => {
 
   return (
     <div className="flex justify-between border-b mb-5" id="locListingHeader">
-      <div className="m-2 text-left text-3xl">
+      <div className="m-2 text-left text-2xl">
         <div className="flex flex-row gap-2 items-end">
-          <div className="m-2 rounded-full w-16 h-16 border-2 border-slate-300 overflow-clip">
+          <div className="m-2 rounded-full w-12 h-12 border-2 border-slate-300 overflow-clip">
             <img
               className=""
               src={userProfile?.profile_pic}

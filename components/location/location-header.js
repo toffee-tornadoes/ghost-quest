@@ -42,7 +42,7 @@ const LocationHeader = ({ location, state }) => {
 
   return (
     <div className="flex justify-between" id="locListingHeader">
-      <div className="m-2 text-left text-3xl">
+      <div className="m-2 text-left text-2xl">
         <h1>{location.location}</h1>
         <div className="text-slate-500 italic text-base">
           <h1>

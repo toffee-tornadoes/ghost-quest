@@ -267,22 +267,22 @@ const Map = ({
                 setSelectedLocation(null);
               }}
             >
-              <div>
+              <div className="flex flex-col flex-wrap items-center">
+                <h2 className="text-xl mt-2 mb-2">{selectedLocation.location}</h2>
                 <img
                   className="border-black border border-solid h-36 w-36"
                   src="/haunted.png"
                   alt="Location picture"
                 />
-                <h2 className="text-2xl">{selectedLocation.location}</h2>
                 {distance && duration && (
                   <div>
-                    <p>Distance: {distance}</p>
-                    <p>Time: {duration}</p>
+                    <p className="text-base font-medium ">Distance: {distance}</p>
+                    <p className="text-base font-medium">Time: {duration}</p>
                   </div>
                 )}
                 <Link
                   onClick={!navUp && clickHandler}
-                  className="text-lg hover:text-purple-600 text-slate-600 italic"
+                  className="flex text-lg justify-center hover:text-purple-600 text-slate-600 italic"
                   href={{
                     pathname: `/locations/${selectedLocation.id}`,
                     query: selectedLocation,
@@ -291,32 +291,35 @@ const Map = ({
                   See More Info
                 </Link>
                 {showDirections ? (
-                  <div className="flex justify-between my-3 text-center">
+                  <div className="flex justify-between text-center gap-3 text-lg underline text-orange-600">
                     <button
+                    className="hover:text-orange-900"
                       onClick={() =>
                         handleTravelModeChange(google.maps.TravelMode.DRIVING)
                       }
                     >
-                      Driving
+                      Drive
                     </button>
                     <button
+                    className="hover:text-orange-900"
                       onClick={() =>
                         handleTravelModeChange(google.maps.TravelMode.BICYCLING)
                       }
                     >
-                      Bicycling
+                      Bike
                     </button>
                     <button
+                    className="hover:text-orange-900"
                       onClick={() =>
                         handleTravelModeChange(google.maps.TravelMode.WALKING)
                       }
                     >
-                      Walking
+                      Walk
                     </button>
                   </div>
                 ) : (
-                  <div className="text-center my-3">
-                    <button onClick={() => setShowDirections(true)}>
+                  <div className="text-center text-base my-3 ">
+                    <button className="hover:text-orange-500" onClick={() => setShowDirections(true)}>
                       Directions?
                     </button>
                   </div>
