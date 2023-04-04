@@ -34,10 +34,7 @@ const UserPage = () => {
   };
 
   if (isLoading) {
-    return (
-      <div>
-      </div>
-    );
+    return <div></div>;
   }
 
   return (
@@ -88,16 +85,6 @@ const UserPage = () => {
         ) : (
           <div></div>
         )}
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          newestOnTop={false}
-          closeOnClick={true}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          theme="dark"
-        />{" "}
       </div>
     </div>
   );

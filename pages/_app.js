@@ -36,6 +36,18 @@ export default function App({ Component, pageProps }) {
           </Head>
           <Component {...pageProps} />
         </Layout>
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={true}
+          theme="dark"
+        />
       </SessionContextProvider>
     </Provider>
   );

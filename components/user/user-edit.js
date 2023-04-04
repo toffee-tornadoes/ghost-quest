@@ -3,10 +3,11 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useDispatch } from "react-redux";
 import ReactDropzone from "react-dropzone";
 import { fetchUserProfile } from "@/slices/userProfileSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditConfirmation from "./edit-confirmation";
 import DeleteConfirmation from "./delete-profile-confirmation";
+import ProfilePicUpdateConfirmation from "./profile-pic-confirmation";
 
 const UserEdit = ({ user, editStatus, setEditStatus }) => {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
 
   useEffect(() => {
     dispatch(fetchUserProfile(user?.id));
+    setUsername("");
+    setFullname("");
     setUserUpdated(false);
   }, [userUpdated]);
 
@@ -36,45 +39,30 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
     toast(<DeleteConfirmation user={user} />);
   };
 
-  const warning = () => {
+  const profilePicUpdateConfirmation = () => {
+    toast(
+      <ProfilePicUpdateConfirmation
+        user={user}
+        file={file}
+        fetchUserProfile={fetchUserProfile}
+      />
+    );
+  };
+
+  const updateProfileWarning = () => {
     toast("Please enter a new username and full name");
   };
 
-  const handleFileChange = (acceptedFiles) => {
-    setFile(acceptedFiles[0]);
+  const updatePicWarning = () => {
+    toast("Please choose a file to upload");
   };
 
-  const handlePicSubmit = async (event) => {
-    event.preventDefault();
-
-    const { data, error } = await supabase.storage
-      .from("avatars")
-      .upload(file.name, file);
-    console.log("Data key: ", data);
-    if (error) {
-      console.log("Error uploading file: ", error);
-      return;
+  const handleFileChange = (acceptedFiles) => {
+    try {
+      setFile(acceptedFiles[0]);
+    } catch (err) {
+      toast("Please choose a file to upload");
     }
-
-    const { data: publicURL, error: urlError } = await supabase.storage
-      .from("avatars")
-      .getPublicUrl(data.path);
-
-    console.log(publicURL.publicUrl);
-    console.log(file.name === data.path);
-
-    const { data: updateData, error: updateDataError } = await supabase
-      .from("profiles")
-      .update({ profile_pic: publicURL.publicUrl })
-      .eq("id", user.id);
-
-    if (updateDataError) {
-      console.log("Error updating user profile pic: ", updateDataError);
-      return;
-    }
-
-    console.log("Profile pic updated successfully!");
-    dispatch(fetchUserProfile(user?.id));
   };
 
   // const handlePicSubmit = async (event) => {
@@ -154,7 +142,9 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         className="w-3/4 h-min mt-10 p-5 flex flex-col rounded-lg border-2 border-yellow-400 bg-slate-900 content-center items-center"
         onSubmit={(evt) => evt.preventDefault()}
       >
-        <label className="m-2" htmlFor="full_name">Edit Full Name</label>
+        <label className="m-2" htmlFor="full_name">
+          Edit Full Name
+        </label>
         <input
           className=" text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
           id="full_name"
@@ -164,7 +154,9 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
           onChange={(e) => setFullname(e.target.value)}
         />
 
-        <label className="m-2" htmlFor="username">Edit Username</label>
+        <label className="m-2" htmlFor="username">
+          Edit Username
+        </label>
         <input
           className=" text-slate-400 pl-2 rounded-md bg-slate-800 flex-row"
           id="username"
@@ -178,7 +170,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
             className={`p-1 px-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
             onClick={() => {
               if (username && full_name) return editConfirmation();
-              return warning();
+              return updateProfileWarning();
             }}
           >
             <p className="w-full text-base text-slate-300 hover:text-green-400">
@@ -196,7 +188,7 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         </div>
         <div
           className={
-            "w-2/4 p-2 m-2 border-dashed border-white border-2 hover:bg-slate-600"
+            "w-full overflow-hidden p-2 m-2 border-dashed border-white border-2 hover:bg-slate-600 "
           }
         >
           <ReactDropzone onDrop={handleFileChange}>
@@ -214,7 +206,10 @@ const UserEdit = ({ user, editStatus, setEditStatus }) => {
         </div>
         <button
           className={`p-1 px-2 border-solid border-2 hover:bg-slate-900 rounded-md m-2 hover:border-green-600 hover:cursor-pointer border-green-700 justify-center`}
-          onClick={handlePicSubmit}
+          onClick={() => {
+            if (file) return profilePicUpdateConfirmation();
+            return updatePicWarning();
+          }}
         >
           <p className="w-full text-base text-slate-300 hover:text-green-400">
             Save Profile Pic
