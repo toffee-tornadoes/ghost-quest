@@ -13,7 +13,7 @@ const CommentsHeader = ({ profile, isLoading }) => {
       className="border-b-white border-b flex justify-between mb-5"
       id="comments-header"
     >
-      <div className="m-2 text-left text-3xl">
+      <div className="m-2 text-left text-2xl">
         <div className="flex flex-row gap-2 items-end">
           <div className="m-2 rounded-full w-16 h-16 border-2 border-slate-300 overflow-clip">
             <img className="" src={profile?.profile_pic} alt="Profile pic" />

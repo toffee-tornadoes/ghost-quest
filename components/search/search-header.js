@@ -3,7 +3,7 @@ import BackIcon from "../icons/back-icon";
 const SearchHeader = () => {
   return (
     <div className="flex justify-between border-b" id="searchHeader">
-      <div className="m-2 text-left text-3xl">
+      <div className="m-2 text-left text-2xl">
         <h1>Search</h1>
         <div className="text-slate-500 italic text-base">
           <h1>

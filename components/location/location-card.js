@@ -120,7 +120,7 @@ const LocationCard = ({ location }) => {
           src={url}
           alt=""
         />
-        <p className="p-1 leading-5 text-justify">
+        <p className="p-1 break-words leading-5 text-left">
           {
             location?.description /*.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
             i.toUpperCase()
@@ -136,12 +136,12 @@ const LocationCard = ({ location }) => {
         <div className="flex p-1 flex-row justify-center">
           <h1>Avg. Rating &nbsp;</h1>
           <h1 className="text-slate-300">
-            ({Math.round(rating * 10) / 10})&nbsp;
+            ({Math.round(rating * 10) / 10})
           </h1>
           <StarRatings
             rating={rating}
             starRatedColor="purple"
-            starDimension="20"
+            starDimension="18"
             starSpacing=""
             starHoverColor="green"
             changeRating={(evt) => {
