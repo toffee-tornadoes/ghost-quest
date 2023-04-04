@@ -209,21 +209,21 @@ const Map = ({
             draggable={true}
             onDragEnd={handleUserLocationChange}
           />
-          {/* <Circle
-          center={myLocation}
-          radius={15000}
-          options={closeOptions}
-        ></Circle>
-        <Circle
-          center={myLocation}
-          radius={30000}
-          options={middleOptions}
-        ></Circle>
-        <Circle
-          center={myLocation}
-          radius={45000}
-          options={farOptions}
-        ></Circle> */}
+          <Circle
+            center={userLocation}
+            radius={15000}
+            options={closeOptions}
+          ></Circle>
+          <Circle
+            center={userLocation}
+            radius={30000}
+            options={middleOptions}
+          ></Circle>
+          <Circle
+            center={userLocation}
+            radius={45000}
+            options={farOptions}
+          ></Circle>
           {nearbyLocations?.length > 0 && (
             <MarkerClustererF>
               {(clusterer) => {

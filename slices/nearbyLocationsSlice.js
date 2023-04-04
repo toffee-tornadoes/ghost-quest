@@ -18,7 +18,7 @@ const getNearbyLocations = async (locations, userLocation) => {
       lat: location.city_latitude,
       lng: location.city_longitude,
     };
-    const inBounds = checkDistance(position, userLocation, 15000);
+    const inBounds = checkDistance(position, userLocation, 45000);
     if (inBounds) {
       nearby.push(location);
     }
