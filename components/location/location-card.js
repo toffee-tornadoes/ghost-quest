@@ -133,10 +133,10 @@ const LocationCard = ({ location }) => {
         id="moreInfoContainer"
         className="flex text-purple-500 px-2  border-dashed border-2 rounded-md border-purple-500 justify-between"
       >
-        <div className="flex p-1 flex-row justify-center">
-          <h1>Avg. Rating &nbsp;</h1>
-          <h1 className="text-slate-300">
-            ({Math.round(rating * 10) / 10})
+        <div className="flex p-1 flex-row text-left items-center">
+          <h1 className="md:text-xs">Avg. Rating &nbsp;</h1>
+          <h1 className="md:text-xs text-slate-300">
+            ({Math.round(rating * 10) / 10})&nbsp;
           </h1>
           <StarRatings
             rating={rating}
@@ -154,8 +154,8 @@ const LocationCard = ({ location }) => {
           />
         </div>
         <div className="flex items-center p-1">
-          <h1>{`Past Visitors`}</h1>
-          <h1 className="text-slate-300">&nbsp;{`(${visitors})`}</h1>
+          <h1 className="md:text-xs ">{`Past Visitors`}</h1>
+          <h1 className="md:text-xs text-slate-300">&nbsp;{`(${visitors})`}</h1>
         </div>
       </div>
       {/* COMMENTS */}
