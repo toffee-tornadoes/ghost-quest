@@ -120,7 +120,7 @@ const LocationCard = ({ location }) => {
           src={url}
           alt=""
         />
-        <p className="p-1 leading-5 text-justify">
+        <p className="p-1 break-words leading-5 text-left">
           {
             location?.description /*.replace(/(?<=(?:^|[.?!])\W*)[a-z]/g, (i) =>
             i.toUpperCase()
