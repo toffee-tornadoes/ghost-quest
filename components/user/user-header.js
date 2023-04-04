@@ -27,20 +27,15 @@ const UserHeader = ({ profile, isLoading }) => {
               src={userProfile?.profile_pic}
               alt="Profile pic"
             />
-            <img
-              className=""
-              src={userProfile?.profile_pic}
-              alt="Profile pic"
-            />
           </div>
           <div className="flex flex-col">
-            {user.id === router.query.id ? (
+            {user?.id === router.query.id ? (
               <h1>Your Profile</h1>
             ) : (
               <h1>{`${userProfile?.username}'s Profile`}</h1>
             )}
 
-            {user.id === router.query.id ? (
+            {user?.id === router.query.id ? (
               <p className="text-slate-500 italic text-base">
                 {`${userProfile?.username}`} &nbsp; {user?.email}
               </p>
