@@ -40,7 +40,7 @@ const CommentCard = ({ comment }) => {
               <p className="text-slate-400">&nbsp;said:</p>
             </div>
             <div className="pr-2">
-              <p className="text-slate-600">{`${formattedDate}`}</p>
+              <p className="text-slate-600 md:text-xs mt-2">{`${formattedDate}`}</p>
             </div>
           </div>
         )}
