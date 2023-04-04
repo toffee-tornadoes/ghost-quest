@@ -136,7 +136,7 @@ const LocationCard = ({ location }) => {
         <div className="flex p-1 flex-row text-left items-center">
           <h1 className="md:text-xs">Avg. Rating &nbsp;</h1>
           <h1 className="md:text-xs text-slate-300">
-            ({Math.round(rating * 10) / 10})
+            ({Math.round(rating * 10) / 10})&nbsp;
           </h1>
           <StarRatings
             rating={rating}
